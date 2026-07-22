@@ -117,6 +117,21 @@ Then a site like `With({c: Substitute(...large chain...)}, If(Len(c)>40, Left(c,
 becomes `Clip(EscapeXml(ThisItem.'Account Name'), 40)`. Left as a documented opt-in rather
 than applied blind, because it can't be validated outside Power Apps Studio.
 
+## Revision 3 — line-items Products fix + view-toggle layout
+
+- **Products now show in the Line Items panel.** The line-item classification keyed
+  `isProduct` off an exact `PLCODELOOK = "Product"` match, so if the FY26_BA_Hierarchy tags
+  products with any other value the Products tab came up empty while OS / Non OS worked.
+  `isProduct` is now defined as *"any line that is not a service"*
+  (`pl <> "Service OS" && pl <> "Service Non OS"`) in all three op windows — OS / Non OS
+  behaviour is unchanged, and products always appear regardless of the hierarchy's exact
+  product label. Product rows also render with a blue category bar so they read distinctly.
+- **Line Items / GBU Chart toggle relocated.** The two buttons were cramped into the
+  headline card's bottom-right corner, overlapping the upsell chip. They're now a single
+  labelled `VIEW  [ Line Items ] [ GBU Chart ]` segmented control in the top bar between the
+  wordmark and the Back button, each with an icon, and each still shows its active state
+  (accent fill when its panel is open).
+
 ## What was NOT changed
 
 - `OnVisible` / `OnHidden` blocks (spliced verbatim, including `timerotoole`/`timerdog`

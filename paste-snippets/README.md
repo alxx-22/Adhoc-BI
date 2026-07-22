@@ -2,15 +2,13 @@
 
 Per screen, two files:
 
-- `<Screen>.children.yaml` — ALL controls for that screen, dedented so every
-  `- ControlName:` starts at column 0. Select-all + copy the whole file, then in
-  Studio (with the screen empty) press Ctrl+V on the canvas. Copy the entire file,
-  never a partial selection — a paste fails if the first line loses its indentation.
-- `<Screen>.properties.md` — the screen-level formulas (Fill, OnVisible, OnHidden…)
-  to paste into the formula bar, plus `App.OnStart.fx.txt` for the App object.
+- `<Screen>.children.yaml` — ALL controls, dedented so every `- ControlName:` starts at
+  column 0. Select-all + copy the whole file, then Ctrl+V on the empty screen canvas.
+- `<Screen>.properties.md` — screen-level formulas for the formula bar, plus
+  `App.OnStart.fx.txt` for the App object.
 
-Order: 1) App OnStart, 2) add the Loading screen and move it first, 3) each screen:
-delete old controls, set screen properties, paste children.
+Order: 1) App OnStart, 2) add Loading screen and move it first, 3) each screen: delete old
+controls, set screen properties, paste children.
 
 - Loading
 - Homepage

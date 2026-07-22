@@ -127,18 +127,39 @@
             Width: =1110
             X: =0
             Y: =0
+- ViewToggleBg_sno:
+    Control: Image@2.2.3
+    Properties:
+      Height: =34
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 288 34'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style></defs>
+        <g class='fu'>
+          <rect x='0' y='1' width='288' height='32' rx='16' fill='#f2f3f4'/>
+          <text x='14' y='21' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='1.5' fill='#606a70'>VIEW</text>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      Width: =288
+      X: =452
+      Y: =9
 - Image17:
     Control: Image@2.2.3
     Properties:
-      Height: =30
+      Height: =28
       Image: |-
         ="data:image/svg+xml;utf8," & EncodeUrl("
-        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 68 30'>
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 118 28'>
         <desc>k=" & varAnimKey1 & " s=" & Text(Container2Visible) & "</desc>
         <defs><style>" & varSvgCss & "</style></defs>
-        <g class='pp' style='animation-delay:.35s'>
-          <rect x='1' y='1' width='66' height='28' rx='14' fill='" & If(Container2Visible, "#01a982", "#ffffff") & "' stroke='" & If(Container2Visible, "#01a982", "#d4d8db") & "' stroke-width='1'/>
-          <text x='34' y='19' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9.5' font-weight='700' fill='" & If(Container2Visible, "#ffffff", "#006750") & "' text-anchor='middle'>Line Items</text>
+        <g class='pp' style='animation-delay:.2s'>
+          <rect x='0' y='0' width='118' height='28' rx='14' fill='" & If(Container2Visible, "#01a982", "#ffffff") & "' stroke='" & If(Container2Visible, "#01a982", "#d4d8db") & "' stroke-width='1'/>
+          <rect x='16' y='9' width='12' height='2.4' rx='1.2' fill='" & If(Container2Visible, "#ffffff", "#006750") & "'/>
+          <rect x='16' y='13' width='12' height='2.4' rx='1.2' fill='" & If(Container2Visible, "#ffffff", "#006750") & "'/>
+          <rect x='16' y='17' width='8' height='2.4' rx='1.2' fill='" & If(Container2Visible, "#ffffff", "#006750") & "'/>
+          <text x='68' y='18' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='700' fill='" & If(Container2Visible, "#ffffff", "#3e4550") & "' text-anchor='middle'>Line Items</text>
         </g>
         </svg>")
       ImagePosition: =ImagePosition.Fit
@@ -168,7 +189,7 @@
             ),
             isProduct: With(
                 {pl: LookUp('FY26_BA_Hierarchy', 'PL Code' = Left(prodVal, 2), PLCODELOOK)},
-                pl = "Product"
+                pl <> "Service OS" && pl <> "Service Non OS"
             )
         }
                 )
@@ -186,21 +207,24 @@
         Set(showNonOS, false);
         Set(varOSToggle, 0);
         Set(varNonOSToggle, 0);
-      Width: =65
-      X: =966
-      Y: =120
+      Width: =118
+      X: =500
+      Y: =12
 - Image17_1:
     Control: Image@2.2.3
     Properties:
-      Height: =30
+      Height: =28
       Image: |-
         ="data:image/svg+xml;utf8," & EncodeUrl("
-        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 68 30'>
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 118 28'>
         <desc>k=" & varAnimKey1 & " s=" & Text(Container1Visible) & "</desc>
         <defs><style>" & varSvgCss & "</style></defs>
-        <g class='pp' style='animation-delay:.42s'>
-          <rect x='1' y='1' width='66' height='28' rx='14' fill='" & If(Container1Visible, "#01a982", "#ffffff") & "' stroke='" & If(Container1Visible, "#01a982", "#d4d8db") & "' stroke-width='1'/>
-          <text x='34' y='19' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9.5' font-weight='700' fill='" & If(Container1Visible, "#ffffff", "#006750") & "' text-anchor='middle'>GBU Chart</text>
+        <g class='pp' style='animation-delay:.26s'>
+          <rect x='0' y='0' width='118' height='28' rx='14' fill='" & If(Container1Visible, "#01a982", "#ffffff") & "' stroke='" & If(Container1Visible, "#01a982", "#d4d8db") & "' stroke-width='1'/>
+          <rect x='16' y='14' width='3' height='6' rx='1' fill='" & If(Container1Visible, "#ffffff", "#006750") & "'/>
+          <rect x='21' y='10' width='3' height='10' rx='1' fill='" & If(Container1Visible, "#ffffff", "#006750") & "'/>
+          <rect x='26' y='7' width='3' height='13' rx='1' fill='" & If(Container1Visible, "#ffffff", "#006750") & "'/>
+          <text x='70' y='18' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='700' fill='" & If(Container1Visible, "#ffffff", "#3e4550") & "' text-anchor='middle'>GBU Chart</text>
         </g>
         </svg>")
       ImagePosition: =ImagePosition.Fit
@@ -266,9 +290,9 @@
                 )
             )
         )
-      Width: =65
-      X: =1049
-      Y: =120
+      Width: =118
+      X: =622
+      Y: =12
 - Details:
     Control: Gallery@2.15.0
     Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
