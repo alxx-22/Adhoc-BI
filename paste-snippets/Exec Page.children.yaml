@@ -1,0 +1,869 @@
+- TopRibbon_ep:
+    Control: Image@2.2.3
+    Properties:
+      Height: =52
+      Image: |-
+        =With(
+            {
+                fn: Substitute(Substitute(Substitute(First(Split(User().FullName, " ")).Value, "&", "&amp;"), "<", "&lt;"), ">", "&gt;"),
+                ini: Upper(Left(First(Split(User().FullName, " ")).Value, 1) & Left(Last(Split(User().FullName, " ")).Value, 1))
+            },
+            "data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1136 52'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style></defs>
+        <rect x='0' y='0' width='1136' height='52' fill='#ffffff'/>
+        <rect x='0' y='51' width='1136' height='1' fill='#d4d8db'/>
+        <g class='fu'>
+          <rect x='18' y='13' width='26' height='26' rx='7' fill='#01a982'/>
+          <text x='31' y='31' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='700' fill='#ffffff' text-anchor='middle'>AW</text>
+          <text x='54' y='32' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='15' font-weight='700' fill='#292d3a'>Attach Wizard<tspan font-size='12' font-weight='400' fill='#606a70'> &#183; Exec Summary</tspan></text>
+        </g>
+        <g class='pp' style='animation-delay:.15s'>
+          <rect x='948' y='10' width='172' height='32' rx='16' fill='#f2f3f4'/>
+          <circle cx='968' cy='26' r='12' fill='#01a982'/>
+          <text x='968' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' fill='#ffffff' text-anchor='middle'>" & ini & "</text>
+          <text x='988' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='600' fill='#292d3a'>" & If(Len(fn) > 14, Left(fn, 13) & "..", fn) & "</text>
+        </g>
+        </svg>")
+        )
+      ImagePosition: =ImagePosition.Fit
+      Width: =1136
+      X: =0
+      Y: =0
+- Image24_4:
+    Control: Image@2.2.3
+    Properties:
+      Height: =30
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 30'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style></defs>
+        <g class='pp' style='animation-delay:.25s'>
+          <rect x='1' y='1' width='138' height='28' rx='14' fill='#f2f3f4' stroke='#d4d8db' stroke-width='1'/>
+          <text x='70' y='20' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='600' fill='#3e4550' text-anchor='middle'>&#8592;  Back to Home</text>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      OnSelect: |-
+        =Set(varNavBusy, true); Set(varWipeKey, varWipeKey + 1);
+        Navigate(Homepage,ScreenTransition.UnCover);Set(animReady, false)
+      Width: =140
+      X: =800
+      Y: =11
+- Image30_2:
+    Control: Image@2.2.3
+    Properties:
+      Height: =40
+      Image: |-
+        =With(
+            {
+                firstName: Substitute(Substitute(Substitute(Substitute(
+                    First(Split(User().FullName, " ")).Value, "&", "&amp;"), "'", " "), "<", "&lt;"), ">", "&gt;")
+            },
+            "data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 660 40'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style></defs>
+        <text x='0' y='16' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='2' fill='#606a70' class='fu'>WELCOME BACK, " & Upper(firstName) & "</text>
+        <text x='0' y='36' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='17' font-weight='700' fill='#292d3a' class='fu' style='animation-delay:.08s'>Your <tspan fill='#01a982'>Exec Summary</tspan> is ready</text>
+        </svg>")
+        )
+      ImagePosition: =ImagePosition.Fit
+      Width: =660
+      X: =10
+      Y: =58
+- Image40:
+    Control: Image@2.2.3
+    Properties:
+      Height: =46
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 46'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style></defs>
+        <text x='0' y='16' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='700' letter-spacing='2' fill='#606a70' class='fu' style='animation-delay:.12s'>OPPORTUNITY VIEW</text>
+        <g class='fo' style='animation-delay:.24s'>
+          <circle cx='6' cy='34' r='3.5' fill='#cc54a4'/>
+          <text x='15' y='38' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='600' fill='#3e4550'>No OS Sales Engagement</text>
+          <circle cx='160' cy='34' r='3.5' fill='#009a71'/>
+          <text x='169' y='38' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='600' fill='#3e4550'>Active OS Sales Engagement</text>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      Width: =420
+      X: =23
+      Y: =102
+- Image33_4:
+    Control: Image@2.2.3
+    Properties:
+      Height: =23
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 104 23'>
+        <desc>k=" & varAnimKey1 & " s=" & Text(varBUOpen) & varBUselected & "</desc>
+        <defs><style>" & varSvgCss & "</style></defs>
+        <g class='pp' style='animation-delay:.3s'>
+          <rect x='1' y='1' width='102' height='21' rx='10.5' fill='" & If(varBUOpen || !IsBlank(varBUselected), "#01a982", "#f2f3f4") & "' stroke='" & If(varBUOpen || !IsBlank(varBUselected), "#01a982", "#d4d8db") & "' stroke-width='1'/>
+          <text x='47' y='15' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9.5' font-weight='600' fill='" & If(varBUOpen || !IsBlank(varBUselected), "#ffffff", "#3e4550") & "' text-anchor='middle'>Top Value BU</text>
+          <text x='92' y='15' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='7' fill='" & If(varBUOpen || !IsBlank(varBUselected), "#ffffff", "#606a70") & "'>&#9662;</text>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      OnSelect: |-
+        =If(varBUToggle = 0, Set(varBUToggle, 1)); Set(varBUOpen, !varBUOpen); Set(varBUToggle, varBUToggle + 1)
+      Width: =104
+      X: =15
+      Y: =148
+- Image36_4:
+    Control: Image@2.2.3
+    Properties:
+      Height: =105
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 115 105'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+        <g class='fu'>
+          <rect x='2' y='6' width='111' height='97' rx='10' fill='#000000' opacity='0.1' filter='url(#sh)'/>
+          <rect x='2' y='2' width='111' height='97' rx='10' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      Visible: =varBUOpen
+      Width: =115
+      X: =7
+      Y: =40
+- Gallery6_4:
+    Control: Gallery@2.15.0
+    Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+    Properties:
+      Height: =98
+      Items: =Distinct(PowerBIIntegration.Data, 'Top GBU')
+      ShowScrollbar: =false
+      TemplatePadding: =0
+      TemplateSize: =24
+      Visible: =varBUOpen
+      Width: =94
+      X: =18
+      Y: =44
+    Children:
+      - Image35_4:
+          Control: Image@2.2.3
+          Properties:
+            Height: =22
+            Image: |-
+              =With(
+                  {
+                      act: varBUselected = ThisItem.Value,
+                      lbl: With(
+                          {c: Substitute(Substitute(Substitute(ThisItem.Value, "&", "&amp;"), "<", "&lt;"), ">", "&gt;")},
+                          If(Len(c) > 13, Left(c, 13) & "..", c)
+                      )
+                  },
+                  "data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 22'>
+              <desc>k=" & varAnimKey1 & " s=" & varBUselected & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <g class='rw'>
+                <rect x='1' y='1' width='78' height='20' rx='10' fill='" & If(act, "#01a982", "#fbfcfc") & "' stroke='" & If(act, "#01a982", "#d4d8db") & "' stroke-width='1'/>
+                <text x='40' y='15' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' font-weight='600' fill='" & If(act, "#ffffff", "#3e4550") & "' text-anchor='middle'>" & lbl & "</text>
+              </g>
+              </svg>")
+              )
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: |-
+              =If(
+                  varBUselected = ThisItem.Value,
+                  Set(varBUselected, ""),
+                  Set(varBUselected, ThisItem.Value)
+              )
+            Width: =80
+            X: =7
+            Y: =0
+- Image33_2:
+    Control: Image@2.2.3
+    Properties:
+      Height: =23
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 91 23'>
+        <desc>k=" & varAnimKey1 & " s=" & Text(varSlicerOpen) & varSelectedRep & "</desc>
+        <defs><style>" & varSvgCss & "</style></defs>
+        <g class='pp' style='animation-delay:.36s'>
+          <rect x='1' y='1' width='89' height='21' rx='10.5' fill='" & If(varSlicerOpen || !IsBlank(varSelectedRep), "#01a982", "#f2f3f4") & "' stroke='" & If(varSlicerOpen || !IsBlank(varSelectedRep), "#01a982", "#d4d8db") & "' stroke-width='1'/>
+          <text x='41' y='15' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='600' fill='" & If(varSlicerOpen || !IsBlank(varSelectedRep), "#ffffff", "#3e4550") & "' text-anchor='middle'>Filter By Team</text>
+          <text x='80' y='15' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='7' fill='" & If(varSlicerOpen || !IsBlank(varSelectedRep), "#ffffff", "#606a70") & "'>&#9662;</text>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      OnSelect: |-
+        =If(varSlicerToggle = 0, Set(varSlicerToggle, 1)); Set(varSlicerOpen, !varSlicerOpen); Set(varSlicerToggle, varSlicerToggle + 1)
+      Width: =91
+      X: =122
+      Y: =148
+- Image36_2:
+    Control: Image@2.2.3
+    Properties:
+      Height: =94
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 103 94'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+        <g class='fu'>
+          <rect x='2' y='6' width='99' height='86' rx='10' fill='#000000' opacity='0.1' filter='url(#sh)'/>
+          <rect x='2' y='2' width='99' height='86' rx='10' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      Visible: =varSlicerOpen
+      Width: =103
+      X: =116
+      Y: =51
+- Gallery6_2:
+    Control: Gallery@2.15.0
+    Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+    Properties:
+      Height: =91
+      Items: =Distinct(PowerBIIntegration.Data, 'Manager entitlement')
+      ShowScrollbar: =false
+      TemplatePadding: =0
+      TemplateSize: =21
+      Visible: =varSlicerOpen
+      Width: =94
+      X: =122
+      Y: =57
+    Children:
+      - Image35_2:
+          Control: Image@2.2.3
+          Properties:
+            Height: =20
+            Image: |-
+              =With(
+                  {
+                      act: varSelectedRep = ThisItem.Value,
+                      lbl: With(
+                          {c: Substitute(Substitute(Substitute(ThisItem.Value, "&", "&amp;"), "<", "&lt;"), ">", "&gt;")},
+                          If(Len(c) > 13, Left(c, 13) & "..", c)
+                      )
+                  },
+                  "data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 91 20'>
+              <desc>k=" & varAnimKey1 & " s=" & varSelectedRep & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <g class='rw'>
+                <rect x='1' y='1' width='89' height='18' rx='9' fill='" & If(act, "#01a982", "#fbfcfc") & "' stroke='" & If(act, "#01a982", "#d4d8db") & "' stroke-width='1'/>
+                <text x='45' y='14' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' font-weight='600' fill='" & If(act, "#ffffff", "#3e4550") & "' text-anchor='middle'>" & lbl & "</text>
+              </g>
+              </svg>")
+              )
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: |-
+              =If(
+                  varSelectedRep = ThisItem.Value,
+                  Set(varSelectedRep, ""),
+                  Set(varSelectedRep, ThisItem.Value)
+              )
+            Width: =91
+            X: =0
+            Y: =0
+- Image33_3:
+    Control: Image@2.2.3
+    Properties:
+      Height: =23
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 104 23'>
+        <desc>k=" & varAnimKey1 & " s=" & Text(varFCSTOpen) & varfcstselected & "</desc>
+        <defs><style>" & varSvgCss & "</style></defs>
+        <g class='pp' style='animation-delay:.42s'>
+          <rect x='1' y='1' width='102' height='21' rx='10.5' fill='" & If(varFCSTOpen || !IsBlank(varfcstselected), "#01a982", "#f2f3f4") & "' stroke='" & If(varFCSTOpen || !IsBlank(varfcstselected), "#01a982", "#d4d8db") & "' stroke-width='1'/>
+          <text x='47' y='15' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9.5' font-weight='600' fill='" & If(varFCSTOpen || !IsBlank(varfcstselected), "#ffffff", "#3e4550") & "' text-anchor='middle'>Forecast Call</text>
+          <text x='92' y='15' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='7' fill='" & If(varFCSTOpen || !IsBlank(varfcstselected), "#ffffff", "#606a70") & "'>&#9662;</text>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      OnSelect: |-
+        =If(varFCSTToggle = 0, Set(varFCSTToggle, 1)); Set(varFCSTOpen, !varFCSTOpen); Set(varFCSTToggle, varFCSTToggle + 1)
+      Width: =104
+      X: =216
+      Y: =148
+- Image36_3:
+    Control: Image@2.2.3
+    Properties:
+      Height: =105
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 115 105'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+        <g class='fu'>
+          <rect x='2' y='6' width='111' height='97' rx='10' fill='#000000' opacity='0.1' filter='url(#sh)'/>
+          <rect x='2' y='2' width='111' height='97' rx='10' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      Visible: =varFCSTOpen
+      Width: =115
+      X: =211
+      Y: =40
+- Gallery6_3:
+    Control: Gallery@2.15.0
+    Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+    Properties:
+      Height: =98
+      Items: |-
+        =Distinct(
+            Filter(
+                'Attach Attack',
+                'Upsell Eligible' <> "No"
+            ),
+            'Service Call'
+        )
+      ShowScrollbar: =false
+      TemplatePadding: =0
+      TemplateSize: =24
+      Visible: =varFCSTOpen
+      Width: =94
+      X: =222
+      Y: =44
+    Children:
+      - Image35_3:
+          Control: Image@2.2.3
+          Properties:
+            Height: =22
+            Image: |-
+              =With(
+                  {
+                      act: varfcstselected = ThisItem.Value,
+                      lbl: With(
+                          {c: Substitute(Substitute(Substitute(ThisItem.Value, "&", "&amp;"), "<", "&lt;"), ">", "&gt;")},
+                          If(Len(c) > 13, Left(c, 13) & "..", c)
+                      )
+                  },
+                  "data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 22'>
+              <desc>k=" & varAnimKey1 & " s=" & varfcstselected & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <g class='rw'>
+                <rect x='1' y='1' width='78' height='20' rx='10' fill='" & If(act, "#01a982", "#fbfcfc") & "' stroke='" & If(act, "#01a982", "#d4d8db") & "' stroke-width='1'/>
+                <text x='40' y='15' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' font-weight='600' fill='" & If(act, "#ffffff", "#3e4550") & "' text-anchor='middle'>" & lbl & "</text>
+              </g>
+              </svg>")
+              )
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: |-
+              =If(
+                  varfcstselected = ThisItem.Value,
+                  Set(varfcstselected, ""),
+                  Set(varfcstselected, ThisItem.Value)
+              )
+            Width: =80
+            X: =7
+            Y: =0
+- Gallery3_2:
+    Control: Gallery@2.15.0
+    Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+    Properties:
+      Height: =223
+      Items: |-
+        =SortByColumns( Filter( PowerBIIntegration.Data, IsBlank(LookUp(colHasRecord, 'Opp ID' = 'HPE Opportunity Id')) && If(!IsBlank(varSelectedRep), 'Manager entitlement' = varSelectedRep, true) && If(!IsBlank(varBUselected), 'Top GBU' = varBUselected , true)), "Total Value to HPE (converted)", SortOrder.Descending )
+      ShowScrollbar: =false
+      TemplatePadding: =0
+      TemplateSize: =56
+      Width: =331
+      X: =10
+      Y: =174
+    Children:
+      - Image32_2:
+          Control: Image@2.2.3
+          Properties:
+            Height: =55
+            Image: |-
+              =With(
+                  {
+                      cleanOppName: With(
+                          {c: Substitute(Substitute(Substitute(Substitute(Substitute(
+                              ThisItem.'Opportunity Name', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")},
+                          If(Len(c) > 40, Left(c, 40) & "..", c)
+                      ),
+                      cleanAccName: With(
+                          {c: Substitute(Substitute(Substitute(Substitute(Substitute(
+                              ThisItem.'Account Name', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")},
+                          If(Len(c) > 24, Left(c, 24) & "..", c)
+                      ),
+                      cleanSalesName: With(
+                          {c: Substitute(Substitute(Substitute(Substitute(Substitute(
+                              ThisItem.'Feedback Progress', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")},
+                          If(Len(c) > 18, Left(c, 18) & "..", c)
+                      ),
+                      totalVal: Text(IfError(ThisItem.'Total Value to HPE (converted)', 0), "$#,##0")
+                  },
+                  "data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 370 65'>
+              <desc>k=" & varAnimKey1 & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <g class='rw'>
+                <rect x='2' y='2' width='366' height='59' rx='12' fill='#fbfcfc' stroke='#d4d8db' stroke-width='1'/>
+                <rect x='2' y='2' width='5' height='59' rx='2.5' fill='#cc54a4'/>
+                <text x='18' y='22' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#292d3a'>" & cleanOppName & "</text>
+                <text x='18' y='38' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' fill='#606a70'>" & cleanAccName & "  &#183;  " & cleanSalesName & "</text>
+                <text x='18' y='55' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='7.5' font-weight='700' letter-spacing='1' fill='#606a70'>TOTAL VALUE  <tspan font-size='11' fill='#006750'>" & totalVal & "</tspan></text>
+              </g>
+              </svg>")
+              )
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: |-
+              =Set(thisop, ThisItem.'HPE Opportunity Id');
+              Set(untouchedopexec,"cc54a4");
+              Set(varNavBusy, true); Set(varWipeKey, varWipeKey + 1);
+              Navigate('Exec Op Window [ Untracked ]', ScreenTransition.Cover)
+            Width: =306
+            X: =5
+            Y: =0
+- Gallery3_1:
+    Control: Gallery@2.15.0
+    Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+    Properties:
+      Height: =224
+      Items: |-
+        =SortByColumns(
+            Filter(
+                PowerBIIntegration.Data,
+                !IsBlank(LookUp(colHasRecord, 'Opp ID' = 'HPE Opportunity Id'))
+                && If(!IsBlank(varSelectedRep), 'Manager entitlement' = varSelectedRep, true)
+                && If(!IsBlank(varfcstselected), LookUp('Attach Attack', 'Opp ID' = 'HPE Opportunity Id').'Service Call' = varfcstselected, true)
+                && LookUp('Attach Attack', 'Opp ID' = 'HPE Opportunity Id').'Upsell Eligible' <> "No"
+                && If(!IsBlank(varBUselected), 'Top GBU' = varBUselected , true)
+            ),
+            "Total Value to HPE (converted)",
+            SortOrder.Descending
+        )
+      ShowScrollbar: =false
+      TemplatePadding: =0
+      TemplateSize: =56
+      Width: =331
+      X: =10
+      Y: =403
+    Children:
+      - Image32_1:
+          Control: Image@2.2.3
+          Properties:
+            Height: =55
+            Image: |-
+              =With(
+                  {
+                      cleanOppName: With(
+                          {c: Substitute(Substitute(Substitute(Substitute(Substitute(
+                              ThisItem.'Opportunity Name', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")},
+                          If(Len(c) > 40, Left(c, 40) & "..", c)
+                      ),
+                      cleanAccName: With(
+                          {c: Substitute(Substitute(Substitute(Substitute(Substitute(
+                              ThisItem.'Account Name', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")},
+                          If(Len(c) > 24, Left(c, 24) & "..", c)
+                      ),
+                      cleanSalesName: With(
+                          {c: Substitute(Substitute(Substitute(Substitute(Substitute(
+                              ThisItem.'Feedback Progress', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")},
+                          If(Len(c) > 18, Left(c, 18) & "..", c)
+                      ),
+                      totalVal: Text(IfError(ThisItem.'Total Value to HPE (converted)', 0), "$#,##0"),
+                      svcOS: Text(IfError(ThisItem.'Services OS', 0), "$#,##0")
+                  },
+                  "data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 370 65'>
+              <desc>k=" & varAnimKey1 & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <g class='rw'>
+                <rect x='2' y='2' width='366' height='59' rx='12' fill='#fbfcfc' stroke='#d4d8db' stroke-width='1'/>
+                <rect x='2' y='2' width='5' height='59' rx='2.5' fill='#009a71'/>
+                <text x='18' y='22' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#292d3a'>" & cleanOppName & "</text>
+                <text x='18' y='38' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' fill='#606a70'>" & cleanAccName & "  &#183;  " & cleanSalesName & "</text>
+                <text x='18' y='55' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='7.5' font-weight='700' letter-spacing='1' fill='#606a70'>OS SALES  <tspan font-size='11' fill='#006750'>" & svcOS & "</tspan>   TOTAL  <tspan font-size='11' fill='#292d3a'>" & totalVal & "</tspan></text>
+              </g>
+              </svg>")
+              )
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: |-
+              =Set(thisop, ThisItem.'HPE Opportunity Id');
+              Set(untouchedopexec,"c98ad4");
+              Set(varNavBusy, true); Set(varWipeKey, varWipeKey + 1);
+              Navigate('Exec Op Window [ Untracked ]', ScreenTransition.Cover)
+            Width: =306
+            X: =5
+            Y: =0
+- Image43:
+    Control: Image@2.2.3
+    Properties:
+      Height: =254
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 426 254'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+        <g class='fu' style='animation-delay:.15s'>
+          <rect x='0' y='6' width='426' height='246' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+          <rect x='0' y='2' width='426' height='246' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+          <text x='16' y='22' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' letter-spacing='1.5' fill='#606a70'>MANAGER / BU</text>
+          <circle cx='222' cy='18' r='3.5' fill='#7764fc'/>
+          <text x='230' y='22' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8' font-weight='700' fill='#606a70'>WON</text>
+          <circle cx='288' cy='18' r='3.5' fill='#009a71'/>
+          <text x='296' y='22' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8' font-weight='700' fill='#606a70'>TRACKED</text>
+          <circle cx='356' cy='18' r='3.5' fill='#cc54a4'/>
+          <text x='364' y='22' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8' font-weight='700' fill='#606a70'>UNTRACKED</text>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      Width: =426
+      X: =346
+      Y: =136
+- Gallery7:
+    Control: Gallery@2.15.0
+    Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+    Properties:
+      Height: =218
+      Items: =colPivotTable
+      ShowScrollbar: =false
+      TemplatePadding: =0
+      TemplateSize: =29
+      Width: =410
+      X: =354
+      Y: =164
+    Children:
+      - Image42:
+          Control: Image@2.2.3
+          Properties:
+            Height: =29
+            Image: |-
+              =With(
+                  {
+                      isHdr: ThisItem.RowType = "header",
+                      untColor: If(
+                          IfError(ThisItem.UntrackedVal / varMaxUntracked, 0) >= 0.75, "#d25f4b",
+                          If(IfError(ThisItem.UntrackedVal / varMaxUntracked, 0) >= 0.50, "#d36d00",
+                          If(IfError(ThisItem.UntrackedVal / varMaxUntracked, 0) >= 0.25, "#E0A300",
+                          "#606a70"))),
+                      wonFmt: If(IfError(If(IsBlank(ThisItem.WonVal), 0, ThisItem.WonVal), 0) >= 1000000,
+                          "$" & Text(IfError(If(IsBlank(ThisItem.WonVal), 0, ThisItem.WonVal), 0) / 1000000, "[$-en-US]0.0") & "M",
+                          If(IfError(If(IsBlank(ThisItem.WonVal), 0, ThisItem.WonVal), 0) >= 1000,
+                              "$" & Text(IfError(If(IsBlank(ThisItem.WonVal), 0, ThisItem.WonVal), 0) / 1000, "[$-en-US]0") & "K",
+                              "$" & Text(IfError(If(IsBlank(ThisItem.WonVal), 0, ThisItem.WonVal), 0), "[$-en-US]0"))),
+                      trkFmt: If(IfError(If(IsBlank(ThisItem.TrackedVal), 0, ThisItem.TrackedVal), 0) >= 1000000,
+                          "$" & Text(IfError(If(IsBlank(ThisItem.TrackedVal), 0, ThisItem.TrackedVal), 0) / 1000000, "[$-en-US]0.0") & "M",
+                          If(IfError(If(IsBlank(ThisItem.TrackedVal), 0, ThisItem.TrackedVal), 0) >= 1000,
+                              "$" & Text(IfError(If(IsBlank(ThisItem.TrackedVal), 0, ThisItem.TrackedVal), 0) / 1000, "[$-en-US]0") & "K",
+                              "$" & Text(IfError(If(IsBlank(ThisItem.TrackedVal), 0, ThisItem.TrackedVal), 0), "[$-en-US]0"))),
+                      untFmt: If(IfError(If(IsBlank(ThisItem.UntrackedVal), 0, ThisItem.UntrackedVal), 0) >= 1000000,
+                          "$" & Text(IfError(If(IsBlank(ThisItem.UntrackedVal), 0, ThisItem.UntrackedVal), 0) / 1000000, "[$-en-US]0.0") & "M",
+                          If(IfError(If(IsBlank(ThisItem.UntrackedVal), 0, ThisItem.UntrackedVal), 0) >= 1000,
+                              "$" & Text(IfError(If(IsBlank(ThisItem.UntrackedVal), 0, ThisItem.UntrackedVal), 0) / 1000, "[$-en-US]0") & "K",
+                              "$" & Text(IfError(If(IsBlank(ThisItem.UntrackedVal), 0, ThisItem.UntrackedVal), 0), "[$-en-US]0"))),
+                      rowLabel: With(
+                          {c: Substitute(Substitute(Substitute(Substitute(
+                              If(ThisItem.RowType = "header", ThisItem.Manager, ThisItem.GBU),
+                              "&", "&amp;"), "'", " "), "<", "&lt;"), ">", "&gt;")},
+                          If(Len(c) > 26, Left(c, 26) & "..", c)
+                      )
+                  },
+                  "data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 40'>
+              <desc>k=" & varAnimKey1 & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <g class='fo'>
+              " & If(
+                  isHdr,
+                  "<rect x='2' y='2' width='596' height='36' rx='8' fill='#fbfcfc' stroke='#d4d8db' stroke-width='1'/><rect x='2' y='2' width='4' height='36' rx='2' fill='#7764fc'/><text x='18' y='26' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='700' fill='#292d3a'>" & rowLabel & "</text>",
+                  "<line x1='18' y1='39' x2='582' y2='39' stroke='#d4d8db' stroke-width='1' opacity='.5'/><text x='34' y='26' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' fill='#606a70'>" & rowLabel & "</text>"
+              ) & "
+                <text x='368' y='26' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='" & If(isHdr, "700", "600") & "' fill='" & If(isHdr, "#292d3a", "#3e4550") & "' text-anchor='end'>" & wonFmt & "</text>
+                <text x='474' y='26' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='" & If(isHdr, "700", "600") & "' fill='" & If(isHdr, "#006750", "#3e4550") & "' text-anchor='end'>" & trkFmt & "</text>
+                <text x='582' y='26' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='" & If(isHdr, "700", "600") & "' fill='" & untColor & "' text-anchor='end'>" & untFmt & "</text>
+              </g>
+              </svg>")
+              )
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: =Select(Parent)
+            Width: =410
+            X: =0
+            Y: =0
+- Image37_3:
+    Control: Image@2.2.3
+    Properties:
+      Height: =234
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 301 234'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+        <g class='fu' style='animation-delay:.25s'>
+          <rect x='0' y='6' width='301' height='226' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+          <rect x='0' y='2' width='301' height='226' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+          <text x='16' y='26' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' letter-spacing='1.5' fill='#606a70'>TEAM FEEDBACK PROGRESS</text>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      Width: =301
+      X: =341
+      Y: =395
+- Gallery2_1:
+    Control: Gallery@2.15.0
+    Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+    Properties:
+      Height: =200
+      Items: =SortByColumns(colManagerSummary, "TrackedOpps", SortOrder.Descending)
+      ShowScrollbar: =false
+      TemplatePadding: =0
+      TemplateSize: =49
+      Width: =275
+      X: =355
+      Y: =429
+    Children:
+      - Image29_1:
+          Control: Image@2.2.3
+          Properties:
+            Height: =46
+            Image: |-
+              =With(
+                  {
+                      pct: IfError(Round(ThisItem.TrackedOpps / ThisItem.TotalOpps * 100, 0), 0),
+                      lbl: With(
+                          {c: Substitute(Substitute(Substitute(ThisItem.ManagerEmail, "&", "&amp;"), "<", "&lt;"), ">", "&gt;")},
+                          If(Len(c) > 25, Left(c, 25) & "..", c)
+                      )
+                  },
+                  With(
+                      {barColor: If(pct >= 80, "#01a982", If(pct >= 50, "#04909d", "#d25f4b"))},
+                      "data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 52'>
+              <desc>k=" & varAnimKey1 & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <g class='rw'>
+                <text x='6' y='18' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#292d3a'>" & lbl & "</text>
+                <text x='344' y='18' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='700' fill='#006750' text-anchor='end'>" & Text(pct) & "%</text>
+                <rect x='6' y='26' width='240' height='8' rx='4' fill='#f2f3f4'/>
+                <rect x='6' y='26' width='" & Text(Round(pct / 100 * 240, 0)) & "' height='8' rx='4' fill='" & barColor & "' class='gx'/>
+                <text x='256' y='34' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' fill='#606a70'>" & Text(ThisItem.TrackedOpps) & " / " & Text(ThisItem.TotalOpps) & "</text>
+              </g>
+              </svg>")
+                  )
+              )
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: =Select(Parent)
+            Width: =272
+            X: =0
+            Y: =3
+- Image38_5:
+    Control: Image@2.2.3
+    Properties:
+      Height: =116
+      Image: |-
+        =With(
+            {
+                trackedVal: Sum(colTrackedGBU, Total),
+                trackedCount: Sum(colManagerSummary, TrackedOpps)
+            },
+            "data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 280 130'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+        <g class='fu' style='animation-delay:.1s'>
+          <rect x='0' y='6' width='280' height='122' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+          <rect x='0' y='2' width='280' height='122' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+          <rect x='0' y='2' width='5' height='122' rx='2.5' fill='#009a71'/>
+          <circle cx='22' cy='24' r='3.5' fill='#009a71'/>
+          <text x='32' y='28' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='1.5' fill='#606a70'>TRACKED ATTACH VALUE (OS)</text>
+          <text x='20' y='72' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='30' font-weight='700' fill='#006750' class='fo' style='animation-delay:.35s'>" &
+            If(trackedVal >= 1000000,
+                "$" & Text(trackedVal / 1000000, "[$-en-US]0.0") & "M",
+                If(trackedVal >= 1000,
+                    "$" & Text(trackedVal / 1000, "[$-en-US]0") & "K",
+                    "$" & Text(trackedVal, "[$-en-US]0")
+                )
+            ) & "</text>
+          <g class='pp' style='animation-delay:.45s'>
+            <rect x='196' y='50' width='68' height='22' rx='11' fill='#f2f3f4'/>
+            <text x='230' y='65' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9.5' font-weight='700' fill='#3e4550' text-anchor='middle'>" & Text(trackedCount) & " OPPS</text>
+          </g>
+          <text x='20' y='104' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9.5' fill='#606a70'>Total Value of OS Services Attach Being Tracked</text>
+        </g>
+        </svg>")
+        )
+      ImagePosition: =ImagePosition.Fit
+      Width: =236
+      X: =643
+      Y: =393
+- Image38_4:
+    Control: Image@2.2.3
+    Properties:
+      Height: =116
+      Image: |-
+        =With(
+            {
+                untrackedVal: Sum(colUntrackedGBU, Total),
+                untrackedCount: Sum(colManagerSummary, TotalOpps - TrackedOpps)
+            },
+            "data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 280 130'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+        <g class='fu' style='animation-delay:.18s'>
+          <rect x='0' y='6' width='280' height='122' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+          <rect x='0' y='2' width='280' height='122' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+          <rect x='0' y='2' width='5' height='122' rx='2.5' fill='#cc54a4'/>
+          <circle cx='22' cy='24' r='3.5' fill='#cc54a4'/>
+          <text x='32' y='28' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='1.5' fill='#606a70'>UNTRACKED SERVICES OS</text>
+          <text x='20' y='72' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='30' font-weight='700' fill='#006750' class='fo' style='animation-delay:.43s'>" &
+            If(untrackedVal >= 1000000,
+                "$" & Text(untrackedVal / 1000000, "[$-en-US]0.0") & "M",
+                If(untrackedVal >= 1000,
+                    "$" & Text(untrackedVal / 1000, "[$-en-US]0") & "K",
+                    "$" & Text(untrackedVal, "[$-en-US]0")
+                )
+            ) & "</text>
+          <g class='pp' style='animation-delay:.53s'>
+            <rect x='196' y='50' width='68' height='22' rx='11' fill='#f2f3f4'/>
+            <text x='230' y='65' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9.5' font-weight='700' fill='#3e4550' text-anchor='middle'>" & Text(untrackedCount) & " OPPS</text>
+          </g>
+          <text x='20' y='104' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9.5' fill='#606a70'>Total Services OS with no feedback submitted</text>
+        </g>
+        </svg>")
+        )
+      ImagePosition: =ImagePosition.Fit
+      Width: =236
+      X: =890
+      Y: =393
+- Image38_6:
+    Control: Image@2.2.3
+    Properties:
+      Height: =116
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 280 130'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+        <g class='fu' style='animation-delay:.26s'>
+          <rect x='0' y='6' width='280' height='122' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+          <rect x='0' y='2' width='280' height='122' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+          <rect x='0' y='2' width='5' height='122' rx='2.5' fill='#0070f8'/>
+          <circle cx='22' cy='24' r='3.5' fill='#0070f8'/>
+          <text x='32' y='28' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='1.5' fill='#606a70'>FUNNEL UPSELL</text>
+          <text x='20' y='72' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='30' font-weight='700' fill='#006750' class='fo' style='animation-delay:.51s'>" &
+            If(varOSDeltaSum >= 1000000,
+                "$" & Text(varOSDeltaSum / 1000000, "[$-en-US]0.0") & "M",
+                If(varOSDeltaSum >= 1000,
+                    "$" & Text(varOSDeltaSum / 1000, "[$-en-US]0") & "K",
+                    "$" & Text(varOSDeltaSum, "[$-en-US]0")
+                )
+            ) & "</text>
+          <g class='pp' style='animation-delay:.61s'>
+            <rect x='196' y='50' width='68' height='22' rx='11' fill='#f2f3f4'/>
+            <text x='230' y='65' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9.5' font-weight='700' fill='#3e4550' text-anchor='middle'>" & Text(varOSDeltaCount) & " OPPS</text>
+          </g>
+          <text x='20' y='104' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9.5' fill='#606a70'>Total OS Value Increased from Carepack</text>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      Width: =236
+      X: =643
+      Y: =516
+- Image38_7:
+    Control: Image@2.2.3
+    Properties:
+      Height: =116
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 280 130'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+        <g class='fu' style='animation-delay:.34s'>
+          <rect x='0' y='6' width='280' height='122' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+          <rect x='0' y='2' width='280' height='122' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+          <rect x='0' y='2' width='5' height='122' rx='2.5' fill='#7764fc'/>
+          <circle cx='22' cy='24' r='3.5' fill='#7764fc'/>
+          <text x='32' y='28' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='1.5' fill='#606a70'>WON VIA APP/CAMPAIGN CODE</text>
+          <text x='20' y='72' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='30' font-weight='700' fill='#006750' class='fo' style='animation-delay:.59s'>" &
+            If(varWonTotal >= 1000000,
+                "$" & Text(varWonTotal / 1000000, "[$-en-US]0.0") & "M",
+                If(varWonTotal >= 1000,
+                    "$" & Text(varWonTotal / 1000, "[$-en-US]0") & "K",
+                    "$" & Text(varWonTotal, "[$-en-US]0")
+                )
+            ) & "</text>
+          <text x='20' y='96' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9.5' fill='#606a70'>Total OS Value Won for Opportunities in App or via CC</text>
+          " & varWonCycleText & "
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      Width: =236
+      X: =890
+      Y: =516
+- Image39_1:
+    Control: Image@2.2.3
+    Properties:
+      Height: =576
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 76 576'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style></defs>
+        <g class='fo'>
+          <rect x='6' y='6' width='64' height='560' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+          <text x='38' y='300' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' letter-spacing='4' fill='#606a70' text-anchor='middle' transform='rotate(90 38 300)'>PIPELINE &#183; DATA &#183; FLOW</text>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      Visible: =false
+      Width: =76
+      X: =1055
+      Y: =58
+- WipeOverlay_ep:
+    Control: Image@2.2.3
+    Properties:
+      Height: =640
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1136 640' preserveAspectRatio='none'>
+        <desc>k=" & varWipeKey & "</desc>
+        <defs>
+          <style>
+            @keyframes wp{0%{transform:translateX(-112%)}38%{transform:translateX(0)}62%{transform:translateX(0)}100%{transform:translateX(112%)}}
+            @keyframes tmb{0%{transform:rotate(0deg) scale(.6);opacity:0}30%{opacity:1}80%{opacity:1}100%{transform:rotate(340deg) scale(1.1);opacity:0}}
+            .wp{animation:wp 1.1s cubic-bezier(.7,0,.3,1) both}
+            .tmb{animation:tmb 1.05s ease-in-out both;transform-origin:center;transform-box:fill-box}
+            @media(prefers-reduced-motion:reduce){.wp,.tmb{animation:none;opacity:0}}
+          </style>
+          <linearGradient id='wg' x1='0' y1='0' x2='1' y2='0'>
+            <stop offset='0' stop-color='#006750'/>
+            <stop offset='1' stop-color='#01a982'/>
+          </linearGradient>
+        </defs>
+        <g class='wp'>
+          <rect x='-60' y='0' width='1256' height='640' fill='url(#wg)'/>
+          <ellipse cx='300' cy='170' rx='34' ry='14' fill='#7cf5cf' opacity='.5' class='tmb'/>
+          <ellipse cx='840' cy='470' rx='40' ry='16' fill='#bdf5e4' opacity='.4' class='tmb' style='animation-delay:.08s'/>
+          <ellipse cx='900' cy='150' rx='26' ry='11' fill='#7cf5cf' opacity='.35' class='tmb' style='animation-delay:.14s'/>
+          <g class='tmb' style='animation-delay:.05s'>
+            <rect x='520' y='272' width='96' height='96' rx='24' fill='#ffffff'/>
+            <text x='568' y='334' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='38' font-weight='700' fill='#01a982' text-anchor='middle'>AW</text>
+          </g>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fill
+      Visible: =varNavBusy
+      Width: =1136
+      X: =0
+      Y: =0
+- tmrWipe_ep:
+    Control: Timer@2.1.0
+    Properties:
+      AutoStart: =varNavBusy
+      Duration: =1100
+      Height: =20
+      OnTimerEnd: =Set(varNavBusy, false)
+      Visible: =false
+      Width: =40
+      X: =0
+      Y: =620

@@ -1,0 +1,1225 @@
+- TopRibbon_fow:
+    Control: Image@2.2.3
+    Properties:
+      Height: =52
+      Image: |-
+        =With(
+            {
+                fn: Substitute(Substitute(Substitute(First(Split(User().FullName, " ")).Value, "&", "&amp;"), "<", "&lt;"), ">", "&gt;"),
+                ini: Upper(Left(First(Split(User().FullName, " ")).Value, 1) & Left(Last(Split(User().FullName, " ")).Value, 1))
+            },
+            "data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1136 52'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style></defs>
+        <rect x='0' y='0' width='1136' height='52' fill='#ffffff'/>
+        <rect x='0' y='51' width='1136' height='1' fill='#d4d8db'/>
+        <g class='fu'>
+          <rect x='18' y='13' width='26' height='26' rx='7' fill='#01a982'/>
+          <text x='31' y='31' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='700' fill='#ffffff' text-anchor='middle'>AW</text>
+          <text x='54' y='32' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='15' font-weight='700' fill='#292d3a'>Attach Wizard<tspan font-size='12' font-weight='400' fill='#606a70'> &#183; FLM View</tspan></text>
+        </g>
+        <g class='pp' style='animation-delay:.15s'>
+          <rect x='948' y='10' width='172' height='32' rx='16' fill='#f2f3f4'/>
+          <circle cx='968' cy='26' r='12' fill='#01a982'/>
+          <text x='968' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' fill='#ffffff' text-anchor='middle'>" & ini & "</text>
+          <text x='988' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='600' fill='#292d3a'>" & If(Len(fn) > 14, Left(fn, 13) & "..", fn) & "</text>
+        </g>
+        </svg>")
+        )
+      ImagePosition: =ImagePosition.Fit
+      Width: =1136
+      X: =0
+      Y: =0
+- Image24_3:
+    Control: Image@2.2.3
+    Properties:
+      Height: =30
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 30'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style></defs>
+        <g class='pp' style='animation-delay:.25s'>
+          <rect x='1' y='1' width='138' height='28' rx='14' fill='#f2f3f4' stroke='#d4d8db' stroke-width='1'/>
+          <text x='70' y='20' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='600' fill='#3e4550' text-anchor='middle'>&#8592;  Back</text>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      OnSelect: |-
+        =Set(varNavBusy, true); Set(varWipeKey, varWipeKey + 1);
+        Navigate('FLM Page',ScreenTransition.UnCover)
+      Width: =140
+      X: =800
+      Y: =11
+- Opp Headline_1:
+    Control: Gallery@2.15.0
+    Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+    Properties:
+      Height: =110
+      Items: =Filter(PowerBIIntegration.Data,'HPE Opportunity Id'=thisop)
+      ShowScrollbar: =false
+      TemplatePadding: =0
+      TemplateSize: =94
+      Width: =1120
+      X: =8
+      Y: =56
+    Children:
+      - Image21_1:
+          Control: Image@2.2.3
+          Properties:
+            Height: =94
+            Image: |-
+              =With(
+                  {
+                      cleanName: With(
+                          {c: Substitute(Substitute(Substitute(Substitute(Substitute(
+                              ThisItem.'Opportunity Name', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")},
+                          If(Len(c) > 64, Left(c, 64) & "..", c)
+                      ),
+                      cleanAcc: With(
+                          {c: Substitute(Substitute(Substitute(Substitute(Substitute(
+                              ThisItem.'Account Name', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")},
+                          If(Len(c) > 40, Left(c, 40) & "..", c)
+                      ),
+                      cleanType: Substitute(Substitute(Substitute(Substitute(Substitute(
+                          ThisItem.'Target Opp?', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
+                      cleanFcst: Substitute(Substitute(Substitute(Substitute(Substitute(
+                          ThisItem.'Forecast Category', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
+                      cleanClose: Substitute(Substitute(Substitute(Substitute(Substitute(
+                          ThisItem.'Close Date', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")
+                  },
+                  "data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 100'>
+              <desc>k=" & varAnimKey1 & "</desc>
+              <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+              <g class='fu'>
+                <rect x='4' y='8' width='1192' height='90' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+                <rect x='4' y='4' width='1192' height='90' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+                <text x='70' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='2' fill='#606a70'>OPPORTUNITY</text>
+                <text x='70' y='55' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='17' font-weight='700' fill='#292d3a'>" & cleanName & "</text>
+                <text x='70' y='78' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' fill='#606a70'>" & cleanAcc & "  &#183;  ID " & ThisItem.'HPE Opportunity Id' & "</text>
+                <line x1='650' y1='18' x2='650' y2='82' stroke='#d4d8db' stroke-width='1'/>
+                <text x='674' y='32' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='1.5' fill='#606a70'>TOTAL VALUE TO HPE</text>
+                <text x='674' y='66' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='26' font-weight='700' fill='#006750' class='fo' style='animation-delay:.2s'>" & Text(Value(ThisItem.'Total Value to HPE (converted)'),"$#,##0") & "</text>
+                <text x='850' y='32' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='1.5' fill='#606a70'>FORECAST CATEGORY</text>
+                <g class='pp' style='animation-delay:.3s'>
+                  <rect x='850' y='42' width='120' height='24' rx='12' fill='#f2f3f4'/>
+                  <text x='910' y='58' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#3e4550' text-anchor='middle'>" & cleanFcst & "</text>
+                </g>
+                <text x='1000' y='32' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='1.5' fill='#606a70'>CLOSE DATE</text>
+                <text x='1000' y='60' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='14' font-weight='600' fill='#3e4550'>" & cleanClose & "</text>
+                <g class='pp' style='animation-delay:.4s'>
+                  <rect x='850' y='72' width='230' height='20' rx='10' fill='#FBEEDF'/>
+                  <text x='965' y='86' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' fill='#d36d00' text-anchor='middle'>UPSELL &#183; " & cleanType & "</text>
+                </g>
+                <g class='fo'>
+                  <rect x='20' y='26' width='36' height='36' rx='9' fill='#01a982'/>
+                  <rect x='30' y='34' width='16' height='20' rx='2' fill='none' stroke='#ffffff' stroke-width='1.8'/>
+                  <line x1='33' y1='40' x2='43' y2='40' stroke='#ffffff' stroke-width='1.4'/>
+                  <line x1='33' y1='45' x2='43' y2='45' stroke='#ffffff' stroke-width='1.4'/>
+                </g>
+              </g>
+              </svg>")
+              )
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: =Select(Parent)
+            Width: =1110
+            X: =0
+            Y: =0
+- Image17_4:
+    Control: Image@2.2.3
+    Properties:
+      Height: =30
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 68 30'>
+        <desc>k=" & varAnimKey1 & " s=" & Text(Container2Visible) & "</desc>
+        <defs><style>" & varSvgCss & "</style></defs>
+        <g class='pp' style='animation-delay:.35s'>
+          <rect x='1' y='1' width='66' height='28' rx='14' fill='" & If(Container2Visible, "#01a982", "#ffffff") & "' stroke='" & If(Container2Visible, "#01a982", "#d4d8db") & "' stroke-width='1'/>
+          <text x='34' y='19' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9.5' font-weight='700' fill='" & If(Container2Visible, "#ffffff", "#006750") & "' text-anchor='middle'>Line Items</text>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      OnSelect: |-
+        =Set(selectedTab, "Products");
+        ClearCollect(
+            productCollection,
+            ForAll(
+                Split(First(Filter(PowerBIIntegration.Data, 'HPE Opportunity Id' = thisop)).'Packed Products', " || "),
+                With(
+                    {
+                        gbuVal: First(Split(Value, "//")).Value,
+                        prodVal: Index(Split(Value, "//"), 2).Value,
+                        numVal: IfError(Value(Trim(Last(Split(Value, "//")).Value)), 0)
+                    },
+                    {
+            GBU: gbuVal,
+            ProductName: prodVal,
+            ProductValue: numVal,
+            borderColor: With(
+                {pl: LookUp('FY26_BA_Hierarchy', 'PL Code' = Left(prodVal, 2), PLCODELOOK)},
+                If(
+                    pl = "Service OS", "#00E0AF",
+                    pl = "Service Non OS", "#62E5F6",
+                    "#ffffff"
+                )
+            ),
+            isProduct: With(
+                {pl: LookUp('FY26_BA_Hierarchy', 'PL Code' = Left(prodVal, 2), PLCODELOOK)},
+                pl = "Product"
+            )
+        }
+                )
+            )
+        );
+        Set(showProductContainer, true);
+        Set(Container1Visible, false);
+        Set(Container2Visible, true);
+        Set(Container3Visible, false);
+        Set(varAnimKey3, varAnimKey3 + 1);
+        Set(varProductListHeight, Min(CountRows(productCollection) * 45 + 65, 465));
+        Set(varProdToggle, 0);
+        Set(showProducts, false);
+        Set(showOS, false);
+        Set(showNonOS, false);
+        Set(varOSToggle, 0);
+        Set(varNonOSToggle, 0);
+      Width: =65
+      X: =966
+      Y: =120
+- Image17_5:
+    Control: Image@2.2.3
+    Properties:
+      Height: =30
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 68 30'>
+        <desc>k=" & varAnimKey1 & " s=" & Text(Container1Visible) & "</desc>
+        <defs><style>" & varSvgCss & "</style></defs>
+        <g class='pp' style='animation-delay:.42s'>
+          <rect x='1' y='1' width='66' height='28' rx='14' fill='" & If(Container1Visible, "#01a982", "#ffffff") & "' stroke='" & If(Container1Visible, "#01a982", "#d4d8db") & "' stroke-width='1'/>
+          <text x='34' y='19' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9.5' font-weight='700' fill='" & If(Container1Visible, "#ffffff", "#006750") & "' text-anchor='middle'>GBU Chart</text>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      OnSelect: |-
+        =ClearCollect(
+            gbuCollection,
+            Filter(
+                ForAll(
+                    Split(First(Filter(PowerBIIntegration.Data, 'HPE Opportunity Id' = thisop)).'Packed GBU Totals', " || "),
+                    {
+                        GBU: Trim(First(Split(Value, "//")).Value),
+                        GBUValue: IfError(Value(Trim(Last(Split(Value, "//")).Value)), 0)
+                    }
+                ),
+                GBU <> ""
+            )
+        );
+        Set(Container2Visible, false);
+        Set(Container1Visible, true);
+        Set(varAnimKey3, varAnimKey3 + 1);
+        Set(Container3Visible, false);
+
+        // Build chart (data logic unchanged; bar styling follows the design system)
+        With(
+            {
+                filtered: Sort(Filter(gbuCollection, GBUValue > 0), GBUValue, SortOrder.Descending)
+            },
+            With(
+                {
+                    maxV: Max(filtered, GBUValue),
+                    count: CountRows(filtered),
+                    indexed: ForAll(
+                        Sequence(CountRows(filtered)),
+                        With(
+                            {row: Index(filtered, Value)},
+                            {
+                                GBU: row.GBU,
+                                GBUValue: row.GBUValue,
+                                idx: Value - 1,
+                                isSvc: Find("Services", row.GBU) > 0
+                            }
+                        )
+                    )
+                },
+                Set(varChartHeight, count * 54 + 55);
+                Set(
+                    varChartBars,
+                    Concat(
+                        indexed,
+                        With(
+                            {
+                                barW: If(maxV > 0, Round(ThisRecord.GBUValue / maxV * 280, 0), 0),
+                                yP: 55 + ThisRecord.idx * 54,
+                                del: Text(0.2 + ThisRecord.idx * 0.08, "[$-en-US]0.00"),
+                                cleanName: Substitute(Substitute(Substitute(Substitute(Substitute(ThisRecord.GBU, "&", "&amp;"), "'", "&apos;"), """", "&quot;"), "<", "&lt;"), ">", "&gt;"),
+                                valText: Text(ThisRecord.GBUValue, "$#,##0"),
+                                barFill: If(ThisRecord.isSvc, "#04909d", "#0070f8")
+                            },
+                            "<g style='animation: fadeUp 0.4s cubic-bezier(0.2,0.7,0.2,1) " & del & "s both;'><text x='20' y='" & Text(yP + 16) & "' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='13' fill='#292d3a' font-weight='700'>" & cleanName & "</text><text x='20' y='" & Text(yP + 34) & "' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' fill='#606a70' font-weight='400'>" & valText & "</text></g><rect x='160' y='" & Text(yP + 2) & "' width='" & Text(barW) & "' height='30' rx='4' ry='4' fill='" & barFill & "' style='animation: barGrow 0.65s cubic-bezier(0.2,0.7,0.2,1) " & del & "s both; transform-origin: 160px " & Text(yP + 17) & "px;'/><text x='" & Text(160 + barW + 10) & "' y='" & Text(yP + 22) & "' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' fill='#006750' font-weight='700' style='animation: fadeUp 0.3s ease " & Text(Value(del) + 0.3, "[$-en-US]0.00") & "s both;'>" & valText & "</text>"
+                        ),
+                        ""
+                    )
+                )
+            )
+        )
+      Width: =65
+      X: =1049
+      Y: =120
+- Details_1:
+    Control: Gallery@2.15.0
+    Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+    Properties:
+      Height: =302
+      Items: =Filter(PowerBIIntegration.Data,'HPE Opportunity Id'=thisop)
+      ShowScrollbar: =false
+      TemplatePadding: =0
+      TemplateSize: =286
+      Width: =491
+      X: =11
+      Y: =159
+    Children:
+      - Image19_1:
+          Control: Image@2.2.3
+          Properties:
+            Height: =279
+            Image: |-
+              =With(
+                  {
+                      e1: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Opportunity Owner', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 42, Left(c, 42) & "..", c)),
+                      e2: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Primary Pipeline Owner User', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 42, Left(c, 42) & "..", c)),
+                      e3: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Go To Market Route', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 42, Left(c, 42) & "..", c)),
+                      e4: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Opportunity Sales Stage', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 42, Left(c, 42) & "..", c)),
+                      e5: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.Country, "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 42, Left(c, 42) & "..", c)),
+                      e6: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'SSP Region', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 42, Left(c, 42) & "..", c)),
+                      e7: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Primary Reseller Account', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 42, Left(c, 42) & "..", c)),
+                      e8: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Primary Distributor Account', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 42, Left(c, 42) & "..", c)),
+                      e9: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Created By', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 28, Left(c, 28) & "..", c))
+                  },
+                  "data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 490 290'>
+              <desc>k=" & varAnimKey1 & "</desc>
+              <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+              <g class='fu' style='animation-delay:.1s'>
+                <rect x='2' y='8' width='486' height='280' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+                <rect x='2' y='4' width='486' height='280' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+                <text x='20' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' letter-spacing='2' fill='#606a70'>DETAILS</text>
+                <g class='fo' style='animation-delay:.15s'><text x='20' y='56' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' fill='#606a70'>Opportunity Owner</text><text x='160' y='56' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#3e4550'>" & e1 & "</text><line x1='20' y1='64' x2='470' y2='64' stroke='#d4d8db' stroke-width='1' opacity='.6'/></g>
+                <g class='fo' style='animation-delay:.2s'><text x='20' y='80' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' fill='#606a70'>Primary Pipeline Owner</text><text x='160' y='80' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#3e4550'>" & e2 & "</text><line x1='20' y1='88' x2='470' y2='88' stroke='#d4d8db' stroke-width='1' opacity='.6'/></g>
+                <g class='fo' style='animation-delay:.25s'><text x='20' y='104' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' fill='#606a70'>Go To Market Route</text><text x='160' y='104' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#3e4550'>" & e3 & "</text><line x1='20' y1='112' x2='470' y2='112' stroke='#d4d8db' stroke-width='1' opacity='.6'/></g>
+                <g class='fo' style='animation-delay:.3s'><text x='20' y='128' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' fill='#606a70'>Sales Stage</text><text x='160' y='128' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#3e4550'>" & e4 & "</text><line x1='20' y1='136' x2='470' y2='136' stroke='#d4d8db' stroke-width='1' opacity='.6'/></g>
+                <g class='fo' style='animation-delay:.35s'><text x='20' y='152' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' fill='#606a70'>Country</text><text x='160' y='152' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#3e4550'>" & e5 & "</text><line x1='20' y1='160' x2='470' y2='160' stroke='#d4d8db' stroke-width='1' opacity='.6'/></g>
+                <g class='fo' style='animation-delay:.4s'><text x='20' y='176' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' fill='#606a70'>SSP Region</text><text x='160' y='176' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#3e4550'>" & e6 & "</text><line x1='20' y1='184' x2='470' y2='184' stroke='#d4d8db' stroke-width='1' opacity='.6'/></g>
+                <g class='fo' style='animation-delay:.45s'><text x='20' y='200' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' fill='#606a70'>Primary Reseller</text><text x='160' y='200' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#3e4550'>" & e7 & "</text><line x1='20' y1='208' x2='470' y2='208' stroke='#d4d8db' stroke-width='1' opacity='.6'/></g>
+                <g class='fo' style='animation-delay:.5s'><text x='20' y='224' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' fill='#606a70'>Primary Distributor</text><text x='160' y='224' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#3e4550'>" & e8 & "</text></g>
+                <g class='fo' style='animation-delay:.55s'>
+                  <rect x='20' y='244' width='450' height='28' rx='10' fill='#fbfcfc' stroke='#d4d8db' stroke-width='1'/>
+                  <text x='32' y='262' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' fill='#606a70'>Created by <tspan font-weight='600' fill='#3e4550'>" & e9 & "</tspan>  &#183;  " & Text(ThisItem.'Created Date', "dd/mm/yyyy") & "</text>
+                </g>
+              </g>
+              </svg>")
+              )
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: =Select(Parent)
+            Width: =459
+            X: =9
+            Y: =0
+- Opportunity Update & tracking_1:
+    Control: Gallery@2.15.0
+    Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+    Properties:
+      Height: =481
+      Items: =Filter(PowerBIIntegration.Data,'HPE Opportunity Id'=thisop)
+      ShowScrollbar: =false
+      TemplatePadding: =0
+      TemplateSize: =469
+      Width: =358
+      X: =489
+      Y: =159
+    Children:
+      - Image22_1:
+          Control: Image@2.2.3
+          Properties:
+            Height: =460
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 480'>
+              <desc>k=" & varAnimKey1 & "</desc>
+              <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+              <g class='fu' style='animation-delay:.18s'>
+                <rect x='2' y='8' width='344' height='470' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+                <rect x='2' y='4' width='344' height='470' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+                <text x='18' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' letter-spacing='2' fill='#606a70'>OPPORTUNITY UPDATES</text>
+                <g class='fo' style='animation-delay:.3s'>
+                  <rect x='18' y='40' width='314' height='16' rx='8' fill='#f2f3f4'/>
+                  <text x='26' y='52' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' font-weight='600' fill='#606a70'>LAST UPDATED  " & Text(ThisItem.'HPE Opportunity Updated Date', "dd/mm/yyyy, hh:mm") & "</text>
+                </g>
+                <rect x='12' y='62' width='326' height='244' rx='10' fill='#fbfcfc' stroke='#d4d8db' stroke-width='1' class='fo' style='animation-delay:.35s'/>
+                <text x='18' y='330' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' letter-spacing='2' fill='#606a70' class='fo' style='animation-delay:.4s'>SERVICE UPDATES</text>
+                <rect x='12' y='340' width='326' height='128' rx='10' fill='#fbfcfc' stroke='#d4d8db' stroke-width='1' class='fo' style='animation-delay:.45s'/>
+                <rect x='12' y='62' width='4' height='244' rx='2' fill='#01a982' class='gx' style='animation-delay:.4s'/>
+                <rect x='12' y='340' width='4' height='128' rx='2' fill='#04909d' class='gx' style='animation-delay:.5s'/>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: =Select(Parent)
+            Width: =340
+            X: =0
+            Y: =3
+      - Label8_2:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(62, 69, 80, 1)
+            Font: =Font.'Segoe UI'
+            Height: =230
+            OnSelect: =Select(Parent)
+            Size: =9
+            Text: =ThisItem.'HPE Opportunity Update'
+            VerticalAlign: =VerticalAlign.Top
+            Visible: =timernerd_1.Value>=1300
+            Width: =305
+            X: =18
+            Y: =66
+      - Label8_3:
+          Control: Label@2.5.1
+          Properties:
+            Color: =RGBA(62, 69, 80, 1)
+            Font: =Font.'Segoe UI'
+            Height: =120
+            OnSelect: =Select(Parent)
+            Size: =9
+            Text: |-
+              =With(
+                  {rec: LookUp('Attach Attack', 'Opp ID' = ThisItem.'HPE Opportunity Id')},
+                  If(IsBlank(rec.'Service Op Updates'), "", rec.'Service Op Updates')
+              )
+            VerticalAlign: =VerticalAlign.Top
+            Visible: =timernerd_1.Value>=2100
+            Width: =310
+            X: =18
+            Y: =338
+- Score & Services Zone_1:
+    Control: Gallery@2.15.0
+    Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+    Properties:
+      Height: =481
+      Items: =Filter(PowerBIIntegration.Data,'HPE Opportunity Id'=thisop)
+      ShowScrollbar: =false
+      TemplatePadding: =0
+      TemplateSize: =467
+      Width: =289
+      X: =837
+      Y: =159
+    Children:
+      - Image6_1:
+          Control: Image@2.2.3
+          Properties:
+            Height: =249
+            Image: |-
+              =With(
+                  {
+                      sc: Round(IfError(Value(ThisItem.'Opportunity Score'), 0), 0),
+                      fcst: With(
+                          {c: LookUp('Attach Attack', 'Opp ID' = thisop, 'Service Call')},
+                          If(IsBlank(c), "No Call Yet", Substitute(Substitute(Substitute(c, "&", "&amp;"), "<", "&lt;"), ">", "&gt;"))
+                      )
+                  },
+                  "data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 216 200'>
+              <desc>k=" & varAnimKey1 & " s=" & Text(sc) & "</desc>
+              <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+              <g class='fu' style='animation-delay:.24s'>
+                <rect x='2' y='8' width='212' height='190' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+                <rect x='2' y='4' width='212' height='190' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+                <text x='108' y='28' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='2' fill='#606a70' text-anchor='middle'>OPP SCORE</text>
+                <circle cx='108' cy='96' r='48' fill='none' stroke='#d4d8db' stroke-width='9'/>
+                <circle cx='108' cy='96' r='48' fill='none' stroke='#01a982' stroke-width='9' stroke-linecap='round' stroke-dasharray='" & Text(Round(302 * sc / 100, 0)) & " 302' transform='rotate(-90 108 96)' class='fo' style='animation-delay:.5s'/>
+                <text x='108' y='106' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='28' font-weight='700' fill='#006750' text-anchor='middle' class='pp' style='animation-delay:.6s'>" & Text(sc) & "</text>
+                <text x='108' y='158' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' font-weight='700' letter-spacing='1.5' fill='#606a70' text-anchor='middle'>FORECAST CALL</text>
+                <g class='pp' style='animation-delay:.7s'>
+                  <rect x='48' y='164' width='120' height='22' rx='11' fill='#d1ffee'/>
+                  <text x='108' y='179' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' fill='#006750' text-anchor='middle'>" & fcst & "</text>
+                </g>
+              </g>
+              </svg>")
+              )
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: =Select(Parent)
+            Width: =269
+            X: =10
+            Y: =0
+      - Image23_1:
+          Control: Image@2.2.3
+          Properties:
+            Height: =205
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 279 205'>
+              <desc>k=" & varAnimKey1 & "</desc>
+              <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+              <g class='fu' style='animation-delay:.3s'>
+                <rect x='2' y='8' width='275' height='195' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+                <rect x='2' y='4' width='275' height='195' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+                <text x='18' y='28' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' letter-spacing='2' fill='#606a70'>SERVICES ZONE</text>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            Width: =279
+            X: =0
+            Y: =262
+      - Image8_1:
+          Control: Image@2.2.3
+          Properties:
+            Height: =86
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 130'>
+              <desc>k=" & varAnimKey1 & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <text x='16' y='22' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='700' letter-spacing='2' fill='#606a70' class='fo' style='animation-delay:.4s'>SERVICES PEN RATE</text>
+              <g class='fu' style='animation-delay:.45s'>
+                <rect x='16' y='34' width='190' height='84' rx='10' fill='#fbfcfc' stroke='#d4d8db' stroke-width='1'/>
+                <rect x='16' y='34' width='5' height='84' rx='2.5' fill='#04909d'/>
+                <circle cx='34' cy='54' r='3.5' fill='#04909d'/>
+                <text x='44' y='58' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' letter-spacing='1' fill='#606a70'>OS</text>
+                <text x='32' y='88' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='22' font-weight='700' fill='#006750'>" & Text(IfError(Value(ThisItem.'Services OS' / ThisItem.'Total Value to HPE (converted)' * 100), 0), "[$-en-US]0.0%") & "</text>
+                <text x='32' y='108' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' fill='#606a70'>" & Text(Value(IfError(ThisItem.'Services OS', 0)), "$#,##0") & "</text>
+              </g>
+              <g class='fu' style='animation-delay:.52s'>
+                <rect x='214' y='34' width='190' height='84' rx='10' fill='#fbfcfc' stroke='#d4d8db' stroke-width='1'/>
+                <rect x='214' y='34' width='5' height='84' rx='2.5' fill='#009a71'/>
+                <circle cx='232' cy='54' r='3.5' fill='#009a71'/>
+                <text x='242' y='58' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' letter-spacing='1' fill='#606a70'>NON OS</text>
+                <text x='230' y='88' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='22' font-weight='700' fill='#006750'>" & Text(IfError(Value(IfError(ThisItem.'Services Non OS', 0) / ThisItem.'Total Value to HPE (converted)' * 100), 0), "[$-en-US]0.0%") & "</text>
+                <text x='230' y='108' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' fill='#606a70'>" & Text(Value(IfError(ThisItem.'Services Non OS', 0)), "$#,##0") & "</text>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: =Select(Parent)
+            Width: =279
+            X: =0
+            Y: =303
+      - Launch tracker_1:
+          Control: Image@2.2.3
+          Properties:
+            Height: =84
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 259 84'>
+              <desc>k=" & varAnimKey1 & "</desc>
+              <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+              <g class='pp' style='animation-delay:.6s'>
+                <rect x='4' y='10' width='251' height='68' rx='14' fill='#000000' opacity='0.1' filter='url(#sh)'/>
+                <rect x='4' y='6' width='251' height='68' rx='14' fill='#01a982'/>
+                <text x='24' y='32' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='2' fill='#d1ffee'>LAUNCH</text>
+                <text x='24' y='56' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='17' font-weight='700' fill='#ffffff'>Service Tracker</text>
+                <g class='brz'>
+                  <circle cx='222' cy='40' r='16' fill='#ffffff' opacity='.2'/>
+                  <path d='M216 32 L230 40 L216 48 Z' fill='#ffffff'/>
+                </g>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: |-
+              =Refresh('Attach Attack'); Set(Container3Visible, true); Set(varAnimKey3, varAnimKey3 + 1); Set(delayStart, false); Set(delayStart, true); Set(lastUpdated, Text(
+                  LookUp('Attach Attack', 'Opp ID' = thisop).Modified,
+                  "dd/mm/yyyy"
+              ) );Set(varAnimKey2,0);
+            Width: =259
+            X: =10
+            Y: =365
+- Deal Reg & Quotes_1:
+    Control: Gallery@2.15.0
+    Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+    Properties:
+      Height: =202
+      Items: =Filter(PowerBIIntegration.Data,'HPE Opportunity Id'=thisop)
+      ShowScrollbar: =false
+      TemplatePadding: =0
+      TemplateSize: =190
+      Width: =489
+      X: =20
+      Y: =438
+    Children:
+      - Image20_1:
+          Control: Image@2.2.3
+          Properties:
+            Height: =190
+            Image: |-
+              =With(
+                  {
+                      d1: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Deal Registration Id', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 40, Left(c, 40) & "..", c)),
+                      d2: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Deal Registration Status', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 40, Left(c, 40) & "..", c)),
+                      d3: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Quote Number', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 40, Left(c, 40) & "..", c)),
+                      d4: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Quote End Date', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 40, Left(c, 40) & "..", c)),
+                      d5: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Deal Expiration Date', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 40, Left(c, 40) & "..", c))
+                  },
+                  "data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 490 200'>
+              <desc>k=" & varAnimKey1 & "</desc>
+              <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+              <g class='fu' style='animation-delay:.35s'>
+                <rect x='2' y='8' width='486' height='190' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+                <rect x='2' y='4' width='486' height='190' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+                <text x='20' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' letter-spacing='2' fill='#606a70'>DEAL REG &amp; QUOTES</text>
+                <g class='fo' style='animation-delay:.4s'><text x='20' y='58' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' fill='#606a70'>Deal Reg ID</text><text x='170' y='58' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#3e4550'>" & d1 & "</text><line x1='20' y1='68' x2='470' y2='68' stroke='#d4d8db' stroke-width='1' opacity='.6'/></g>
+                <g class='fo' style='animation-delay:.45s'><text x='20' y='86' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' fill='#606a70'>Deal Reg Status</text><text x='170' y='86' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#3e4550'>" & d2 & "</text><line x1='20' y1='96' x2='470' y2='96' stroke='#d4d8db' stroke-width='1' opacity='.6'/></g>
+                <g class='fo' style='animation-delay:.5s'><text x='20' y='114' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' fill='#606a70'>Quote Number</text><text x='170' y='114' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#3e4550'>" & d3 & "</text><line x1='20' y1='124' x2='470' y2='124' stroke='#d4d8db' stroke-width='1' opacity='.6'/></g>
+                <g class='fo' style='animation-delay:.55s'><text x='20' y='142' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' fill='#606a70'>Quote End Date</text><text x='170' y='142' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#3e4550'>" & d4 & "</text><line x1='20' y1='152' x2='470' y2='152' stroke='#d4d8db' stroke-width='1' opacity='.6'/></g>
+                <g class='fo' style='animation-delay:.6s'><text x='20' y='170' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' fill='#606a70'>Deal Expiration Date</text><text x='170' y='170' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#3e4550'>" & d5 & "</text></g>
+              </g>
+              </svg>")
+              )
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: =Select(Parent)
+            Width: =459
+            X: =0
+            Y: =0
+- Line Item Box_1:
+    Control: Image@2.2.3
+    Properties:
+      Height: =Min(CountRows(productCollection) * 45 + 65, 465)
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 549 " & Text(varProductListHeight) & "'>
+        <desc>k=" & varAnimKey3 & "</desc>
+        <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+        <g class='fu'>
+          <rect x='4' y='8' width='541' height='" & Text(varProductListHeight - 12) & "' rx='16' fill='#000000' opacity='0.1' filter='url(#sh)'/>
+          <rect x='4' y='4' width='541' height='" & Text(varProductListHeight - 12) & "' rx='16' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+          <text x='24' y='24' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' letter-spacing='2' fill='#606a70'>LINE ITEMS</text>
+          <circle cx='400' cy='19' r='3.5' fill='#0070f8'/><text x='408' y='23' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' font-weight='600' fill='#606a70'>PROD</text>
+          <circle cx='448' cy='19' r='3.5' fill='#04909d'/><text x='456' y='23' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' font-weight='600' fill='#606a70'>OS</text>
+          <circle cx='482' cy='19' r='3.5' fill='#009a71'/><text x='490' y='23' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' font-weight='600' fill='#606a70'>NON OS</text>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      Visible: =Container2Visible
+      Width: =549
+      X: =587
+      Y: =164
+- Line Items_1:
+    Control: GroupContainer@1.5.0
+    Variant: ManualLayout
+    Properties:
+      DropShadow: =DropShadow.None
+      Height: =Min(CountRows(productCollection) * 45 + 65,465)
+      Visible: =Container2Visible
+      Width: =519
+      X: =602
+      Y: =166
+    Children:
+      - Gallery4_1:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+          Properties:
+            Height: =Min(CountRows(productCollection) * 45,405)
+            Items: |-
+              =If(
+                  showProducts, Filter(productCollection, isProduct),
+                  showOS, Filter(productCollection, Not(isProduct) && borderColor = "#00E0AF"),
+                  showNonOS, Filter(productCollection, Not(isProduct) && borderColor = "#62E5F6"),
+                  productCollection
+              )
+            ShowScrollbar: =false
+            TemplatePadding: =0
+            TemplateSize: =45
+            Width: =500
+            X: =0
+            Y: =25
+          Children:
+            - Image26_1:
+                Control: Image@2.2.3
+                Properties:
+                  Height: =43
+                  Image: |-
+                    =With(
+                        {
+                            catColor: If(
+                                ThisItem.borderColor = "#00E0AF", "#04909d",
+                                ThisItem.borderColor = "#62E5F6", "#009a71",
+                                "#0070f8"
+                            ),
+                            cleanProd: With(
+                                {c: Substitute(Substitute(Substitute(Substitute(Substitute(
+                                    ThisItem.ProductName, "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")},
+                                If(Len(c) > 44, Left(c, 44) & "..", c)
+                            ),
+                            cleanGBU: With(
+                                {c: Substitute(Substitute(Substitute(Substitute(Substitute(
+                                    ThisItem.GBU, "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")},
+                                If(Len(c) > 24, Left(c, 24) & "..", c)
+                            )
+                        },
+                        "data:image/svg+xml;utf8," & EncodeUrl("
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 475 43'>
+                    <desc>k=" & varAnimKey3 & "</desc>
+                    <defs><style>" & varSvgCss & "</style></defs>
+                    <g class='rw'>
+                      <rect x='2' y='2' width='471' height='39' rx='10' fill='#fbfcfc' stroke='#d4d8db' stroke-width='1'/>
+                      <rect x='2' y='2' width='5' height='39' rx='2.5' fill='" & catColor & "'/>
+                      <circle cx='20' cy='14' r='3.5' fill='" & catColor & "'/>
+                      <text x='30' y='18' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='1' fill='#606a70'>" & Upper(cleanGBU) & "</text>
+                      <text x='20' y='34' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#292d3a'>" & cleanProd & "</text>
+                      <text x='460' y='28' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='13' font-weight='700' fill='#006750' text-anchor='end'>" & Text(ThisItem.ProductValue, "$#,##0") & "</text>
+                    </g>
+                    </svg>")
+                    )
+                  ImagePosition: =ImagePosition.Fit
+                  OnSelect: =Select(Parent)
+                  Width: =475
+                  X: =12
+                  Y: =0
+      - Image28_8:
+          Control: Image@2.2.3
+          Properties:
+            Height: =24
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 24'>
+              <desc>k=" & varAnimKey3 & " s=" & Text(showProducts) & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <g class='pp'>
+                <rect x='1' y='1' width='62' height='22' rx='11' fill='" & If(showProducts, "#0070f8", "#f2f3f4") & "' stroke='" & If(showProducts, "#0070f8", "#d4d8db") & "' stroke-width='1'/>
+                <text x='32' y='16' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' fill='" & If(showProducts, "#ffffff", "#3e4550") & "' text-anchor='middle'>PROD</text>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: |-
+              =If(
+                  showProducts, Set(showProducts, false),
+                  Set(showProducts, true); Set(showOS, false); Set(showNonOS, false)
+              );
+              Set(varProdToggle, varProdToggle + 1)
+            Visible: =Container2Visible
+            Width: =64
+            X: =21
+            Y: =varProductListHeight-33
+      - Image28_9:
+          Control: Image@2.2.3
+          Properties:
+            Height: =24
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 24'>
+              <desc>k=" & varAnimKey3 & " s=" & Text(showOS) & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <g class='pp' style='animation-delay:.06s'>
+                <rect x='1' y='1' width='62' height='22' rx='11' fill='" & If(showOS, "#04909d", "#f2f3f4") & "' stroke='" & If(showOS, "#04909d", "#d4d8db") & "' stroke-width='1'/>
+                <text x='32' y='16' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' fill='" & If(showOS, "#ffffff", "#3e4550") & "' text-anchor='middle'>OS</text>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: |-
+              =If(
+                  showOS, Set(showOS, false),
+                  Set(showOS, true); Set(showNonOS, false); Set(showProducts, false)
+              );
+              Set(varOSToggle, varOSToggle + 1)
+            Visible: =Container2Visible
+            Width: =64
+            X: =101
+            Y: =varProductListHeight-33
+      - Image28_10:
+          Control: Image@2.2.3
+          Properties:
+            Height: =24
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 24'>
+              <desc>k=" & varAnimKey3 & " s=" & Text(showNonOS) & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <g class='pp' style='animation-delay:.12s'>
+                <rect x='1' y='1' width='62' height='22' rx='11' fill='" & If(showNonOS, "#009a71", "#f2f3f4") & "' stroke='" & If(showNonOS, "#009a71", "#d4d8db") & "' stroke-width='1'/>
+                <text x='32' y='16' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' fill='" & If(showNonOS, "#ffffff", "#3e4550") & "' text-anchor='middle'>NON OS</text>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: |-
+              =If(
+                  showNonOS, Set(showNonOS, false),
+                  Set(showNonOS, true); Set(showOS, false); Set(showProducts, false)
+              );
+              Set(varNonOSToggle, varNonOSToggle + 1)
+            Visible: =Container2Visible
+            Width: =64
+            X: =182
+            Y: =varProductListHeight-33
+      - Image17_6:
+          Control: Image@2.2.3
+          Properties:
+            Height: =24
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 83 24'>
+              <desc>k=" & varAnimKey3 & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <g class='pp' style='animation-delay:.18s'>
+                <rect x='1' y='1' width='81' height='22' rx='11' fill='#f2f3f4' stroke='#d4d8db' stroke-width='1'/>
+                <text x='42' y='16' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' fill='#3e4550' text-anchor='middle'>CLOSE &#10005;</text>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: |-
+              =Set(Container2Visible,false); Set(showProducts,false); Set(showNonOS,false); Set(showOS,false);
+            Visible: =Container2Visible
+            Width: =83
+            X: =417
+            Y: =varProductListHeight-33
+- PL Graph_1:
+    Control: Image@2.2.3
+    Properties:
+      Height: =varChartHeight
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 580 " & Text(varChartHeight) & "'>
+        <desc>k=" & varAnimKey3 & "</desc>
+        <defs><style>" & varSvgCss & "
+          @keyframes barGrow{0%{transform:scaleX(0)}100%{transform:scaleX(1)}}
+          @keyframes fadeUp{0%{opacity:0;transform:translateY(4px)}100%{opacity:1;transform:translateY(0)}}
+          @media(prefers-reduced-motion:reduce){rect,text,g{animation:none}}
+        </style>" & varShadowFilter & "</defs>
+        <g class='fu'>
+          <rect x='4' y='8' width='572' height='" & Text(varChartHeight - 12) & "' rx='16' fill='#000000' opacity='0.1' filter='url(#sh)'/>
+          <rect x='4' y='4' width='572' height='" & Text(varChartHeight - 12) & "' rx='16' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+          <text x='20' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='700' letter-spacing='2' fill='#606a70'>GBU BREAKDOWN</text>
+          <circle cx='448' cy='25' r='3.5' fill='#0070f8'/><text x='456' y='29' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' font-weight='600' fill='#606a70'>PROD</text>
+          <circle cx='496' cy='25' r='3.5' fill='#04909d'/><text x='504' y='29' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' font-weight='600' fill='#606a70'>SERVICES</text>
+          <line x1='20' y1='42' x2='560' y2='42' stroke='#d4d8db' stroke-width='1'/>
+        </g>
+        " & varChartBars & "
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      Visible: =Container1Visible
+      Width: =587
+      X: =535
+      Y: =166
+- Image17_7:
+    Control: Image@2.2.3
+    Properties:
+      Height: =24
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 83 24'>
+        <desc>k=" & varAnimKey3 & "</desc>
+        <defs><style>" & varSvgCss & "</style></defs>
+        <g class='pp' style='animation-delay:.2s'>
+          <rect x='1' y='1' width='81' height='22' rx='11' fill='#f2f3f4' stroke='#d4d8db' stroke-width='1'/>
+          <text x='42' y='16' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' fill='#3e4550' text-anchor='middle'>CLOSE &#10005;</text>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      OnSelect: =Set(Container1Visible,false)
+      Visible: =Container1Visible
+      Width: =83
+      X: =1026
+      Y: =176
+- Service Tracker_1:
+    Control: GroupContainer@1.5.0
+    Variant: ManualLayout
+    Properties:
+      DropShadow: =DropShadow.None
+      Height: =481
+      Visible: =Container3Visible
+      Width: =831
+      X: =6
+      Y: =159
+    Children:
+      - main box_1:
+          Control: Image@2.2.3
+          Properties:
+            Height: =477
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 831 477'>
+              <desc>k=" & varAnimKey3 & "</desc>
+              <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+              <g class='fu'>
+                <rect x='6' y='12' width='819' height='461' rx='16' fill='#000000' opacity='0.1' filter='url(#sh)'/>
+                <rect x='6' y='8' width='819' height='461' rx='16' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+                <rect x='6' y='8' width='6' height='461' rx='3' fill='#01a982'/>
+                <line x1='420' y1='30' x2='420' y2='450' stroke='#d4d8db' stroke-width='1' opacity='.7'/>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            Width: =831
+            X: =0
+            Y: =4
+      - Image15_1:
+          Control: Image@2.2.3
+          Properties:
+            Height: =92
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 140'>
+              <desc>k=" & varAnimKey3 & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <text x='0' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='700' letter-spacing='2' fill='#606a70' class='fu'>SERVICE OP TRACKER</text>
+              <text x='0' y='64' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='24' font-weight='700' fill='#292d3a' class='fu' style='animation-delay:.1s'>Log your feedback</text>
+              <g class='fo' style='animation-delay:.25s'>
+                <rect x='0' y='84' width='260' height='24' rx='12' fill='#f2f3f4'/>
+                <text x='12' y='100' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='600' fill='#606a70'>OPPORTUNITY ID  <tspan font-weight='700' fill='#006750'>" & thisop & "</tspan></text>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            Width: =328
+            X: =40
+            Y: =22
+      - Service tracker contents_1:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =481
+            Width: =831
+            X: =0
+            Y: =0
+          Children:
+            - Image14_12:
+                Control: Image@2.2.3
+                Properties:
+                  Height: =27
+                  Image: |-
+                    ="data:image/svg+xml;utf8," & EncodeUrl("
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 201 27'>
+                    <desc>k=" & varAnimKey3 & "</desc>
+                    <defs><style>" & varSvgCss & "</style></defs>
+                    <text x='0' y='18' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#606a70' class='fo' style='animation-delay:.3s'>Last updated  <tspan font-weight='700' fill='#006750'>" & If(IsBlank(lastUpdated), "-", lastUpdated) & "</tspan></text>
+                    </svg>")
+                  ImagePosition: =ImagePosition.Fit
+                  Width: =201
+                  X: =80
+                  Y: =100
+            - Image14_14:
+                Control: Image@2.2.3
+                Properties:
+                  Height: =47
+                  Image: |-
+                    ="data:image/svg+xml;utf8," & EncodeUrl("
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 450 45'>
+                    <desc>k=" & varAnimKey3 & "</desc>
+                    <defs><style>" & varSvgCss & "</style></defs>
+                    <circle cx='7' cy='24' r='3.5' fill='#01a982' class='pp' style='animation-delay:.35s'/>
+                    <text x='20' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='15' font-weight='700' letter-spacing='1' fill='#606a70' class='fu' style='animation-delay:.35s'>IS THIS OPPORTUNITY ELIGIBLE FOR UPSELL?</text>
+                    </svg>")
+                  ImagePosition: =ImagePosition.Fit
+                  Width: =288
+                  X: =97
+                  Y: =146
+            - Upsell_1:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =RGBA(212, 216, 219, 1)
+                  BorderThickness: =1
+                  ChevronBackground: =RGBA(1, 169, 130, 1)
+                  ChevronFill: =RGBA(255, 255, 255, 1)
+                  ChevronHoverBackground: =RGBA(0, 103, 80, 1)
+                  ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                  Color: =RGBA(41, 45, 58, 1)
+                  Default: |-
+                    =With(
+                        {rec: LookUp('Attach Attack', 'Opp ID' = thisop)},
+                        If(IsBlank(rec.'Upsell Eligible'), "", rec.'Upsell Eligible')
+                    )
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FocusedBorderThickness: =1
+                  Font: =Font.'Segoe UI'
+                  Height: =33
+                  HoverFill: =RGBA(209, 255, 238, 1)
+                  Items: =["Yes","Maybe","No"]
+                  Items.Value: =Value
+                  PressedColor: =RGBA(255, 255, 255, 1)
+                  PressedFill: =RGBA(1, 169, 130, 1)
+                  SelectionColor: =RGBA(255, 255, 255, 1)
+                  SelectionFill: =RGBA(1, 169, 130, 1)
+                  Size: =10
+                  Visible: =delayStart && Timer1_2.Value >= 1000
+                  Width: =289
+                  X: =96
+                  Y: =185
+            - Image14_15:
+                Control: Image@2.2.3
+                Properties:
+                  Height: =47
+                  Image: |-
+                    ="data:image/svg+xml;utf8," & EncodeUrl("
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 450 45'>
+                    <desc>k=" & varAnimKey3 & "</desc>
+                    <defs><style>" & varSvgCss & "</style></defs>
+                    <circle cx='7' cy='24' r='3.5' fill='#04909d' class='pp' style='animation-delay:.45s'/>
+                    <text x='20' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='15' font-weight='700' letter-spacing='1' fill='#606a70' class='fu' style='animation-delay:.45s'>REASON</text>
+                    </svg>")
+                  ImagePosition: =ImagePosition.Fit
+                  Width: =288
+                  X: =100
+                  Y: =237
+            - reason_1:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =RGBA(212, 216, 219, 1)
+                  BorderThickness: =1
+                  ChevronBackground: =RGBA(1, 169, 130, 1)
+                  ChevronFill: =RGBA(255, 255, 255, 1)
+                  ChevronHoverBackground: =RGBA(0, 103, 80, 1)
+                  ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                  Color: =RGBA(41, 45, 58, 1)
+                  Default: |-
+                    =With(
+                        {rec: LookUp('Attach Attack', 'Opp ID' = thisop)},
+                        If(IsBlank(rec.'No Upsell Reason'), "", rec.'No Upsell Reason')
+                    )
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FocusedBorderThickness: =1
+                  Font: =Font.'Segoe UI'
+                  Height: =33
+                  HoverFill: =RGBA(209, 255, 238, 1)
+                  Items: |-
+                    =[ "Customer Budget", "Too far in Sales Cycle", "Difficulty in adjusting BoM","Day1/9X quoted on seperate op." ,"TPM Maintained","HW Deal is placeholder","HW Deal is unlikely to go through","HPE Reputation","Successful Conversations with Op team & Customer","HW Sales unresponsive","Other: Leave in comments"]
+                  Items.Value: =Value
+                  OnChange: |-
+                    =If(
+                        reason_1.Selected.Value = "Day1/9X quoted on seperate op.",
+                        Set(varAnimKey2, varAnimKey2+1)
+                    );
+                    UpdateContext({varShowAltOpp: reason_1.Selected.Value = "Day1/9X quoted on seperate op."});
+                    UpdateContext({varReasonChanged: true})
+                  PressedColor: =RGBA(255, 255, 255, 1)
+                  PressedFill: =RGBA(1, 169, 130, 1)
+                  SelectionColor: =RGBA(255, 255, 255, 1)
+                  SelectionFill: =RGBA(1, 169, 130, 1)
+                  Size: =10
+                  Visible: =delayStart && Timer1_2.Value >= 1200
+                  Width: =289
+                  X: =97
+                  Y: =275
+            - Image14_16:
+                Control: Image@2.2.3
+                Properties:
+                  Height: =47
+                  Image: |-
+                    ="data:image/svg+xml;utf8," & EncodeUrl("
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 450 45'>
+                    <desc>k=" & varAnimKey3 & "</desc>
+                    <defs><style>" & varSvgCss & "</style></defs>
+                    <circle cx='7' cy='24' r='3.5' fill='#009a71' class='pp' style='animation-delay:.55s'/>
+                    <text x='20' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='15' font-weight='700' letter-spacing='1' fill='#606a70' class='fu' style='animation-delay:.55s'>SERVICES CALL</text>
+                    </svg>")
+                  ImagePosition: =ImagePosition.Fit
+                  Width: =288
+                  X: =100
+                  Y: =330
+            - service call_1:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =RGBA(212, 216, 219, 1)
+                  BorderThickness: =1
+                  ChevronBackground: =RGBA(1, 169, 130, 1)
+                  ChevronFill: =RGBA(255, 255, 255, 1)
+                  ChevronHoverBackground: =RGBA(0, 103, 80, 1)
+                  ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                  Color: =RGBA(41, 45, 58, 1)
+                  Default: |-
+                    =With(
+                        {rec: LookUp('Attach Attack', 'Opp ID' = thisop)},
+                        If(IsBlank(rec.'Service Call'), "", rec.'Service Call')
+                    )
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FocusedBorderThickness: =1
+                  Font: =Font.'Segoe UI'
+                  Height: =33
+                  HoverFill: =RGBA(209, 255, 238, 1)
+                  Items: =["In","In at Risk","Strong Upside","Out"]
+                  Items.Value: =Value
+                  PressedColor: =RGBA(255, 255, 255, 1)
+                  PressedFill: =RGBA(1, 169, 130, 1)
+                  SelectionColor: =RGBA(255, 255, 255, 1)
+                  SelectionFill: =RGBA(1, 169, 130, 1)
+                  Size: =10
+                  Visible: =delayStart && Timer1_2.Value >= 1400
+                  Width: =289
+                  X: =99
+                  Y: =368
+            - Image14_11:
+                Control: Image@2.2.3
+                Properties:
+                  Height: =47
+                  Image: |-
+                    ="data:image/svg+xml;utf8," & EncodeUrl("
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 450 45'>
+                    <desc>k=" & varAnimKey2 & "</desc>
+                    <defs><style>" & varSvgCss & "</style></defs>
+                    <circle cx='7' cy='24' r='3.5' fill='#7764fc' class='pp'/>
+                    <text x='20' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='15' font-weight='700' letter-spacing='1' fill='#606a70' class='fu'>ALTERNATE OPPORTUNITY</text>
+                    </svg>")
+                  ImagePosition: =ImagePosition.Fit
+                  Visible: =reason_1.Selected.Value = "Day1/9X quoted on seperate op."
+                  Width: =288
+                  X: =440
+                  Y: =32
+            - Alternate Opp_1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(212, 216, 219, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(41, 45, 58, 1)
+                  Default: |-
+                    =With(
+                        {rec: LookUp('Attach Attack', 'Opp ID' = thisop)},
+                        If(IsBlank(rec.'Alternate Opp'), "", rec.'Alternate Opp')
+                    )
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =33
+                  HoverBorderColor: =RGBA(1, 169, 130, 1)
+                  PressedBorderColor: =RGBA(1, 169, 130, 1)
+                  RadiusBottomLeft: =10
+                  RadiusBottomRight: =10
+                  RadiusTopLeft: =10
+                  RadiusTopRight: =10
+                  Size: =10
+                  Visible: |-
+                    =Timer1_2.Value >= 1800 && If(
+                        varReasonChanged,
+                        reason_1.Selected.Value = "Day1/9X quoted on seperate op.",
+                        reason_1.Selected.Value = "Day1/9X quoted on seperate op." || With(
+                            {rec: LookUp('Attach Attack', 'Opp ID' = thisop)},
+                            If(IsBlank(rec.'No Upsell Reason'), "", rec.'No Upsell Reason')
+                        ) = "Day1/9X quoted on seperate op."
+                    )
+                  Width: =145
+                  X: =440
+                  Y: =71
+            - Image14_13:
+                Control: Image@2.2.3
+                Properties:
+                  Height: =47
+                  Image: |-
+                    ="data:image/svg+xml;utf8," & EncodeUrl("
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 450 45'>
+                    <desc>k=" & varAnimKey3 & "</desc>
+                    <defs><style>" & varSvgCss & "</style></defs>
+                    <circle cx='7' cy='24' r='3.5' fill='#0070f8' class='pp' style='animation-delay:.4s'/>
+                    <text x='20' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='15' font-weight='700' letter-spacing='1' fill='#606a70' class='fu' style='animation-delay:.4s'>SERVICES UPDATES / COMMENTS</text>
+                    </svg>")
+                  ImagePosition: =ImagePosition.Fit
+                  Width: =288
+                  X: =440
+                  Y: =111
+            - Updates_1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(212, 216, 219, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(41, 45, 58, 1)
+                  Default: |-
+                    =With(
+                        {rec: LookUp('Attach Attack', 'Opp ID' = thisop)},
+                        If(IsBlank(rec.'Service Op Updates'), "", rec.'Service Op Updates')
+                    )
+                  Fill: =RGBA(251, 252, 252, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =286
+                  HoverBorderColor: =RGBA(1, 169, 130, 1)
+                  Mode: =TextMode.MultiLine
+                  PressedBorderColor: =RGBA(1, 169, 130, 1)
+                  RadiusBottomLeft: =10
+                  RadiusBottomRight: =10
+                  RadiusTopLeft: =10
+                  RadiusTopRight: =10
+                  Size: =10
+                  Visible: =delayStart && Timer1_2.Value >= 1600
+                  Width: =319
+                  X: =440
+                  Y: =152
+            - close button_2:
+                Control: Image@2.2.3
+                Properties:
+                  Height: =37
+                  Image: |-
+                    ="data:image/svg+xml;utf8," & EncodeUrl("
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 37 37'>
+                    <desc>k=" & varAnimKey3 & "</desc>
+                    <defs><style>" & varSvgCss & "</style></defs>
+                    <g class='pp' style='animation-delay:.5s'>
+                      <circle cx='18' cy='19' r='16' fill='#01a982'/>
+                      <path d='M11 19 L16 24 L26 13' fill='none' stroke='#ffffff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/>
+                    </g>
+                    </svg>")
+                  ImagePosition: =ImagePosition.Fit
+                  OnSelect: |-
+                    =Set(Container3Visible, false);
+                  Width: =35
+                  X: =728
+                  Y: =34
+      - Timer1_2:
+          Control: Timer@2.1.0
+          Properties:
+            Duration: =5000
+            Height: =19
+            Reset: =!Container3Visible
+            Start: =Container3Visible
+            Visible: =false
+            Width: =58
+            X: =254
+            Y: =22
+- timernerd_1:
+    Control: Timer@2.1.0
+    Properties:
+      Duration: =3000
+      Height: =37
+      Reset: =timerdog
+      Start: =timerotoole
+      Visible: =false
+      X: =307
+      Y: =13
+- WipeOverlay_fow:
+    Control: Image@2.2.3
+    Properties:
+      Height: =640
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1136 640' preserveAspectRatio='none'>
+        <desc>k=" & varWipeKey & "</desc>
+        <defs>
+          <style>
+            @keyframes wp{0%{transform:translateX(-112%)}38%{transform:translateX(0)}62%{transform:translateX(0)}100%{transform:translateX(112%)}}
+            @keyframes tmb{0%{transform:rotate(0deg) scale(.6);opacity:0}30%{opacity:1}80%{opacity:1}100%{transform:rotate(340deg) scale(1.1);opacity:0}}
+            .wp{animation:wp 1.1s cubic-bezier(.7,0,.3,1) both}
+            .tmb{animation:tmb 1.05s ease-in-out both;transform-origin:center;transform-box:fill-box}
+            @media(prefers-reduced-motion:reduce){.wp,.tmb{animation:none;opacity:0}}
+          </style>
+          <linearGradient id='wg' x1='0' y1='0' x2='1' y2='0'>
+            <stop offset='0' stop-color='#006750'/>
+            <stop offset='1' stop-color='#01a982'/>
+          </linearGradient>
+        </defs>
+        <g class='wp'>
+          <rect x='-60' y='0' width='1256' height='640' fill='url(#wg)'/>
+          <ellipse cx='300' cy='170' rx='34' ry='14' fill='#7cf5cf' opacity='.5' class='tmb'/>
+          <ellipse cx='840' cy='470' rx='40' ry='16' fill='#bdf5e4' opacity='.4' class='tmb' style='animation-delay:.08s'/>
+          <ellipse cx='900' cy='150' rx='26' ry='11' fill='#7cf5cf' opacity='.35' class='tmb' style='animation-delay:.14s'/>
+          <g class='tmb' style='animation-delay:.05s'>
+            <rect x='520' y='272' width='96' height='96' rx='24' fill='#ffffff'/>
+            <text x='568' y='334' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='38' font-weight='700' fill='#01a982' text-anchor='middle'>AW</text>
+          </g>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fill
+      Visible: =varNavBusy
+      Width: =1136
+      X: =0
+      Y: =0
+- tmrWipe_fow:
+    Control: Timer@2.1.0
+    Properties:
+      AutoStart: =varNavBusy
+      Duration: =1100
+      Height: =20
+      OnTimerEnd: =Set(varNavBusy, false)
+      Visible: =false
+      Width: =40
+      X: =0
+      Y: =620

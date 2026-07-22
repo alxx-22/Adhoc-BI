@@ -1,0 +1,39 @@
+Set(Container2Visible, false);Set(animReady, false);
+ClearCollect(colChat, {Role: "", Message: ""});
+RemoveIf(colChat, true);
+Set(varUserEmail, Lower(User().Email));
+Set(varSessionID, varUserEmail & "_" & Text(GUID()));
+Set(varWaiting, false);
+Set(varScrollTick, false);
+Set(varEntered, false);
+Set(varNavBusy, false);
+Set(varWipeKey, 0);
+// ---- Clean Enterprise Card design system: shared SVG stylesheet ----
+// Shared class set: .fu fade-up | .fo fade-in | .pp pop | .gx grow-x | .rw row-wipe
+//                   .ring idle halo | .brz breathe | .bob gentle bob | .spin loading ring
+// Hidden start-states live only inside @keyframes; reduced-motion guard kills all classes.
+Set(varSvgCss,
+    "@keyframes fu{0%{opacity:0;transform:translateY(12px)}100%{opacity:1;transform:translateY(0)}}" &
+    "@keyframes fo{0%{opacity:0}100%{opacity:1}}" &
+    "@keyframes pp{0%{opacity:0;transform:scale(.5)}100%{opacity:1;transform:scale(1)}}" &
+    "@keyframes gx{0%{transform:scaleX(0)}100%{transform:scaleX(1)}}" &
+    "@keyframes rw{0%{opacity:0;transform:translateX(-18px)}100%{opacity:1;transform:translateX(0)}}" &
+    "@keyframes ring{0%{transform:scale(.75);opacity:.45}100%{transform:scale(2);opacity:0}}" &
+    "@keyframes brz{0%,100%{opacity:.9}50%{opacity:.45}}" &
+    "@keyframes bob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-2px) rotate(4deg)}}" &
+    "@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}" &
+    ".fu{animation:fu .55s cubic-bezier(.2,.7,.2,1) both}" &
+    ".fo{animation:fo .5s ease-out both}" &
+    ".pp{animation:pp .5s cubic-bezier(.2,.7,.2,1) both;transform-origin:center;transform-box:fill-box}" &
+    ".gx{animation:gx .65s cubic-bezier(.2,.7,.2,1) both;transform-origin:left center;transform-box:fill-box}" &
+    ".rw{animation:rw .5s cubic-bezier(.2,.7,.2,1) both}" &
+    ".ring{animation:ring 2.8s ease-out infinite;transform-origin:center;transform-box:fill-box}" &
+    ".brz{animation:brz 2.6s ease-in-out infinite}" &
+    ".bob{animation:bob 2.4s ease-in-out infinite;transform-origin:center;transform-box:fill-box}" &
+    ".spin{animation:spin 1s linear infinite;transform-origin:center;transform-box:fill-box}" &
+    "@media(prefers-reduced-motion:reduce){.fu,.fo,.pp,.gx,.rw,.ring,.brz,.bob,.spin{animation:none}}"
+);
+// Soft shadow recipe: blurred black rect, opacity .06-.10, offset +4px down.
+Set(varShadowFilter,
+    "<filter id='sh' x='-40%' y='-40%' width='180%' height='180%'><feGaussianBlur stdDeviation='5'/></filter>"
+);

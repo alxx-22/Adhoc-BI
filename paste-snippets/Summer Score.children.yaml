@@ -1,0 +1,512 @@
+- TopRibbon_ss:
+    Control: Image@2.2.3
+    Properties:
+      Height: =52
+      Image: |-
+        =With(
+            {
+                fn: Substitute(Substitute(Substitute(First(Split(User().FullName, " ")).Value, "&", "&amp;"), "<", "&lt;"), ">", "&gt;"),
+                ini: Upper(Left(First(Split(User().FullName, " ")).Value, 1) & Left(Last(Split(User().FullName, " ")).Value, 1))
+            },
+            "data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1136 52'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style></defs>
+        <rect x='0' y='0' width='1136' height='52' fill='#ffffff'/>
+        <rect x='0' y='51' width='1136' height='1' fill='#d4d8db'/>
+        <g class='fu'>
+          <rect x='18' y='13' width='26' height='26' rx='7' fill='#01a982'/>
+          <text x='31' y='31' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='700' fill='#ffffff' text-anchor='middle'>AW</text>
+          <text x='54' y='32' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='15' font-weight='700' fill='#292d3a'>Attach Wizard<tspan font-size='12' font-weight='400' fill='#606a70'> &#183; Summer Sales Cup</tspan></text>
+        </g>
+        <g class='pp' style='animation-delay:.15s'>
+          <rect x='948' y='10' width='172' height='32' rx='16' fill='#f2f3f4'/>
+          <circle cx='968' cy='26' r='12' fill='#01a982'/>
+          <text x='968' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' fill='#ffffff' text-anchor='middle'>" & ini & "</text>
+          <text x='988' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='600' fill='#292d3a'>" & If(Len(fn) > 14, Left(fn, 13) & "..", fn) & "</text>
+        </g>
+        </svg>")
+        )
+      ImagePosition: =ImagePosition.Fit
+      Width: =1136
+      X: =0
+      Y: =0
+- Image24_6:
+    Control: Image@2.2.3
+    Properties:
+      Height: =30
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 30'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style></defs>
+        <g class='pp' style='animation-delay:.25s'>
+          <rect x='1' y='1' width='138' height='28' rx='14' fill='#f2f3f4' stroke='#d4d8db' stroke-width='1'/>
+          <text x='70' y='20' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='600' fill='#3e4550' text-anchor='middle'>&#8592;  Back to Home</text>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      OnSelect: |-
+        =Set(varNavBusy, true); Set(varWipeKey, varWipeKey + 1);
+        Navigate(Homepage,ScreenTransition.UnCover);Set(animReady, false)
+      Width: =140
+      X: =800
+      Y: =11
+- Image30_3:
+    Control: Image@2.2.3
+    Properties:
+      Height: =56
+      Image: |-
+        =With(
+            {
+                firstName: Substitute(Substitute(Substitute(Substitute(
+                    First(Split(User().FullName, " ")).Value, "&", "&amp;"), "'", " "), "<", "&lt;"), ">", "&gt;")
+            },
+            "data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1088 56'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+        <g class='fu'>
+          <rect x='0' y='6' width='1088' height='48' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+          <rect x='0' y='2' width='1088' height='48' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+          <g class='bob'>
+            <circle cx='34' cy='26' r='14' fill='#FBF1D6'/>
+            <path d='M28 19 L40 19 L39 27 Q38 32 34 32 Q30 32 29 27 Z' fill='#E0A300'/>
+            <rect x='32' y='32' width='4' height='3' fill='#E0A300'/>
+            <rect x='29' y='35' width='10' height='2.5' rx='1.25' fill='#E0A300'/>
+          </g>
+          <text x='58' y='22' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' font-weight='700' letter-spacing='2' fill='#606a70'>WELCOME BACK, " & Upper(firstName) & "</text>
+          <text x='58' y='42' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='16' font-weight='700' fill='#292d3a'>FY26 H2 <tspan fill='#01a982'>Summer Sales Cup</tspan></text>
+          <g class='pp' style='animation-delay:.4s'>
+            <rect x='1006' y='16' width='64' height='22' rx='11' fill='#FBF1D6'/>
+            <text x='1038' y='31' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9.5' font-weight='700' fill='#B5742E' text-anchor='middle' class='brz'>LIVE</text>
+          </g>
+        </g>
+        </svg>")
+        )
+      ImagePosition: =ImagePosition.Fit
+      Width: =1088
+      X: =24
+      Y: =58
+- Image50:
+    Control: Image@2.2.3
+    Properties:
+      Height: =164
+      Image: |-
+        =With(
+            {
+                myRec:     LookUp(colEngagementRanked, UniqueUser = User().Email),
+                isChannel: LookUp(colEngagementRanked, UniqueUser = User().Email).Manager = "melissa.pugh@hpe.com"
+            },
+            With(
+                {
+                    tp:   Round(IfError(Value(myRec.IBNSPoints), 0) + IfError(Value(myRec.AttachUpsellPoints), 0) + IfError(Value(myRec.BacklogPoints), 0) + IfError(Value(myRec.LeadingEdgeCompletionPoints), 0), 0),
+                    t2:   If(isChannel, 150, 300),
+                    t3:   If(isChannel, 200, 500),
+                    team: If(isChannel, "CHANNEL", "DIRECT")
+                },
+                With(
+                    {
+                        rn:   If(tp >= t3, "Services Master", If(tp >= t2, "Services Expert", If(tp >= 100, "Services Professional", "Unranked"))),
+                        nx:   If(tp >= t3, "", If(tp >= t2, "Services Master", If(tp >= 100, "Services Expert", "Services Professional"))),
+                        ptn:  If(tp >= t3, 0, If(tp >= t2, t3 - tp, If(tp >= 100, t2 - tp, 100 - tp))),
+                        strs: If(tp >= t3, "&#9733;&#9733;&#9733;&#9733;&#9733;", If(tp >= t2, "&#9733;&#9733;&#9733;&#9733;&#9734;", If(tp >= 100, "&#9733;&#9734;&#9734;&#9734;&#9734;", "&#9734;&#9734;&#9734;&#9734;&#9734;"))),
+                        bfwV: Round(If(tp >= t3, 280, If(tp >= t2, 187 + 93*((tp-t2)/(t3-t2)), If(tp >= 100, 93 + 94*((tp-100)/(t2-100)), 93*tp/100))), 0)
+                    },
+                    "data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 760 328'>
+        <desc>k=" & varAnimKey1 & " t=" & Text(tp) & "</desc>
+        <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+        <g class='fu' style='animation-delay:.1s'>
+          <rect x='0' y='8' width='760' height='316' rx='16' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+          <rect x='0' y='4' width='760' height='316' rx='16' fill='#d1ffee' stroke='#01a982' stroke-width='2'/>
+          <g class='pp' style='animation-delay:.4s'>
+            <rect x='648' y='22' width='90' height='34' rx='17' fill='#01a982'/>
+            <text x='693' y='45' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='16' font-weight='700' fill='#ffffff' text-anchor='middle'>YOURS</text>
+          </g>
+          <text x='36' y='48' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='17' font-weight='700' letter-spacing='3' fill='#606a70'>ATTAINMENT &#183; " & team & "</text>
+          <text x='36' y='120' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='56' font-weight='700' fill='#006750' class='fo' style='animation-delay:.3s'>" & Text(tp) & "</text>
+          <text x='36' y='146' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='16' font-weight='700' letter-spacing='2' fill='#606a70'>TOTAL POINTS</text>
+          <text x='340' y='84' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='15' font-weight='700' letter-spacing='2' fill='#606a70'>CURRENT RANK</text>
+          <text x='340' y='118' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='23' font-weight='700' fill='#292d3a' class='fo' style='animation-delay:.4s'>" & rn & "</text>
+          <text x='340' y='148' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='19' fill='#E0A300' class='fo' style='animation-delay:.5s'>" & strs & "</text>
+          <rect x='60' y='208' width='560' height='14' rx='7' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+          <rect x='60' y='208' width='" & Text(bfwV * 2) & "' height='14' rx='7' fill='#01a982' class='gx' style='animation-delay:.5s'/>
+          <circle cx='" & Text(60 + bfwV * 2) & "' cy='215' r='11' fill='#ffffff' stroke='#01a982' stroke-width='3' class='pp' style='animation-delay:1s'/>
+          <g class='fo' style='animation-delay:.7s'>
+            <text x='60' y='250' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='13' font-weight='700' letter-spacing='1' fill='#606a70'>START</text>
+            <text x='246' y='250' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='13' font-weight='700' letter-spacing='1' fill='#606a70' text-anchor='middle'>PRO</text>
+            <text x='246' y='268' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' fill='#606a70' text-anchor='middle'>100</text>
+            <text x='434' y='250' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='13' font-weight='700' letter-spacing='1' fill='#606a70' text-anchor='middle'>EXPERT</text>
+            <text x='434' y='268' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' fill='#606a70' text-anchor='middle'>" & Text(t2) & "</text>
+            <text x='620' y='250' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='13' font-weight='700' letter-spacing='1' fill='#606a70' text-anchor='end'>MASTER</text>
+            <text x='620' y='268' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' fill='#606a70' text-anchor='end'>" & Text(t3) & "</text>
+          </g>
+          " & If(
+              ptn > 0,
+              "<g class='pp' style='animation-delay:1.1s'><rect x='36' y='282' width='300' height='30' rx='15' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/><text x='186' y='302' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='14' font-weight='700' fill='#006750' text-anchor='middle'>" & Text(ptn) & " pts to " & nx & "</text></g>",
+              "<g class='pp' style='animation-delay:1.1s'><rect x='36' y='282' width='300' height='30' rx='15' fill='#FBF1D6'/><text x='186' y='302' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='14' font-weight='700' fill='#B5742E' text-anchor='middle'>&#9733; MAX RANK ACHIEVED &#9733;</text></g>"
+          ) & "
+        </g>
+        </svg>")
+                )
+            )
+        )
+      ImagePosition: =ImagePosition.Fit
+      Width: =380
+      X: =24
+      Y: =122
+- Image6_3:
+    Control: Image@2.2.3
+    Properties:
+      Height: =132
+      Image: |-
+        =With(
+            {
+                sc: Round(IfError(Value(LookUp(colEngagementRanked, UniqueUser = User().Email).WeeklyScore), 0), 0)
+            },
+            "data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 122 132'>
+        <desc>k=" & varAnimKey1 & " s=" & Text(sc) & "</desc>
+        <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+        <g class='fu' style='animation-delay:.2s'>
+          <rect x='0' y='6' width='122' height='124' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+          <rect x='0' y='2' width='122' height='124' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+          <text x='61' y='22' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8' font-weight='700' letter-spacing='1.5' fill='#606a70' text-anchor='middle'>WEEKLY ENGAGEMENT</text>
+          <circle cx='61' cy='72' r='36' fill='none' stroke='#d4d8db' stroke-width='7'/>
+          <circle cx='61' cy='72' r='36' fill='none' stroke='#01a982' stroke-width='7' stroke-linecap='round' stroke-dasharray='" & Text(Round(226 * sc / 100, 0)) & " 226' transform='rotate(-90 61 72)' class='fo' style='animation-delay:.5s'/>
+          <text x='61' y='79' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='22' font-weight='700' fill='#006750' text-anchor='middle' class='pp' style='animation-delay:.6s'>" & Text(sc) & "</text>
+          <text x='61' y='122' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8' font-weight='700' letter-spacing='1' fill='#606a70' text-anchor='middle'>SCORE / 100</text>
+        </g>
+        </svg>")
+        )
+      ImagePosition: =ImagePosition.Fit
+      Width: =122
+      X: =24
+      Y: =294
+- Image48:
+    Control: Image@2.2.3
+    Properties:
+      Height: =132
+      Image: |-
+        =With(
+            {lp: Round(IfError(Value(LookUp(colEngagementRanked, UniqueUser = User().Email).LeadingEdgeCompletionPoints), 0), 0)},
+            "data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 250 132'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+        <g class='fu' style='animation-delay:.28s'>
+          <rect x='0' y='6' width='250' height='124' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+          <rect x='0' y='2' width='250' height='124' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+          <rect x='0' y='2' width='5' height='124' rx='2.5' fill='#7764fc'/>
+          <circle cx='22' cy='24' r='3.5' fill='#7764fc'/>
+          <text x='32' y='28' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='1.5' fill='#606a70'>ENGAGE</text>
+          <text x='20' y='74' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='30' font-weight='700' fill='#006750' class='fo' style='animation-delay:.5s'>" & Text(lp) & "<tspan font-size='11' fill='#606a70'> pts total</tspan></text>
+          <text x='20' y='100' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' fill='#606a70'>Engagement Champion, LE Completion,</text>
+          <text x='20' y='114' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' fill='#606a70'>Cultural Appreciation</text>
+        </g>
+        </svg>")
+        )
+      ImagePosition: =ImagePosition.Fit
+      Width: =250
+      X: =154
+      Y: =294
+- Image46_1:
+    Control: Image@2.2.3
+    Properties:
+      Height: =132
+      Image: |-
+        =With(
+            {ep: Round(IfError(Value(LookUp(colEngagementRanked, UniqueUser = User().Email).IBNSPoints), 0), 0)},
+            "data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 132'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+        <g class='fu' style='animation-delay:.36s'>
+          <rect x='0' y='6' width='120' height='124' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+          <rect x='0' y='2' width='120' height='124' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+          <rect x='0' y='2' width='5' height='124' rx='2.5' fill='#0070f8'/>
+          <circle cx='20' cy='24' r='3.5' fill='#0070f8'/>
+          <text x='30' y='28' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='1.5' fill='#606a70'>EXPAND</text>
+          <text x='18' y='72' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='28' font-weight='700' fill='#006750' class='fo' style='animation-delay:.55s'>" & Text(Round(ep / 10, 0)) & "</text>
+          <text x='18' y='94' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' fill='#606a70'>opportunities driven</text>
+          <text x='18' y='112' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' font-weight='600' fill='#606a70'>" & Text(ep) & " pts &#183; &#215; 10 each</text>
+        </g>
+        </svg>")
+        )
+      ImagePosition: =ImagePosition.Fit
+      Width: =120
+      X: =24
+      Y: =436
+- Image47:
+    Control: Image@2.2.3
+    Properties:
+      Height: =132
+      Image: |-
+        =With(
+            {ap: Round(IfError(Value(LookUp(colEngagementRanked, UniqueUser = User().Email).AttachUpsellPoints), 0), 0)},
+            "data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 132'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+        <g class='fu' style='animation-delay:.44s'>
+          <rect x='0' y='6' width='120' height='124' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+          <rect x='0' y='2' width='120' height='124' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+          <rect x='0' y='2' width='5' height='124' rx='2.5' fill='#04909d'/>
+          <circle cx='20' cy='24' r='3.5' fill='#04909d'/>
+          <text x='30' y='28' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='1.5' fill='#606a70'>ATTACH</text>
+          <text x='18' y='72' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='28' font-weight='700' fill='#006750' class='fo' style='animation-delay:.63s'>" & Text(Round(ap / 15, 0)) & "</text>
+          <text x='18' y='94' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' fill='#606a70'>opportunities driven</text>
+          <text x='18' y='112' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' font-weight='600' fill='#606a70'>" & Text(ap) & " pts &#183; &#215; 15 each</text>
+        </g>
+        </svg>")
+        )
+      ImagePosition: =ImagePosition.Fit
+      Width: =120
+      X: =154
+      Y: =436
+- Image46:
+    Control: Image@2.2.3
+    Properties:
+      Height: =132
+      Image: |-
+        =With(
+            {bp: Round(IfError(Value(LookUp(colEngagementRanked, UniqueUser = User().Email).BacklogPoints), 0), 0)},
+            "data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 132'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+        <g class='fu' style='animation-delay:.52s'>
+          <rect x='0' y='6' width='120' height='124' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+          <rect x='0' y='2' width='120' height='124' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+          <rect x='0' y='2' width='5' height='124' rx='2.5' fill='#009a71'/>
+          <circle cx='20' cy='24' r='3.5' fill='#009a71'/>
+          <text x='30' y='28' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='1.5' fill='#606a70'>BACKLOG</text>
+          <text x='18' y='72' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='28' font-weight='700' fill='#006750' class='fo' style='animation-delay:.71s'>" & Text(Round(bp / 10, 0)) & "</text>
+          <text x='18' y='94' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' fill='#606a70'>opportunities driven</text>
+          <text x='18' y='112' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' font-weight='600' fill='#606a70'>" & Text(bp) & " pts &#183; &#215; 10 each</text>
+        </g>
+        </svg>")
+        )
+      ImagePosition: =ImagePosition.Fit
+      Width: =120
+      X: =284
+      Y: =436
+- Image45:
+    Control: Image@2.2.3
+    Properties:
+      Height: =168
+      Image: |-
+        =With(
+            {
+                u1: Index(colEngagementRanked, 1),
+                u2: Index(colEngagementRanked, 2),
+                u3: Index(colEngagementRanked, 3)
+            },
+            With(
+                {
+                    n1: With({c: Substitute(Substitute(Substitute(Proper(Substitute(First(Split(u1.UniqueUser, "@")).Value, ".", " ")), "&", "&amp;"), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 18, Left(c, 18) & "..", c)),
+                    n2: With({c: Substitute(Substitute(Substitute(Proper(Substitute(First(Split(u2.UniqueUser, "@")).Value, ".", " ")), "&", "&amp;"), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 18, Left(c, 18) & "..", c)),
+                    n3: With({c: Substitute(Substitute(Substitute(Proper(Substitute(First(Split(u3.UniqueUser, "@")).Value, ".", " ")), "&", "&amp;"), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 18, Left(c, 18) & "..", c)),
+                    s1: Text(Round(Value(u1.IBNSPoints) + Value(u1.AttachUpsellPoints) + Value(u1.BacklogPoints) + Value(u1.LeadingEdgeCompletionPoints), 0)),
+                    s2: Text(Round(Value(u2.IBNSPoints) + Value(u2.AttachUpsellPoints) + Value(u2.BacklogPoints) + Value(u2.LeadingEdgeCompletionPoints), 0)),
+                    s3: Text(Round(Value(u3.IBNSPoints) + Value(u3.AttachUpsellPoints) + Value(u3.BacklogPoints) + Value(u3.LeadingEdgeCompletionPoints), 0)),
+                    i1: Upper(Left(Proper(Substitute(First(Split(u1.UniqueUser, "@")).Value, ".", " ")), 1) & Left(Last(Split(Proper(Substitute(First(Split(u1.UniqueUser, "@")).Value, ".", " ")), " ")).Value, 1)),
+                    i2: Upper(Left(Proper(Substitute(First(Split(u2.UniqueUser, "@")).Value, ".", " ")), 1) & Left(Last(Split(Proper(Substitute(First(Split(u2.UniqueUser, "@")).Value, ".", " ")), " ")).Value, 1)),
+                    i3: Upper(Left(Proper(Substitute(First(Split(u3.UniqueUser, "@")).Value, ".", " ")), 1) & Left(Last(Split(Proper(Substitute(First(Split(u3.UniqueUser, "@")).Value, ".", " ")), " ")).Value, 1))
+                },
+                "data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 243'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+        <g class='fu' style='animation-delay:.15s'>
+          <rect x='0' y='10' width='1000' height='230' rx='20' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+          <rect x='0' y='6' width='1000' height='230' rx='20' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+          <text x='28' y='40' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='13' font-weight='700' letter-spacing='3' fill='#606a70'>LEADERBOARD</text>
+          <text x='972' y='40' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='600' fill='#606a70' text-anchor='end'>Top 3</text>
+          <g class='pp' style='animation-delay:.5s'>
+            <circle cx='265' cy='108' r='34' fill='#EDEFF1'/>
+            <text x='265' y='117' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='22' font-weight='700' fill='#8C99A4' text-anchor='middle'>" & i2 & "</text>
+            <circle cx='293' cy='84' r='13' fill='#8C99A4'/>
+            <text x='293' y='90' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='13' font-weight='700' fill='#ffffff' text-anchor='middle'>2</text>
+            <text x='265' y='170' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='16' font-weight='600' fill='#292d3a' text-anchor='middle'>" & n2 & "</text>
+            <text x='265' y='200' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='21' font-weight='700' fill='#006750' text-anchor='middle'>" & s2 & "<tspan font-size='11' fill='#606a70'> points</tspan></text>
+          </g>
+          <g class='pp' style='animation-delay:.62s'>
+            <circle cx='735' cy='108' r='34' fill='#F4E9DD'/>
+            <text x='735' y='117' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='22' font-weight='700' fill='#B5742E' text-anchor='middle'>" & i3 & "</text>
+            <circle cx='763' cy='84' r='13' fill='#B5742E'/>
+            <text x='763' y='90' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='13' font-weight='700' fill='#ffffff' text-anchor='middle'>3</text>
+            <text x='735' y='170' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='16' font-weight='600' fill='#292d3a' text-anchor='middle'>" & n3 & "</text>
+            <text x='735' y='200' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='21' font-weight='700' fill='#006750' text-anchor='middle'>" & s3 & "<tspan font-size='11' fill='#606a70'> points</tspan></text>
+          </g>
+          <g class='pp' style='animation-delay:.8s'>
+            <circle cx='500' cy='96' r='40' fill='#FBF1D6' class='ring'/>
+            <circle cx='500' cy='96' r='40' fill='#FBF1D6'/>
+            <text x='500' y='106' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='26' font-weight='700' fill='#E0A300' text-anchor='middle'>" & i1 & "</text>
+            <circle cx='532' cy='68' r='15' fill='#E0A300'/>
+            <text x='532' y='74' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='14' font-weight='700' fill='#ffffff' text-anchor='middle'>1</text>
+            <text x='500' y='166' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='18' font-weight='700' fill='#292d3a' text-anchor='middle'>" & n1 & "</text>
+            <text x='500' y='202' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='26' font-weight='700' fill='#006750' text-anchor='middle'>" & s1 & "<tspan font-size='12' fill='#606a70'> points</tspan></text>
+          </g>
+        </g>
+        </svg>")
+            )
+        )
+      ImagePosition: =ImagePosition.Fit
+      Width: =692
+      X: =420
+      Y: =122
+- Gallery10:
+    Control: Gallery@2.15.0
+    Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+    Properties:
+      Height: =236
+      Items: =Filter(colEngagementRanked, Rank > 3)
+      ShowScrollbar: =false
+      TemplatePadding: =0
+      TemplateSize: =46
+      Width: =692
+      X: =420
+      Y: =298
+    Children:
+      - Image49:
+          Control: Image@2.2.3
+          Properties:
+            Height: =45
+            Image: |-
+              =With(
+                  {
+                      isMe:  ThisItem.UniqueUser = User().Email,
+                      rank:  ThisItem.Rank,
+                      nm: With(
+                          {c: Substitute(Substitute(Substitute(Proper(Substitute(First(Split(ThisItem.UniqueUser, "@")).Value, ".", " ")), "&", "&amp;"), "<", "&lt;"), ">", "&gt;")},
+                          If(Len(c) > 22, Left(c, 22) & "..", c)
+                      ),
+                      ctry: With(
+                          {c: Substitute(Substitute(Substitute(Substitute(ThisItem.Country, "&", "&amp;"), "'", " "), "<", "&lt;"), ">", "&gt;")},
+                          If(Len(c) > 14, Left(c, 14) & "..", c)
+                      ),
+                      total: Text(Round(Value(ThisItem.IBNSPoints) + Value(ThisItem.AttachUpsellPoints) + Value(ThisItem.BacklogPoints) + Value(ThisItem.LeadingEdgeCompletionPoints), 0)),
+                      ibns:  Text(Round(Value(ThisItem.IBNSPoints), 0)),
+                      att:   Text(Round(Value(ThisItem.AttachUpsellPoints), 0)),
+                      back:  Text(Round(Value(ThisItem.BacklogPoints), 0)),
+                      le:    Text(Round(Value(ThisItem.LeadingEdgeCompletionPoints), 0)),
+                      delay: Text((ThisItem.Rank - 3) * 0.06, "[$-en-US]0.00")
+                  },
+                  With(
+                      {
+                          bg:     If(isMe, "#d1ffee", "#ffffff"),
+                          border: If(isMe, "#01a982", "#d4d8db"),
+                          bw:     If(isMe, "2", "1")
+                      },
+                      "data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 65'>
+              <desc>k=" & varAnimKey1 & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <g class='rw' style='animation-delay:" & delay & "s'>
+                <rect x='2' y='2' width='996' height='60' rx='13' fill='" & bg & "' stroke='" & border & "' stroke-width='" & bw & "'/>
+                <circle cx='36' cy='32' r='16' fill='#f2f3f4'/>
+                <text x='36' y='38' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='14' font-weight='700' fill='#606a70' text-anchor='middle'>" & Text(rank) & "</text>
+                <text x='66' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='14' font-weight='600' fill='#292d3a'>" & nm & "</text>
+                <text x='66' y='48' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' fill='#606a70'>" & ctry & "</text>
+                " & If(isMe, "<g class='pp' style='animation-delay:.3s'><rect x='250' y='20' width='52' height='24' rx='12' fill='#01a982'/><text x='276' y='37' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='700' fill='#ffffff' text-anchor='middle'>YOU</text></g>", "") & "
+                <g>
+                  <circle cx='396' cy='16' r='3' fill='#0070f8'/>
+                  <text x='404' y='20' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8' font-weight='700' letter-spacing='1' fill='#606a70'>EXPAND</text>
+                  <text x='404' y='46' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='15' font-weight='700' fill='#292d3a'>" & ibns & "</text>
+                  <circle cx='516' cy='16' r='3' fill='#04909d'/>
+                  <text x='524' y='20' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8' font-weight='700' letter-spacing='1' fill='#606a70'>ATTACH</text>
+                  <text x='524' y='46' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='15' font-weight='700' fill='#292d3a'>" & att & "</text>
+                  <circle cx='636' cy='16' r='3' fill='#009a71'/>
+                  <text x='644' y='20' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8' font-weight='700' letter-spacing='1' fill='#606a70'>BACKLOG</text>
+                  <text x='644' y='46' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='15' font-weight='700' fill='#292d3a'>" & back & "</text>
+                  <circle cx='756' cy='16' r='3' fill='#7764fc'/>
+                  <text x='764' y='20' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8' font-weight='700' letter-spacing='1' fill='#606a70'>ENGAGE</text>
+                  <text x='764' y='46' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='15' font-weight='700' fill='#292d3a'>" & le & "</text>
+                  <text x='886' y='20' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8' font-weight='700' letter-spacing='1' fill='#606a70'>TOTAL</text>
+                  <text x='886' y='48' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='19' font-weight='700' fill='#006750'>" & total & "</text>
+                </g>
+              </g>
+              </svg>")
+                  )
+              )
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: =Select(Parent)
+            Width: =692
+            X: =0
+            Y: =0
+- Image19_3:
+    Control: Image@2.2.3
+    Properties:
+      Height: =92
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 692 92'>
+        <desc>k=" & varAnimKey1 & "</desc>
+        <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+        <g class='fu' style='animation-delay:.4s'>
+          <rect x='0' y='6' width='692' height='84' rx='14' fill='#000000' opacity='0.06' filter='url(#sh)'/>
+          <rect x='0' y='2' width='692' height='84' rx='14' fill='#fbfcfc' stroke='#d4d8db' stroke-width='1'/>
+          <rect x='0' y='2' width='5' height='84' rx='2.5' fill='#E0A300'/>
+          <text x='18' y='22' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='2' fill='#606a70'>HOW IT WORKS &#183; POINTS</text>
+          <text x='18' y='40' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' fill='#3e4550'>&#8226; Win an opp with both Expand and IB revenue, or expand via a CAP <tspan font-weight='700' fill='#006750'>+10 pts</tspan></text>
+          <text x='18' y='56' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' fill='#3e4550'>&#8226; Proactive upsell action on a HW opp via this tool, reason given <tspan font-weight='700' fill='#006750'>+15 pts</tspan></text>
+          <text x='18' y='72' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' fill='#3e4550'>&#8226; Complete WW Sales Enablement Leading Edge training by 15 July <tspan font-weight='700' fill='#006750'>+50 pts</tspan></text>
+          <text x='360' y='40' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' fill='#3e4550'>&#8226; Win a short term renewal extension via the Compute Backlog Dashboard <tspan font-weight='700' fill='#006750'>+10 pts</tspan></text>
+          <text x='360' y='56' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' fill='#3e4550'>&#8226; Weekly: 10 extra pts for the highest engagement score in each team</text>
+          <text x='360' y='72' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' fill='#606a70'>Engagement = dashboard views + comment updates over the previous week</text>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fit
+      Width: =692
+      X: =420
+      Y: =542
+- WipeOverlay_ss:
+    Control: Image@2.2.3
+    Properties:
+      Height: =640
+      Image: |-
+        ="data:image/svg+xml;utf8," & EncodeUrl("
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1136 640' preserveAspectRatio='none'>
+        <desc>k=" & varWipeKey & "</desc>
+        <defs>
+          <style>
+            @keyframes wp{0%{transform:translateX(-112%)}38%{transform:translateX(0)}62%{transform:translateX(0)}100%{transform:translateX(112%)}}
+            @keyframes tmb{0%{transform:rotate(0deg) scale(.6);opacity:0}30%{opacity:1}80%{opacity:1}100%{transform:rotate(340deg) scale(1.1);opacity:0}}
+            .wp{animation:wp 1.1s cubic-bezier(.7,0,.3,1) both}
+            .tmb{animation:tmb 1.05s ease-in-out both;transform-origin:center;transform-box:fill-box}
+            @media(prefers-reduced-motion:reduce){.wp,.tmb{animation:none;opacity:0}}
+          </style>
+          <linearGradient id='wg' x1='0' y1='0' x2='1' y2='0'>
+            <stop offset='0' stop-color='#006750'/>
+            <stop offset='1' stop-color='#01a982'/>
+          </linearGradient>
+        </defs>
+        <g class='wp'>
+          <rect x='-60' y='0' width='1256' height='640' fill='url(#wg)'/>
+          <ellipse cx='300' cy='170' rx='34' ry='14' fill='#7cf5cf' opacity='.5' class='tmb'/>
+          <ellipse cx='840' cy='470' rx='40' ry='16' fill='#bdf5e4' opacity='.4' class='tmb' style='animation-delay:.08s'/>
+          <ellipse cx='900' cy='150' rx='26' ry='11' fill='#7cf5cf' opacity='.35' class='tmb' style='animation-delay:.14s'/>
+          <g class='tmb' style='animation-delay:.05s'>
+            <rect x='520' y='272' width='96' height='96' rx='24' fill='#ffffff'/>
+            <text x='568' y='334' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='38' font-weight='700' fill='#01a982' text-anchor='middle'>AW</text>
+          </g>
+        </g>
+        </svg>")
+      ImagePosition: =ImagePosition.Fill
+      Visible: =varNavBusy
+      Width: =1136
+      X: =0
+      Y: =0
+- tmrWipe_ss:
+    Control: Timer@2.1.0
+    Properties:
+      AutoStart: =varNavBusy
+      Duration: =1100
+      Height: =20
+      OnTimerEnd: =Set(varNavBusy, false)
+      Visible: =false
+      Width: =40
+      X: =0
+      Y: =620
