@@ -485,26 +485,26 @@ Screens:
             - Image23_2:
                 Control: Image@2.2.3
                 Properties:
-                  Height: =205
+                  Height: =214
                   Image: |-
                     ="data:image/svg+xml;utf8," & EncodeUrl("
-                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 279 205'>
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 279 214'>
                     <desc>k=" & varAnimKey1 & "</desc>
                     <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
                     <g class='fu' style='animation-delay:.3s'>
-                      <rect x='2' y='8' width='275' height='195' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
-                      <rect x='2' y='4' width='275' height='195' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+                      <rect x='2' y='8' width='275' height='204' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+                      <rect x='2' y='4' width='275' height='204' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
                       <text x='18' y='28' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' letter-spacing='2' fill='#606a70'>SERVICES ZONE</text>
                     </g>
                     </svg>")
                   ImagePosition: =ImagePosition.Fit
                   Width: =279
                   X: =0
-                  Y: =262
+                  Y: =253
             - Image8_2:
                 Control: Image@2.2.3
                 Properties:
-                  Height: =86
+                  Height: =78
                   Image: |-
                     ="data:image/svg+xml;utf8," & EncodeUrl("
                     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 130'>
@@ -532,7 +532,7 @@ Screens:
                   OnSelect: =Select(Parent)
                   Width: =279
                   X: =0
-                  Y: =303
+                  Y: =290
             - Launch tracker_2:
                 Control: Image@2.2.3
                 Properties:
@@ -561,7 +561,7 @@ Screens:
                     ) );Set(varAnimKey2,0);
                   Width: =259
                   X: =10
-                  Y: =365
+                  Y: =374
       - Deal Reg & Quotes_2:
           Control: Gallery@2.15.0
           Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0

@@ -1,10 +1,5 @@
 Set(Container2Visible, false);Set(animReady, false);
-ClearCollect(colChat, {Role: "", Message: ""});
-RemoveIf(colChat, true);
 Set(varUserEmail, Lower(User().Email));
-Set(varSessionID, varUserEmail & "_" & Text(GUID()));
-Set(varWaiting, false);
-Set(varScrollTick, false);
 Set(varEntered, false);
 Set(varNavBusy, false);
 Set(varWipeKey, 0);

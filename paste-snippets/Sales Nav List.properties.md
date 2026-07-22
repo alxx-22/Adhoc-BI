@@ -1,4 +1,4 @@
-# Sales Nav List - screen properties
+# Sales Nav List — screen properties
 
 Select the screen in the tree view, pick each property in the dropdown,
 and paste the formula (everything after the `=`) into the formula bar.
@@ -37,6 +37,4 @@ ClearCollect(colTrackedByMe,
 ClearCollect(colHasRecord,
     Filter('Attach Attack', !IsBlank('Opp ID'))
 );
-ClearCollect(colChat, Table({Role: "system", Message: ""}));
-Clear(colChat);
 ```

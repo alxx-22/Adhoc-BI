@@ -1,4 +1,4 @@
-# Exec Page - screen properties
+# Exec Page — screen properties
 
 Select the screen in the tree view, pick each property in the dropdown,
 and paste the formula (everything after the `=`) into the formula bar.

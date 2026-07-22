@@ -66,6 +66,57 @@ Two setup notes:
   Tracker header.
 - Small copy fixes where text is purely presentational (e.g. "Elligible" → "ELIGIBLE").
 
+## Revision 2 — Wiz removal, visual debugging, performance
+
+This revision was driven by **rendering every screen** (each screen's controls laid out at
+their real coordinates on a 1136×640 canvas, each data-driven SVG rasterised with headless
+Chromium) and inspecting the images for overlap/alignment. Changes:
+
+**Wiz assistant removed (feature retired).** Deleted the `WIZBOT` mascot, `wizbot box`,
+`Container2` and all its children (chat gallery, HTML bubbles, input, send button, typing
+timer) and the `tmrPoll` polling timer from Sales Nav List; stripped the chat priming
+(`colChat`, `varSessionID`, `varWaiting`, `varScrollTick`) from `App.OnStart` and the
+`colChat` build from Sales Nav List `OnVisible`. The **`ChatRequests` data source is now
+unused** and can be removed from the app's connections.
+
+**Visual fixes (from the renders):**
+- *Op windows* (all three): the Services-Zone right column had the "Services Pen Rate"
+  tiles overlapping the "Launch Service Tracker" button — rebalanced the card/tile/button
+  heights so they stack cleanly.
+- *FLM Page*: the "Filter By Rep" / "Forecast Call" chips overlapped the "Tracked
+  Opportunities" card header — moved the card and its gallery down so the header clears
+  the chips.
+- Homepage, Exec Page, Summer Score and Loading rendered clean and were left unchanged.
+
+**Performance (presentation-safe, results identical):**
+- Galleries no longer hit SharePoint per row. Per-row `LookUp('Attach Attack', …)` calls
+  were repointed to the in-memory copies already built in `OnVisible` — Sales Nav row card
+  → `colHasRecord`; FLM `Gallery3` filter → `colAAOppIds`; Exec `Gallery3_1` filter →
+  `colHasRecord`. These collections are full copies of the table, so every row resolves in
+  memory instead of a delegated server call, and it also sidesteps the delegation cap.
+- `App.OnStart` no longer initialises the chat collection or session/polling state.
+- Removing Wiz also removed a 1-second repeating timer (`tmrPoll`) and ~16 KB of controls
+  from Sales Nav List.
+
+### Optional follow-up: factor the XML-escape with a UDF
+
+Every SVG escapes interpolated text with the same `Substitute(...)` chain (~50 sites). It
+is safe as-is, but if you want to consolidate it, add these user-defined functions to
+**App → `Formulas`** (requires the *User-defined functions* setting; test in Studio before
+converting call sites, since a bad `Formulas` block prevents the app from opening):
+
+```powerapps
+EscapeXml(s:Text): Text =
+    Substitute(Substitute(Substitute(Substitute(Substitute(
+        s, "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;");
+Clip(s:Text, n:Number): Text =
+    If(Len(s) > n, Left(s, n) & "..", s);
+```
+
+Then a site like `With({c: Substitute(...large chain...)}, If(Len(c)>40, Left(c,40)&"..", c))`
+becomes `Clip(EscapeXml(ThisItem.'Account Name'), 40)`. Left as a documented opt-in rather
+than applied blind, because it can't be validated outside Power Apps Studio.
+
 ## What was NOT changed
 
 - `OnVisible` / `OnHidden` blocks (spliced verbatim, including `timerotoole`/`timerdog`

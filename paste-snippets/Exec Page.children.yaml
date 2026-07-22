@@ -434,8 +434,8 @@
                 PowerBIIntegration.Data,
                 !IsBlank(LookUp(colHasRecord, 'Opp ID' = 'HPE Opportunity Id'))
                 && If(!IsBlank(varSelectedRep), 'Manager entitlement' = varSelectedRep, true)
-                && If(!IsBlank(varfcstselected), LookUp('Attach Attack', 'Opp ID' = 'HPE Opportunity Id').'Service Call' = varfcstselected, true)
-                && LookUp('Attach Attack', 'Opp ID' = 'HPE Opportunity Id').'Upsell Eligible' <> "No"
+                && If(!IsBlank(varfcstselected), LookUp(colHasRecord, 'Opp ID' = 'HPE Opportunity Id').'Service Call' = varfcstselected, true)
+                && LookUp(colHasRecord, 'Opp ID' = 'HPE Opportunity Id').'Upsell Eligible' <> "No"
                 && If(!IsBlank(varBUselected), 'Top GBU' = varBUselected , true)
             ),
             "Total Value to HPE (converted)",
