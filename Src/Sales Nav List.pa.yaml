@@ -1,0 +1,1025 @@
+# ************************************************************************************************
+# Attach Wizard - "Clean Enterprise Card" re-skin.
+# Generated source: presentation restyled; all data logic preserved from the original app.
+# ************************************************************************************************
+Screens:
+  Sales Nav List:
+    Properties:
+      Fill: =RGBA(247, 247, 247, 1)
+      LoadingSpinnerColor: =RGBA(1, 169, 130, 1)
+      OnVisible: |+
+        =Set(varAnimKey1, If(IsBlank(varAnimKey1), 1, varAnimKey1 + 1));
+        Set(varAnimKey3, 0);
+        Set(notibox,false);
+        Set(showCC,false);
+        Set(varCCtoggle,0);
+        Set(showNSop,false);
+        Set(varNSoptoggle,0);
+        Set(varLPRtoggle,0);
+        Set(showLPR,false);
+        Set(varNEWToggle,0);
+        Set(showNEW,false);
+        Set(vartrackToggle,0);
+        Set(showtracking,false);
+        ClearCollect(colTrackedByMe, 
+            Filter('Attach Attack', 'Modified By'.Email = User().Email)
+        );
+        ClearCollect(colHasRecord,
+            Filter('Attach Attack', !IsBlank('Opp ID'))
+        );
+        ClearCollect(colChat, Table({Role: "system", Message: ""}));
+        Clear(colChat);
+    Children:
+      - TopRibbon_snl:
+          Control: Image@2.2.3
+          Properties:
+            Height: =52
+            Image: |-
+              =With(
+                  {
+                      fn: Substitute(Substitute(Substitute(First(Split(User().FullName, " ")).Value, "&", "&amp;"), "<", "&lt;"), ">", "&gt;"),
+                      ini: Upper(Left(First(Split(User().FullName, " ")).Value, 1) & Left(Last(Split(User().FullName, " ")).Value, 1))
+                  },
+                  "data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1136 52'>
+              <desc>k=" & varAnimKey1 & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <rect x='0' y='0' width='1136' height='52' fill='#ffffff'/>
+              <rect x='0' y='51' width='1136' height='1' fill='#d4d8db'/>
+              <g class='fu'>
+                <rect x='18' y='13' width='26' height='26' rx='7' fill='#01a982'/>
+                <text x='31' y='31' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='700' fill='#ffffff' text-anchor='middle'>AW</text>
+                <text x='54' y='32' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='15' font-weight='700' fill='#292d3a'>Attach Wizard<tspan font-size='12' font-weight='400' fill='#606a70'> &#183; Sales Navigator</tspan></text>
+              </g>
+              <g class='pp' style='animation-delay:.15s'>
+                <rect x='948' y='10' width='172' height='32' rx='16' fill='#f2f3f4'/>
+                <circle cx='968' cy='26' r='12' fill='#01a982'/>
+                <text x='968' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' fill='#ffffff' text-anchor='middle'>" & ini & "</text>
+                <text x='988' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='600' fill='#292d3a'>" & If(Len(fn) > 14, Left(fn, 13) & "..", fn) & "</text>
+              </g>
+              </svg>")
+              )
+            ImagePosition: =ImagePosition.Fit
+            Width: =1136
+            X: =0
+            Y: =0
+      - SecHeader_snl:
+          Control: Image@2.2.3
+          Properties:
+            Height: =34
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 970 46'>
+              <desc>k=" & varAnimKey1 & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <text x='20' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='700' letter-spacing='2' fill='#606a70' class='fu'>OPPORTUNITY PIPELINE</text>
+              <text x='540' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='700' letter-spacing='1' fill='#606a70' class='fo' style='animation-delay:.2s'>UPSELL TYPE</text>
+              <text x='700' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='700' letter-spacing='1' fill='#606a70' class='fo' style='animation-delay:.26s'>PRODUCTS</text>
+              <text x='830' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='700' letter-spacing='1' fill='#606a70' class='fo' style='animation-delay:.32s'>SERVICES</text>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            Width: =713
+            X: =25
+            Y: =58
+      - Gallery1:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+          Properties:
+            Height: =470
+            Items: |-
+              =Filter(
+                  PowerBIIntegration.Data,
+                  If(
+                      showCC, 'Target Opp?' = "CC / Day 1 Upsell",
+                      showNSop, 'Target Opp?' = "No Services Op",
+                      showLPR, 'Target Opp?' = "Low Pen Rate",
+                      showtracking, !IsBlank(LookUp(colTrackedByMe, 'Opp ID' = 'HPE Opportunity Id')),
+                      showNEW, IsBlank(LookUp(colHasRecord, 'Opp ID' = 'HPE Opportunity Id')),
+                      true
+                  )
+              )
+            OnSelect: |-
+              =Set(thisop,ThisItem.'HPE Opportunity Id');
+              Set(varNavBusy, true); Set(varWipeKey, varWipeKey + 1);
+              Navigate('Sales Nav op window', ScreenTransition.Fade)
+            ShowScrollbar: =false
+            TemplatePadding: =0
+            TemplateSize: =59
+            Transition: =Transition.Pop
+            Width: =713
+            X: =25
+            Y: =94
+          Children:
+            - Image16:
+                Control: Image@2.2.3
+                Properties:
+                  Height: =55
+                  Image: |-
+                    =With(
+                        {
+                            aaRecord: LookUp('Attach Attack', 'Opp ID' = ThisItem.'HPE Opportunity Id'),
+                            currentUser: User().Email
+                        },
+                        With(
+                            {
+                                hasRecord: !IsBlank(aaRecord),
+                                isMine: !IsBlank(aaRecord) && Lower(aaRecord.'Modified By'.Email) = Lower(currentUser),
+                                isOtherUser: !IsBlank(aaRecord) && Lower(aaRecord.'Modified By'.Email) <> Lower(currentUser),
+                                lastEditor: If(!IsBlank(aaRecord), aaRecord.'Modified By'.DisplayName, "")
+                            },
+                            With(
+                                {
+                                    cardFill: If(isMine, "#d1ffee", "#ffffff"),
+                                    cardStroke: If(isMine, "#01a982", "#d4d8db"),
+                                    strokeW: If(isMine, "2", "1"),
+                                    cleanName: With(
+                                        {c: Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(
+                                            ThisItem.'Opportunity Name',
+                                            "&", "&amp;"), "'", " "), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"), "#", ""), "%", "")},
+                                        If(Len(c) > 52, Left(c, 52) & "..", c)
+                                    ),
+                                    cleanAcc: With(
+                                        {c: Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(
+                                            ThisItem.'Account Name',
+                                            "&", "&amp;"), "'", " "), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"), "#", ""), "%", "")},
+                                        If(Len(c) > 56, Left(c, 56) & "..", c)
+                                    ),
+                                    cleanType: Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(
+                                        ThisItem.'Target Opp?',
+                                        "&", "&amp;"), "'", " "), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"), "#", ""), "%", ""),
+                                    cleanEditor: With(
+                                        {c: Substitute(Substitute(Substitute(Substitute(Substitute(
+                                            If(!IsBlank(aaRecord), aaRecord.'Modified By'.DisplayName, ""),
+                                            "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")},
+                                        If(Len(c) > 16, Left(c, 16) & "..", c)
+                                    )
+                                },
+                                "data:image/svg+xml;utf8," & EncodeUrl("
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 970 76'>
+                    <desc>k=" & varAnimKey1 & "</desc>
+                    <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+                    <g class='rw'>
+                      <rect x='2' y='8' width='966' height='66' rx='14' fill='#000000' opacity='0.06' filter='url(#sh)'/>
+                      <rect x='2' y='4' width='966' height='66' rx='14' fill='" & cardFill & "' stroke='" & cardStroke & "' stroke-width='" & strokeW & "'/>
+                      <text x='22' y='32' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='16' font-weight='600' fill='#292d3a'>" & cleanName & "</text>
+                      <text x='22' y='54' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' fill='#606a70'>" & cleanAcc & "</text>
+                      <line x1='522' y1='16' x2='522' y2='58' stroke='#d4d8db' stroke-width='1'/>
+                      <text x='540' y='44' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='13' font-weight='600' fill='#3e4550'>" & cleanType & "</text>
+                      <text x='700' y='44' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='15' font-weight='700' fill='#006750'>" &
+                        If(IfError(ThisItem.'Products', 0) = 0, "-", Text(IfError(ThisItem.'Products', 0), "$#,##0")) & "</text>
+                      <text x='830' y='44' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='15' font-weight='700' fill='#006750'>" &
+                        If(
+                            IfError(ThisItem.'Services OS', 0) + IfError(ThisItem.'Services Non OS', 0) = 0,
+                            "-",
+                            Text(Value(IfError(ThisItem.'Services OS', 0) + IfError(ThisItem.'Services Non OS', 0)), "$#,##0")
+                        ) & "</text>
+                    " & If(
+                        isMine,
+                        "<g class='pp' style='animation-delay:.25s'><rect x='896' y='12' width='58' height='20' rx='10' fill='#01a982'/><text x='925' y='26' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' fill='#ffffff' text-anchor='middle'>YOURS</text></g>",
+                        If(
+                            isOtherUser,
+                            "<g class='fo' style='animation-delay:.25s'><rect x='790' y='10' width='168' height='20' rx='10' fill='#f2f3f4'/><text x='874' y='24' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='600' fill='#606a70' text-anchor='middle'>&#9998; " & cleanEditor & "</text></g>",
+                            "<g class='pp' style='animation-delay:.25s'><rect x='904' y='12' width='50' height='20' rx='10' fill='#d1ffee'/><text x='929' y='26' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' fill='#006750' text-anchor='middle'>NEW</text></g>"
+                        )
+                    ) & "
+                    </g>
+                    </svg>")
+                            )
+                        )
+                    )
+                  ImagePosition: =ImagePosition.Fit
+                  OnSelect: |-
+                    =Set(thisop, ThisItem.'HPE Opportunity Id');
+                    Set(varNavBusy, true); Set(varWipeKey, varWipeKey + 1);
+                    Navigate('Sales Nav op window', ScreenTransition.Cover)
+                  Width: =713
+                  X: =0
+                  Y: =2
+      - Image13:
+          Control: Image@2.2.3
+          Properties:
+            Height: =64
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 364 64'>
+              <desc>k=" & varAnimKey1 & "</desc>
+              <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+              <g class='fu' style='animation-delay:.1s'>
+                <rect x='0' y='8' width='364' height='54' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+                <rect x='0' y='4' width='364' height='54' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+                <circle cx='30' cy='31' r='13' fill='#f2f3f4'/>
+                <path d='M30 23 C25 23 24 27 24 30 L23 34 L37 34 L36 30 C36 27 35 23 30 23 Z' fill='none' stroke='#006750' stroke-width='1.8' stroke-linejoin='round'/>
+                <circle cx='30' cy='37' r='1.6' fill='#006750'/>
+                <circle cx='344' cy='16' r='4' fill='#01a982' class='brz'/>
+                <text x='54' y='24' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' font-weight='700' letter-spacing='2' fill='#606a70'>CONTROL PANEL</text>
+                <text x='54' y='44' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='15' font-weight='700' fill='#292d3a'>Notification Settings</text>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: |-
+              =Set(varUserEmail, User().Email);Set(varAnimKey3, varAnimKey3 + 1);
+              Set(notibox,true)
+            Width: =364
+            X: =756
+            Y: =58
+      - Image25:
+          Control: Image@2.2.3
+          Properties:
+            Height: =95
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 364 95'>
+              <desc>k=" & varAnimKey1 & "</desc>
+              <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+              <g class='fu' style='animation-delay:.2s'>
+                <rect x='0' y='8' width='364' height='85' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+                <rect x='0' y='4' width='364' height='85' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+                <rect x='0' y='4' width='5' height='85' rx='2.5' fill='#01a982'/>
+                <text x='20' y='26' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' font-weight='700' letter-spacing='2' fill='#606a70'>CAMPAIGN CODE &#183; CLICK TO COPY</text>
+                <text x='20' y='52' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='15' font-weight='700' fill='#006750'>FY26 UKIMEA CSLV Attach &amp; Expand</text>
+                <text x='20' y='76' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' fill='#606a70'>Tag any opportunity raised or modified from this app.</text>
+                <g class='pp' style='animation-delay:.5s'>
+                  <rect x='326' y='40' width='22' height='26' rx='4' fill='none' stroke='#01a982' stroke-width='1.6'/>
+                  <rect x='321' y='35' width='22' height='26' rx='4' fill='#ffffff' stroke='#01a982' stroke-width='1.6'/>
+                </g>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: |-
+              =Copy("FY26 UKIMEA CSLV Attach & Expand");
+              Notify("Campaign code copied to clipboard", NotificationType.Success)
+            Width: =364
+            X: =756
+            Y: =130
+      - Image9:
+          Control: Image@2.2.3
+          Properties:
+            Height: =401
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 415 401'>
+              <desc>k=" & varAnimKey3 & "</desc>
+              <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+              <g class='fu'>
+                <rect x='4' y='10' width='407' height='389' rx='16' fill='#000000' opacity='0.1' filter='url(#sh)'/>
+                <rect x='4' y='6' width='407' height='389' rx='16' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            Visible: =notibox
+            Width: =415
+            X: =716
+            Y: =169
+      - Container1:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =366
+            Visible: =notibox
+            Width: =378
+            X: =738
+            Y: =187
+          Children:
+            - Image14:
+                Control: Image@2.2.3
+                Properties:
+                  Height: =40
+                  Image: |-
+                    ="data:image/svg+xml;utf8," & EncodeUrl("
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 45'>
+                    <desc>k=" & varAnimKey3 & "</desc>
+                    <defs><style>" & varSvgCss & "</style></defs>
+                    <text x='0' y='26' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='20' font-weight='700' fill='#292d3a' class='fu' style='animation-delay:.2s'>Email Notifications</text>
+                    <rect x='0' y='34' width='190' height='3' rx='1.5' fill='#01a982' class='gx' style='animation-delay:.5s'/>
+                    </svg>")
+                  ImagePosition: =ImagePosition.Fit
+                  Width: =222
+                  X: =28
+                  Y: =26
+            - notis:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =RGBA(212, 216, 219, 1)
+                  BorderThickness: =1
+                  ChevronBackground: =RGBA(1, 169, 130, 1)
+                  ChevronFill: =RGBA(255, 255, 255, 1)
+                  ChevronHoverBackground: =RGBA(0, 103, 80, 1)
+                  ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                  Color: =RGBA(41, 45, 58, 1)
+                  Default: |-
+                    =With(
+                        {rec: LookUp('Attach App Noti Wizard Choices', 'User Email' = varUserEmail)},
+                        If(IsBlank(rec.'noti on off'), "", rec.'noti on off')
+                    )
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FocusedBorderThickness: =1
+                  Font: =Font.'Segoe UI'
+                  Height: =30
+                  HoverFill: =RGBA(209, 255, 238, 1)
+                  Items: =["On","Off"]
+                  Items.Value: =Value
+                  PressedColor: =RGBA(255, 255, 255, 1)
+                  PressedFill: =RGBA(1, 169, 130, 1)
+                  SelectionColor: =RGBA(255, 255, 255, 1)
+                  SelectionFill: =RGBA(1, 169, 130, 1)
+                  Size: =10
+                  Visible: =Timer1_1.Value>=1000
+                  Width: =157
+                  X: =111
+                  Y: =71
+            - Image14_1:
+                Control: Image@2.2.3
+                Properties:
+                  Height: =40
+                  Image: |-
+                    ="data:image/svg+xml;utf8," & EncodeUrl("
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 45'>
+                    <desc>k=" & varAnimKey3 & "</desc>
+                    <defs><style>" & varSvgCss & "</style></defs>
+                    <circle cx='6' cy='22' r='3.5' fill='#01a982' class='pp' style='animation-delay:.3s'/>
+                    <text x='18' y='27' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='13' font-weight='700' letter-spacing='1' fill='#606a70' class='fu' style='animation-delay:.3s'>NEW OPP NOTIS</text>
+                    </svg>")
+                  ImagePosition: =ImagePosition.Fit
+                  Width: =222
+                  X: =28
+                  Y: =102
+            - newopnoti:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =RGBA(212, 216, 219, 1)
+                  BorderThickness: =1
+                  ChevronBackground: =RGBA(1, 169, 130, 1)
+                  ChevronFill: =RGBA(255, 255, 255, 1)
+                  ChevronHoverBackground: =RGBA(0, 103, 80, 1)
+                  ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                  Color: =RGBA(41, 45, 58, 1)
+                  Default: |-
+                    =With(
+                        {rec: LookUp('Attach App Noti Wizard Choices', 'User Email' = varUserEmail)},
+                        If(IsBlank(rec.'new op noti'), "", rec.'new op noti')
+                    )
+                  Fill: =RGBA(255, 255, 255, 1)
+                  FocusedBorderThickness: =1
+                  Font: =Font.'Segoe UI'
+                  Height: =30
+                  HoverFill: =RGBA(209, 255, 238, 1)
+                  Items: =["On","Off"]
+                  Items.Value: =Value
+                  PressedColor: =RGBA(255, 255, 255, 1)
+                  PressedFill: =RGBA(1, 169, 130, 1)
+                  SelectionColor: =RGBA(255, 255, 255, 1)
+                  SelectionFill: =RGBA(1, 169, 130, 1)
+                  Size: =10
+                  Visible: =Timer1_1.Value>=1200
+                  Width: =157
+                  X: =111
+                  Y: =148
+            - Image14_2:
+                Control: Image@2.2.3
+                Properties:
+                  Height: =40
+                  Image: |-
+                    ="data:image/svg+xml;utf8," & EncodeUrl("
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 45'>
+                    <desc>k=" & varAnimKey3 & "</desc>
+                    <defs><style>" & varSvgCss & "</style></defs>
+                    <circle cx='6' cy='22' r='3.5' fill='#0070f8' class='pp' style='animation-delay:.4s'/>
+                    <text x='18' y='27' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='13' font-weight='700' letter-spacing='1' fill='#606a70' class='fu' style='animation-delay:.4s'>MIN PRODUCT % CHANGE</text>
+                    </svg>")
+                  ImagePosition: =ImagePosition.Fit
+                  Width: =222
+                  X: =28
+                  Y: =185
+            - productdelta:
+                Control: Classic/Slider@2.1.0
+                Properties:
+                  BorderColor: =RGBA(212, 216, 219, 1)
+                  Default: |-
+                    =With(
+                        {rec: LookUp('Attach App Noti Wizard Choices', 'User Email' = varUserEmail)},
+                        If(IsBlank(rec.'Product Delta Threshold'), 0, rec.'Product Delta Threshold')
+                    )
+                  FocusedBorderThickness: =0
+                  HandleFill: =RGBA(255, 255, 255, 1)
+                  HandleSize: =18
+                  Height: =42
+                  PressedBorderColor: =ColorFade(Self.RailFill,0%)
+                  RailFill: =RGBA(242, 243, 244, 1)
+                  ValueFill: =RGBA(1, 169, 130, 1)
+                  Visible: =Timer1_1.Value>=1400
+                  Width: =178
+                  X: =100
+                  Y: =226
+            - Image14_3:
+                Control: Image@2.2.3
+                Properties:
+                  Height: =40
+                  Image: |-
+                    ="data:image/svg+xml;utf8," & EncodeUrl("
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 45'>
+                    <desc>k=" & varAnimKey3 & "</desc>
+                    <defs><style>" & varSvgCss & "</style></defs>
+                    <circle cx='6' cy='22' r='3.5' fill='#04909d' class='pp' style='animation-delay:.5s'/>
+                    <text x='18' y='27' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='13' font-weight='700' letter-spacing='1' fill='#606a70' class='fu' style='animation-delay:.5s'>MIN SERVICES % CHANGE</text>
+                    </svg>")
+                  ImagePosition: =ImagePosition.Fit
+                  Width: =222
+                  X: =28
+                  Y: =265
+            - servicedelta:
+                Control: Classic/Slider@2.1.0
+                Properties:
+                  BorderColor: =RGBA(212, 216, 219, 1)
+                  Default: |-
+                    =With(
+                        {rec: LookUp('Attach App Noti Wizard Choices', 'User Email' = varUserEmail)},
+                        If(IsBlank(rec.'Services Delta Threshold'), 0, rec.'Services Delta Threshold')
+                    )
+                  FocusedBorderThickness: =0
+                  HandleFill: =RGBA(255, 255, 255, 1)
+                  HandleSize: =18
+                  Height: =42
+                  PressedBorderColor: =ColorFade(Self.RailFill,0%)
+                  RailFill: =RGBA(242, 243, 244, 1)
+                  ValueFill: =RGBA(1, 169, 130, 1)
+                  Visible: =Timer1_1.Value>=1600
+                  Width: =178
+                  X: =100
+                  Y: =302
+      - close button_1:
+          Control: Image@2.2.3
+          Properties:
+            Height: =37
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 37 37'>
+              <desc>k=" & varAnimKey3 & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <g class='pp' style='animation-delay:.6s'>
+                <circle cx='18' cy='19' r='15' fill='#01a982'/>
+                <path d='M12 13 L24 25 M24 13 L12 25' stroke='#ffffff' stroke-width='2.4' stroke-linecap='round'/>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: |-
+              =Set(notibox, false);
+              With(
+                  {
+                      existingRecord: LookUp('Attach App Noti Wizard Choices', 'User Email' = varUserEmail)
+                  },
+                  If(
+                      !IsBlank(existingRecord),
+                      Patch(
+                          'Attach App Noti Wizard Choices',
+                          existingRecord,
+                          {
+                              'User Email': varUserEmail,
+                              'Product Delta Threshold': Value(productdelta.Value),
+                              'Services Delta Threshold': Value(servicedelta.Value),
+                              'noti on off': Text(notis.Selected.Value),
+                              'new op noti': Text(newopnoti.Selected.Value)
+                          }
+                      ),
+                      Patch(
+                          'Attach App Noti Wizard Choices',
+                          Defaults('Attach App Noti Wizard Choices'),
+                          {
+                              'User Email': varUserEmail,
+                              'Product Delta Threshold': Value(productdelta.Value),
+                              'Services Delta Threshold': Value(servicedelta.Value),
+                              'noti on off': Text(notis.Selected.Value),
+                              'new op noti': Text(newopnoti.Selected.Value)
+                          }
+                      )
+                  )
+              )
+            Visible: =notibox
+            Width: =37
+            X: =1058
+            Y: =210
+      - Timer1_1:
+          Control: Timer@2.1.0
+          Properties:
+            Duration: =5000
+            Height: =12
+            Reset: =!notibox
+            Start: =notibox
+            Visible: =false
+            Width: =106
+            X: =835
+            Y: =10
+      - Image28_3:
+          Control: Image@2.2.3
+          Properties:
+            Height: =26
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 124 26'>
+              <desc>k=" & varAnimKey1 & " s=" & Text(showCC) & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <g class='pp' style='animation-delay:.3s'>
+                <rect x='1' y='1' width='122' height='24' rx='12' fill='" & If(showCC, "#01a982", "#f2f3f4") & "' stroke='" & If(showCC, "#01a982", "#d4d8db") & "' stroke-width='1'/>
+                <circle cx='16' cy='13' r='3.5' fill='" & If(showCC, "#ffffff", "#0070f8") & "'/>
+                <text x='70' y='17' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='600' fill='" & If(showCC, "#ffffff", "#3e4550") & "' text-anchor='middle'>CC / Day 1</text>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: |-
+              =If(
+                  showCC, Set(showCC, false),
+                  Set(showCC, true); Set(showNSop, false); Set(showLPR, false)
+              );
+              Set(varCCtoggle, varCCtoggle + 1)
+            Tooltip: ="An opp with a products value >250k USD without any Day1 or CC PLs"
+            Width: =124
+            X: =56
+            Y: =585
+      - Image28_4:
+          Control: Image@2.2.3
+          Properties:
+            Height: =26
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 124 26'>
+              <desc>k=" & varAnimKey1 & " s=" & Text(showNSop) & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <g class='pp' style='animation-delay:.36s'>
+                <rect x='1' y='1' width='122' height='24' rx='12' fill='" & If(showNSop, "#01a982", "#f2f3f4") & "' stroke='" & If(showNSop, "#01a982", "#d4d8db") & "' stroke-width='1'/>
+                <circle cx='16' cy='13' r='3.5' fill='" & If(showNSop, "#ffffff", "#04909d") & "'/>
+                <text x='70' y='17' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='600' fill='" & If(showNSop, "#ffffff", "#3e4550") & "' text-anchor='middle'>No Services Op</text>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: |-
+              =If(
+                  showNSop, Set(showNSop, false),
+                  Set(showNSop, true); Set(showCC, false); Set(showLPR, false)
+              );
+              Set(varNSoptoggle, varNSoptoggle + 1)
+            Tooltip: ="An opp with a products value of >250k USD that does not contain any services PLs"
+            Width: =124
+            X: =188
+            Y: =585
+      - Image28_5:
+          Control: Image@2.2.3
+          Properties:
+            Height: =26
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 124 26'>
+              <desc>k=" & varAnimKey1 & " s=" & Text(showLPR) & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <g class='pp' style='animation-delay:.42s'>
+                <rect x='1' y='1' width='122' height='24' rx='12' fill='" & If(showLPR, "#01a982", "#f2f3f4") & "' stroke='" & If(showLPR, "#01a982", "#d4d8db") & "' stroke-width='1'/>
+                <circle cx='16' cy='13' r='3.5' fill='" & If(showLPR, "#ffffff", "#009a71") & "'/>
+                <text x='70' y='17' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='600' fill='" & If(showLPR, "#ffffff", "#3e4550") & "' text-anchor='middle'>Low Pen Rate</text>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: |-
+              =If(
+                  showLPR, Set(showLPR, false),
+                  Set(showLPR, true); Set(showCC, false); Set(showNSop, false)
+              );
+              Set(varLPRtoggle, varLPRtoggle + 1)
+            Tooltip: ="An opp with a services (OS) pen rate below 7.5%"
+            Width: =124
+            X: =319
+            Y: =585
+      - Image28_6:
+          Control: Image@2.2.3
+          Properties:
+            Height: =24
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 24'>
+              <desc>k=" & varAnimKey1 & " s=" & Text(showNEW) & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <g class='pp' style='animation-delay:.48s'>
+                <rect x='1' y='1' width='62' height='22' rx='11' fill='" & If(showNEW, "#01a982", "#f2f3f4") & "' stroke='" & If(showNEW, "#01a982", "#d4d8db") & "' stroke-width='1'/>
+                <text x='32' y='16' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='600' fill='" & If(showNEW, "#ffffff", "#3e4550") & "' text-anchor='middle'>New</text>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: |-
+              =If(
+                  showNEW, Set(showNEW, false),
+                  Set(showNEW, true); Set(showtracking, false);
+              );
+              Set(varNEWToggle, varNEWToggle + 1)
+            Width: =64
+            X: =482
+            Y: =587
+      - Image28_7:
+          Control: Image@2.2.3
+          Properties:
+            Height: =24
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 24'>
+              <desc>k=" & varAnimKey1 & " s=" & Text(showtracking) & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <g class='pp' style='animation-delay:.54s'>
+                <rect x='1' y='1' width='62' height='22' rx='11' fill='" & If(showtracking, "#01a982", "#f2f3f4") & "' stroke='" & If(showtracking, "#01a982", "#d4d8db") & "' stroke-width='1'/>
+                <text x='32' y='16' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='600' fill='" & If(showtracking, "#ffffff", "#3e4550") & "' text-anchor='middle'>Mine</text>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: |-
+              =If(
+                  showtracking, Set(showtracking, false),
+                  Set(showtracking, true); Set(showNEW, false);
+              );
+              Set(vartrackToggle, vartrackToggle + 1)
+            Width: =64
+            X: =567
+            Y: =587
+      - Image24_1:
+          Control: Image@2.2.3
+          Properties:
+            Height: =37
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 152 37'>
+              <desc>k=" & varAnimKey1 & "</desc>
+              <defs><style>" & varSvgCss & "</style></defs>
+              <g class='pp' style='animation-delay:.4s'>
+                <rect x='1' y='2' width='150' height='33' rx='16' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+                <text x='82' y='23' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='600' fill='#3e4550' text-anchor='middle'>&#8592;  Back to Home</text>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: |-
+              =Set(varNavBusy, true); Set(varWipeKey, varWipeKey + 1);
+              Navigate(Homepage,ScreenTransition.UnCover);Set(animReady, false)
+            Width: =152
+            X: =966
+            Y: =591
+      - WIZBOT:
+          Control: Image@2.2.3
+          Properties:
+            Height: =147
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 204 147'>
+              <desc>k=" & varAnimKey3 & "</desc>
+              <defs><style>" & varSvgCss & "
+                @keyframes wave{0%,80%,100%{transform:rotate(0deg)}86%{transform:rotate(-50deg)}90%{transform:rotate(-30deg)}94%{transform:rotate(-50deg)}}
+                @keyframes blink{0%,90%,100%{transform:scaleY(1)}94%{transform:scaleY(0.08)}}
+                @keyframes bub1{0%,4%{transform:scale(0)}8%,40%{transform:scale(1)}46%,100%{transform:scale(0)}}
+                @keyframes bub2{0%,50%{transform:scale(0)}56%,90%{transform:scale(1)}96%,100%{transform:scale(0)}}
+                .wave{animation:wave 5s ease-in-out 1s infinite;transform-origin:center;transform-box:fill-box}
+                .blink{animation:blink 4.2s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+                .bub1{animation:bub1 9s ease-in-out 1s infinite;transform-origin:center;transform-box:fill-box}
+                .bub2{animation:bub2 9s ease-in-out 1s infinite;transform-origin:center;transform-box:fill-box}
+                @media(prefers-reduced-motion:reduce){.wave,.blink,.bub1,.bub2{animation:none}}
+              </style>" & varShadowFilter & "</defs>
+              <g class='pp' style='animation-delay:.3s'>
+                <g class='bob'>
+                  <line x1='106' y1='36' x2='106' y2='26' stroke='#018f6e' stroke-width='3'/>
+                  <circle cx='106' cy='22' r='5' fill='#7cf5cf' class='brz'/>
+                  <rect x='76' y='36' width='60' height='48' rx='16' fill='#01a982'/>
+                  <g class='blink'>
+                    <circle cx='94' cy='58' r='6' fill='#ffffff'/>
+                    <circle cx='118' cy='58' r='6' fill='#ffffff'/>
+                    <circle cx='95' cy='59' r='3' fill='#06372e'/>
+                    <circle cx='119' cy='59' r='3' fill='#06372e'/>
+                  </g>
+                  <path d='M96 72 Q106 78 116 72' fill='none' stroke='#ffffff' stroke-width='2.4' stroke-linecap='round'/>
+                  <rect x='84' y='88' width='44' height='34' rx='12' fill='#018f6e'/>
+                  <rect x='97' y='94' width='18' height='10' rx='5' fill='#7cf5cf' opacity='.8'/>
+                  <g class='wave'>
+                    <rect x='128' y='88' width='26' height='9' rx='4.5' fill='#018f6e' transform='rotate(24 130 92)'/>
+                    <circle cx='154' cy='100' r='6' fill='#01a982'/>
+                  </g>
+                  <rect x='58' y='94' width='26' height='9' rx='4.5' fill='#018f6e' transform='rotate(-18 82 98)'/>
+                </g>
+                <g class='bub1'>
+                  <rect x='8' y='18' width='84' height='26' rx='13' fill='#ffffff' stroke='#d4d8db'/>
+                  <text x='50' y='35' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#292d3a' text-anchor='middle'>Hey, I'm Wiz!</text>
+                </g>
+                <g class='bub2'>
+                  <rect x='4' y='18' width='96' height='26' rx='13' fill='#ffffff' stroke='#d4d8db'/>
+                  <text x='52' y='35' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#292d3a' text-anchor='middle'>How can I help?</text>
+                </g>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            OnSelect: |-
+              =Set(viewwiz,true); Set(varAnimKey3, varAnimKey3 + 1);
+            Visible: =!viewwiz
+            Width: =204
+            X: =932
+            Y: =406
+      - wizbot box:
+          Control: Image@2.2.3
+          Properties:
+            Height: =596
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 471 596'>
+              <desc>k=" & varAnimKey3 & "</desc>
+              <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
+              <g class='fu'>
+                <rect x='6' y='12' width='459' height='580' rx='16' fill='#000000' opacity='0.1' filter='url(#sh)'/>
+                <rect x='6' y='8' width='459' height='580' rx='16' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+                <text x='30' y='40' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='2' fill='#606a70'>AI ASSISTANT</text>
+                <text x='30' y='62' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='17' font-weight='700' fill='#292d3a'>Chat with Wiz</text>
+                <circle cx='128' cy='57' r='4' fill='#01a982' class='brz'/>
+                <line x1='24' y1='74' x2='447' y2='74' stroke='#d4d8db' stroke-width='1'/>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fit
+            Visible: =viewwiz
+            Width: =471
+            X: =665
+            Y: =3
+      - Container2:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            Height: =577
+            Visible: =viewwiz
+            Width: =433
+            X: =690
+            Y: =10
+          Children:
+            - Image55:
+                Control: Image@2.2.3
+                Properties:
+                  Height: =112
+                  Image: |-
+                    ="data:image/svg+xml;utf8," & EncodeUrl("
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 165 112'>
+                    <desc>k=" & varAnimKey3 & "</desc>
+                    <defs><style>" & varSvgCss & "</style></defs>
+                    <g class='pp' style='animation-delay:.2s'>
+                      <g class='bob'>
+                        <line x1='120' y1='30' x2='120' y2='22' stroke='#018f6e' stroke-width='2.5'/>
+                        <circle cx='120' cy='18' r='4' fill='#7cf5cf' class='brz'/>
+                        <rect x='98' y='30' width='44' height='36' rx='12' fill='#01a982'/>
+                        <circle cx='112' cy='46' r='4.5' fill='#ffffff'/>
+                        <circle cx='129' cy='46' r='4.5' fill='#ffffff'/>
+                        <circle cx='113' cy='47' r='2.2' fill='#06372e'/>
+                        <circle cx='130' cy='47' r='2.2' fill='#06372e'/>
+                        <path d='M111 57 Q120 62 129 57' fill='none' stroke='#ffffff' stroke-width='2' stroke-linecap='round'/>
+                      </g>
+                    </g>
+                    </svg>")
+                  ImagePosition: =ImagePosition.Fit
+                  Width: =165
+                  X: =228
+                  Y: =0
+            - Gallery9:
+                Control: Gallery@2.15.0
+                Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+                Properties:
+                  Height: =440
+                  Items: =colChat
+                  ShowScrollbar: =false
+                  TemplatePadding: =0
+                  TemplateSize: =65
+                  Width: =377
+                  X: =15
+                  Y: =52
+                Children:
+                  - HtmlText2:
+                      Control: HtmlViewer@2.1.0
+                      Properties:
+                        Height: =66
+                        HtmlText: |-
+                          ="<div style='display:flex; flex-direction:column; align-items:" &
+                          If(ThisItem.Role = "user", "flex-end", "flex-start") &
+                          "; font-family:Segoe UI, sans-serif;'>" &
+                          "<div style='max-width:80%; padding:9px 12px; border-radius:" &
+                          If(ThisItem.Role = "user", "14px 14px 4px 14px", "14px 14px 14px 4px") &
+                          "; background:" & If(ThisItem.Role = "user", "#01a982", "#ffffff") &
+                          "; color:" & If(ThisItem.Role = "user", "#ffffff", "#292d3a") &
+                          "; border:1px solid " & If(ThisItem.Role = "user", "#01a982", "#d4d8db") &
+                          "; font-size:12px; line-height:1.45; white-space:pre-wrap; box-shadow:0 2px 4px rgba(0,0,0,0.06);'>" &
+                          Substitute(
+                              Substitute(
+                                  Substitute(
+                                      Substitute(ThisItem.Message, "&", "&amp;"),
+                                      "<", "&lt;"
+                                  ),
+                                  ">", "&gt;"
+                              ),
+                              Char(10), "<br>"
+                          ) &
+                          "</div><div style='font-size:10px; color:#606a70; padding:3px 6px 0 6px; text-align:" &
+                          If(ThisItem.Role = "user", "right", "left") & ";'>" &
+                          If(ThisItem.Role = "user", "You", "Wiz") &
+                          "</div></div>"
+                        OnSelect: =Select(Parent)
+                        Width: =Parent.TemplateWidth
+                        X: =0
+                        Y: =0
+            - Label1:
+                Control: Label@2.5.1
+                Properties:
+                  Color: =RGBA(96, 106, 112, 1)
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =27
+                  Italic: =true
+                  Size: =10
+                  Text: ="   Wiz is typing..."
+                  Visible: =varWaiting
+                  Width: =369
+                  X: =19
+                  Y: =477
+            - close button_4:
+                Control: Image@2.2.3
+                Properties:
+                  Height: =37
+                  Image: |-
+                    ="data:image/svg+xml;utf8," & EncodeUrl("
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 37 37'>
+                    <desc>k=" & varAnimKey3 & "</desc>
+                    <defs><style>" & varSvgCss & "</style></defs>
+                    <g class='pp' style='animation-delay:.3s'>
+                      <circle cx='18' cy='19' r='15' fill='#f2f3f4' stroke='#d4d8db'/>
+                      <path d='M12 13 L24 25 M24 13 L12 25' stroke='#3e4550' stroke-width='2.2' stroke-linecap='round'/>
+                    </g>
+                    </svg>")
+                  ImagePosition: =ImagePosition.Fit
+                  OnSelect: |-
+                    =Clear(colChat);
+                    Set(viewwiz,false);Set(chatboxview,false);Set(varAnimKey1, If(IsBlank(varAnimKey1), 1, varAnimKey1 + 1));
+                  Width: =35
+                  X: =368
+                  Y: =15
+            - Timer3:
+                Control: Timer@2.1.0
+                Properties:
+                  Duration: =1000
+                  OnTimerEnd: =Set(chatboxview,true)
+                  Start: =viewwiz
+                  Visible: =false
+                  X: =40
+                  Y: =40
+            - txtMessage:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(212, 216, 219, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(41, 45, 58, 1)
+                  Default: =
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Segoe UI'
+                  Height: =52
+                  HintText: ="Chat to Wiz..."
+                  HoverBorderColor: =RGBA(1, 169, 130, 1)
+                  PressedBorderColor: =RGBA(1, 169, 130, 1)
+                  RadiusBottomLeft: =14
+                  RadiusBottomRight: =14
+                  RadiusTopLeft: =14
+                  RadiusTopRight: =14
+                  Size: =11
+                  Visible: =chatboxview
+                  Width: =325
+                  X: =27
+                  Y: =504
+            - Image53:
+                Control: Image@2.2.3
+                Properties:
+                  Height: =40
+                  Image: |-
+                    ="data:image/svg+xml;utf8," & EncodeUrl("
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'>
+                    <desc>k=" & varAnimKey3 & "</desc>
+                    <defs><style>" & varSvgCss & "</style></defs>
+                    <g class='pp' style='animation-delay:.4s'>
+                      <circle cx='20' cy='20' r='18' fill='#01a982'/>
+                      <path d='M13 20 L28 13 L22 28 L20 22 Z' fill='#ffffff'/>
+                    </g>
+                    </svg>")
+                  ImagePosition: =ImagePosition.Fit
+                  OnSelect: |-
+                    =// 1. Show the user's message immediately
+                    Collect(colChat, {Role: "user", Message: txtMessage.Text});
+                    Set(varScrollTick, !varScrollTick);
+                    Reset(txtMessage);
+
+                    // 2. Create the request row (conversation + projected report context)
+                    Set(varRequest,
+                        Patch(ChatRequests, Defaults(ChatRequests),
+                            {
+                                Title: varSessionID,
+                                RequesterEmail: varUserEmail,
+                                ConversationJSON: JSON(
+                                    ForAll(colChat, {role: Role, content: Message}),
+                                    JSONFormat.Compact
+                                ),
+                                AppContextJSON: Left(
+                                    JSON(
+                                        ForAll(PowerBIIntegration.Data,
+                                            {
+                                                OppUpdate:   'HPE Opportunity Update',
+                                                OppName:     'Opportunity Name',
+                                                Account:     'Account Name',
+                                                ServicesOS:  'Services OS',
+                                                ValueToHPE:  'Total Value to HPE (converted)',
+                                                CloseDate:   'Close Date'
+                                            }
+                                        ),
+                                        JSONFormat.Compact
+                                    ),
+                                    60000
+                                ),
+                                Status: {Value: "Pending"}
+                            }
+                        )
+                    );
+
+                    // 3. Start polling
+                    Set(varAskedAt, Now());
+                    Set(varWaiting, true);
+                  Width: =40
+                  X: =356
+                  Y: =508
+      - tmrPoll:
+          Control: Timer@2.1.0
+          Properties:
+            AutoPause: =false
+            Duration: =1000
+            OnTimerEnd: |-
+              =// Timeout guard
+              Refresh(ChatRequests);
+              If(
+                  DateDiff(varAskedAt, Now(), TimeUnit.Seconds) > 90,
+                  Collect(colChat, {Role: "assistant", Message: "Request timed out — please try again."});
+                  Set(varWaiting, false),
+
+                  // Otherwise check for a result (scoped to this user's own row)
+                  With(
+                      {req: LookUp(ChatRequests, ID = varRequest.ID && RequesterEmail = varUserEmail)},
+                      If(
+                          req.Status.Value = "Done",
+                          Collect(colChat, {Role: "assistant", Message: req.Reply});
+                          Set(varWaiting, false);
+                          Set(varScrollTick, !varScrollTick),
+
+                          req.Status.Value = "Error",
+                          Collect(colChat, {Role: "assistant", Message: "Sorry — something went wrong, try again."});
+                          Set(varWaiting, false)
+                          // still Pending → timer just repeats
+                      )
+                  )
+              )
+            Repeat: =true
+            Start: =varWaiting
+            Visible: =false
+            X: =40
+            Y: =40
+      - WipeOverlay_snl:
+          Control: Image@2.2.3
+          Properties:
+            Height: =640
+            Image: |-
+              ="data:image/svg+xml;utf8," & EncodeUrl("
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1136 640' preserveAspectRatio='none'>
+              <desc>k=" & varWipeKey & "</desc>
+              <defs>
+                <style>
+                  @keyframes wp{0%{transform:translateX(-112%)}38%{transform:translateX(0)}62%{transform:translateX(0)}100%{transform:translateX(112%)}}
+                  @keyframes tmb{0%{transform:rotate(0deg) scale(.6);opacity:0}30%{opacity:1}80%{opacity:1}100%{transform:rotate(340deg) scale(1.1);opacity:0}}
+                  .wp{animation:wp 1.1s cubic-bezier(.7,0,.3,1) both}
+                  .tmb{animation:tmb 1.05s ease-in-out both;transform-origin:center;transform-box:fill-box}
+                  @media(prefers-reduced-motion:reduce){.wp,.tmb{animation:none;opacity:0}}
+                </style>
+                <linearGradient id='wg' x1='0' y1='0' x2='1' y2='0'>
+                  <stop offset='0' stop-color='#006750'/>
+                  <stop offset='1' stop-color='#01a982'/>
+                </linearGradient>
+              </defs>
+              <g class='wp'>
+                <rect x='-60' y='0' width='1256' height='640' fill='url(#wg)'/>
+                <ellipse cx='300' cy='170' rx='34' ry='14' fill='#7cf5cf' opacity='.5' class='tmb'/>
+                <ellipse cx='840' cy='470' rx='40' ry='16' fill='#bdf5e4' opacity='.4' class='tmb' style='animation-delay:.08s'/>
+                <ellipse cx='900' cy='150' rx='26' ry='11' fill='#7cf5cf' opacity='.35' class='tmb' style='animation-delay:.14s'/>
+                <g class='tmb' style='animation-delay:.05s'>
+                  <rect x='520' y='272' width='96' height='96' rx='24' fill='#ffffff'/>
+                  <text x='568' y='334' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='38' font-weight='700' fill='#01a982' text-anchor='middle'>AW</text>
+                </g>
+              </g>
+              </svg>")
+            ImagePosition: =ImagePosition.Fill
+            Visible: =varNavBusy
+            Width: =1136
+            X: =0
+            Y: =0
+      - tmrWipe_snl:
+          Control: Timer@2.1.0
+          Properties:
+            AutoStart: =varNavBusy
+            Duration: =1100
+            Height: =20
+            OnTimerEnd: =Set(varNavBusy, false)
+            Visible: =false
+            Width: =40
+            X: =0
+            Y: =620
