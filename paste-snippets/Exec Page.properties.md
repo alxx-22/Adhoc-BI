@@ -202,4 +202,48 @@ ClearCollect(
 ClearCollect(colHasRecord,
     Filter('Attach Attack', !IsBlank('Opp ID'))
 );
+
+
+// ---- Services OS Coverage by GBU (fills the top-right gap; uses existing collections) ----
+ClearCollect(colCovRaw, ForAll(colTrackedGBU,   {GBU: GBU, T: IfError(Total, 0), U: 0}));
+Collect(colCovRaw,      ForAll(colUntrackedGBU, {GBU: GBU, T: 0, U: IfError(Total, 0)}));
+ClearCollect(
+    colCoverageGBU,
+    ForAll(
+        GroupBy(colCovRaw, "GBU", "grp"),
+        {GBU: GBU, Tracked: Sum(grp, T), Untracked: Sum(grp, U), Tot: Sum(grp, T) + Sum(grp, U)}
+    )
+);
+Set(varCovTracked, Sum(colCoverageGBU, Tracked));
+Set(varCovUntracked, Sum(colCoverageGBU, Untracked));
+Set(varCovPct, If(varCovTracked + varCovUntracked > 0, Round(varCovTracked / (varCovTracked + varCovUntracked) * 100, 0), 0));
+With(
+    {top: FirstN(SortByColumns(colCoverageGBU, "Tot", SortOrder.Descending), 5)},
+    With(
+        {maxv: Max(top, Tot)},
+        Set(
+            varCovBars,
+            Concat(
+                ForAll(
+                    Sequence(CountRows(top)),
+                    With({row: Index(top, Value)}, {GBU: row.GBU, Tracked: row.Tracked, Untracked: row.Untracked, idx: Value - 1})
+                ),
+                With(
+                    {
+                        yy: 92 + ThisRecord.idx * 30,
+                        wt: If(maxv > 0, Round(ThisRecord.Tracked / maxv * 172, 0), 0),
+                        wu: If(maxv > 0, Round(ThisRecord.Untracked / maxv * 172, 0), 0),
+                        gbuLbl: Substitute(Substitute(Substitute(If(Len(ThisRecord.GBU) > 12, Left(ThisRecord.GBU, 12) & "..", ThisRecord.GBU), "&", "&amp;"), "<", "&lt;"), ">", "&gt;"),
+                        uTxt: If(ThisRecord.Untracked >= 1000000, "$" & Text(ThisRecord.Untracked / 1000000, "[$-en-US]0.0") & "M", If(ThisRecord.Untracked >= 1000, "$" & Text(ThisRecord.Untracked / 1000, "[$-en-US]0") & "K", "$" & Text(ThisRecord.Untracked, "[$-en-US]0")))
+                    },
+                    "<text x='20' y='" & Text(yy + 11) & "' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10.5' font-weight='600' fill='#292d3a'>" & gbuLbl & "</text>" &
+                    "<rect x='120' y='" & Text(yy + 2) & "' width='" & Text(wt) & "' height='11' rx='3' fill='#009a71'/>" &
+                    "<rect x='" & Text(120 + wt) & "' y='" & Text(yy + 2) & "' width='" & Text(wu) & "' height='11' rx='3' fill='#cc54a4'/>" &
+                    "<text x='326' y='" & Text(yy + 11) & "' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9.5' font-weight='700' fill='#cc54a4' text-anchor='end'>" & uTxt & "</text>"
+                ),
+                ""
+            )
+        )
+    )
+);
 ```

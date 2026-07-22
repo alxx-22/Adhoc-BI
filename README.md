@@ -146,6 +146,19 @@ land inside an entity. Applied to all 43 cleaner sites across the op windows, bo
 Summer Score and the Sales Nav list, plus the ribbon user-name. Verified: names with `&`/`<`
 at the truncation boundary that previously went blank now all produce valid XML.
 
+## Revision 5 — Exec Summary "Coverage by GBU" card
+
+The Exec Summary had an empty top-right quadrant (right of the Manager/BU pivot, above the
+KPI cards). Added a **Services OS Coverage by GBU** card there: the headline *% of OS value
+tracked*, plus a per-GBU stacked bar (tracked green vs untracked magenta) for the top 5 GBUs
+with the untracked value called out. It answers the one exec question the page didn't — how
+much of the pipeline has feedback and which business units are lagging.
+
+It uses **no new data source**: `OnVisible` aggregates a `colCoverageGBU` collection from the
+`colTrackedGBU` / `colUntrackedGBU` collections already built on the page (combined, grouped by
+GBU), plus `varCovPct` / `varCovBars`. If those collections are empty the card shows a
+graceful "No GBU coverage data yet" placeholder.
+
 ## What was NOT changed
 
 - `OnVisible` / `OnHidden` blocks (spliced verbatim, including `timerotoole`/`timerdog`
