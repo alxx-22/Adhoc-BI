@@ -18,7 +18,7 @@ Screens:
             Image: |-
               =With(
                   {
-                      fn: Substitute(Substitute(Substitute(First(Split(User().FullName, " ")).Value, "&", "&amp;"), "<", "&lt;"), ">", "&gt;"),
+                      fn: With({r: First(Split(User().FullName, " ")).Value}, Substitute(Substitute(Substitute(If(Len(r) > 14, Left(r, 13) & "..", r), "&", "&amp;"), "<", "&lt;"), ">", "&gt;")),
                       ini: Upper(Left(First(Split(User().FullName, " ")).Value, 1) & Left(Last(Split(User().FullName, " ")).Value, 1))
                   },
                   "data:image/svg+xml;utf8," & EncodeUrl("
@@ -36,7 +36,7 @@ Screens:
                 <rect x='948' y='10' width='172' height='32' rx='16' fill='#f2f3f4'/>
                 <circle cx='968' cy='26' r='12' fill='#01a982'/>
                 <text x='968' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' fill='#ffffff' text-anchor='middle'>" & ini & "</text>
-                <text x='988' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='600' fill='#292d3a'>" & If(Len(fn) > 14, Left(fn, 13) & "..", fn) & "</text>
+                <text x='988' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='600' fill='#292d3a'>" & fn & "</text>
               </g>
               </svg>")
               )

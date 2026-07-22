@@ -185,7 +185,7 @@ Screens:
             Image: |-
               =With(
                   {
-                      fn: Substitute(Substitute(Substitute(First(Split(User().FullName, " ")).Value, "&", "&amp;"), "<", "&lt;"), ">", "&gt;"),
+                      fn: With({r: First(Split(User().FullName, " ")).Value}, Substitute(Substitute(Substitute(If(Len(r) > 14, Left(r, 13) & "..", r), "&", "&amp;"), "<", "&lt;"), ">", "&gt;")),
                       ini: Upper(Left(First(Split(User().FullName, " ")).Value, 1) & Left(Last(Split(User().FullName, " ")).Value, 1))
                   },
                   "data:image/svg+xml;utf8," & EncodeUrl("
@@ -203,7 +203,7 @@ Screens:
                 <rect x='948' y='10' width='172' height='32' rx='16' fill='#f2f3f4'/>
                 <circle cx='968' cy='26' r='12' fill='#01a982'/>
                 <text x='968' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' fill='#ffffff' text-anchor='middle'>" & ini & "</text>
-                <text x='988' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='600' fill='#292d3a'>" & If(Len(fn) > 14, Left(fn, 13) & "..", fn) & "</text>
+                <text x='988' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='600' fill='#292d3a'>" & fn & "</text>
               </g>
               </svg>")
               )
@@ -392,10 +392,7 @@ Screens:
                     =With(
                         {
                             act: varSelectedRep = ThisItem.Value,
-                            lbl: With(
-                                {c: Substitute(Substitute(Substitute(ThisItem.Value, "&", "&amp;"), "<", "&lt;"), ">", "&gt;")},
-                                If(Len(c) > 13, Left(c, 13) & "..", c)
-                            )
+                            lbl: Substitute(Substitute(Substitute(If(Len(ThisItem.Value) > 13, Left(ThisItem.Value, 13) & "..", ThisItem.Value), "&", "&amp;"), "<", "&lt;"), ">", "&gt;")
                         },
                         "data:image/svg+xml;utf8," & EncodeUrl("
                     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 91 20'>
@@ -486,10 +483,7 @@ Screens:
                     =With(
                         {
                             act: varfcstselected = ThisItem.Value,
-                            lbl: With(
-                                {c: Substitute(Substitute(Substitute(ThisItem.Value, "&", "&amp;"), "<", "&lt;"), ">", "&gt;")},
-                                If(Len(c) > 13, Left(c, 13) & "..", c)
-                            )
+                            lbl: Substitute(Substitute(Substitute(If(Len(ThisItem.Value) > 13, Left(ThisItem.Value, 13) & "..", ThisItem.Value), "&", "&amp;"), "<", "&lt;"), ">", "&gt;")
                         },
                         "data:image/svg+xml;utf8," & EncodeUrl("
                     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 22'>
@@ -542,21 +536,12 @@ Screens:
                   Image: |-
                     =With(
                         {
-                            cleanOppName: With(
-                                {c: Substitute(Substitute(Substitute(Substitute(Substitute(
-                                    ThisItem.'Opportunity Name', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")},
-                                If(Len(c) > 40, Left(c, 40) & "..", c)
-                            ),
-                            cleanAccName: With(
-                                {c: Substitute(Substitute(Substitute(Substitute(Substitute(
-                                    ThisItem.'Account Name', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")},
-                                If(Len(c) > 24, Left(c, 24) & "..", c)
-                            ),
-                            cleanSalesName: With(
-                                {c: Substitute(Substitute(Substitute(Substitute(Substitute(
-                                    ThisItem.'Feedback Progress', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")},
-                                If(Len(c) > 18, Left(c, 18) & "..", c)
-                            ),
+                            cleanOppName: Substitute(Substitute(Substitute(Substitute(Substitute(
+                                    If(Len(ThisItem.'Opportunity Name') > 40, Left(ThisItem.'Opportunity Name', 40) & "..", ThisItem.'Opportunity Name'), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
+                            cleanAccName: Substitute(Substitute(Substitute(Substitute(Substitute(
+                                    If(Len(ThisItem.'Account Name') > 24, Left(ThisItem.'Account Name', 24) & "..", ThisItem.'Account Name'), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
+                            cleanSalesName: Substitute(Substitute(Substitute(Substitute(Substitute(
+                                    If(Len(ThisItem.'Feedback Progress') > 18, Left(ThisItem.'Feedback Progress', 18) & "..", ThisItem.'Feedback Progress'), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
                             totalVal: Text(IfError(ThisItem.'Total Value to HPE (converted)', 0), "$#,##0"),
                             svcOS: Text(IfError(ThisItem.'Services OS', 0), "$#,##0")
                         },
@@ -667,10 +652,7 @@ Screens:
                     =With(
                         {
                             barColor: If(ThisItem.PctComplete >= 80, "#01a982", If(ThisItem.PctComplete >= 50, "#04909d", "#d25f4b")),
-                            lbl: With(
-                                {c: Substitute(Substitute(Substitute(ThisItem.Label, "&", "&amp;"), "<", "&lt;"), ">", "&gt;")},
-                                If(Len(c) > 25, Left(c, 25) & "..", c)
-                            )
+                            lbl: Substitute(Substitute(Substitute(If(Len(ThisItem.Label) > 25, Left(ThisItem.Label, 25) & "..", ThisItem.Label), "&", "&amp;"), "<", "&lt;"), ">", "&gt;")
                         },
                         "data:image/svg+xml;utf8," & EncodeUrl("
                     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 52'>

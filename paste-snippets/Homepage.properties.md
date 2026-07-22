@@ -1,6 +1,6 @@
 # Homepage — screen properties
 
-Paste each formula (after the `=`) into the formula bar for the selected screen.
+Paste each formula (after the `=`) into the formula bar.
 
 ## Fill
 

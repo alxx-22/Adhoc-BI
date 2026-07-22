@@ -132,6 +132,20 @@ than applied blind, because it can't be validated outside Power Apps Studio.
   wordmark and the Back button, each with an icon, and each still shows its active state
   (accent fill when its panel is open).
 
+## Revision 4 — blank gallery rows fixed (truncate-then-escape)
+
+Some line-item / gallery rows rendered blank while the gallery still reserved their height —
+the signature of an invalid per-row SVG. Root cause: the text cleaners **escaped first, then
+truncated** (`With({c: Substitute(…escape…)}, If(Len(c) > N, Left(c, N) & "..", c))`). Escaping
+turns `&` into `&amp;`; when `Left(c, N)` cut through an entity the row's SVG contained a broken
+`…&am`, which is invalid XML, so Power Apps rendered that Image blank.
+
+Fixed by reordering every cleaner to **truncate the raw value first, then escape**
+(`Substitute(…escape( If(Len(raw) > N, Left(raw, N) & "..", raw) )…)`), so the cut can never
+land inside an entity. Applied to all 43 cleaner sites across the op windows, both dashboards,
+Summer Score and the Sales Nav list, plus the ribbon user-name. Verified: names with `&`/`<`
+at the truncation boundary that previously went blank now all produce valid XML.
+
 ## What was NOT changed
 
 - `OnVisible` / `OnHidden` blocks (spliced verbatim, including `timerotoole`/`timerdog`

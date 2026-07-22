@@ -36,7 +36,7 @@ Screens:
             Image: |-
               =With(
                   {
-                      fn: Substitute(Substitute(Substitute(First(Split(User().FullName, " ")).Value, "&", "&amp;"), "<", "&lt;"), ">", "&gt;"),
+                      fn: With({r: First(Split(User().FullName, " ")).Value}, Substitute(Substitute(Substitute(If(Len(r) > 14, Left(r, 13) & "..", r), "&", "&amp;"), "<", "&lt;"), ">", "&gt;")),
                       ini: Upper(Left(First(Split(User().FullName, " ")).Value, 1) & Left(Last(Split(User().FullName, " ")).Value, 1))
                   },
                   "data:image/svg+xml;utf8," & EncodeUrl("
@@ -54,7 +54,7 @@ Screens:
                 <rect x='948' y='10' width='172' height='32' rx='16' fill='#f2f3f4'/>
                 <circle cx='968' cy='26' r='12' fill='#01a982'/>
                 <text x='968' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' fill='#ffffff' text-anchor='middle'>" & ini & "</text>
-                <text x='988' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='600' fill='#292d3a'>" & If(Len(fn) > 14, Left(fn, 13) & "..", fn) & "</text>
+                <text x='988' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='600' fill='#292d3a'>" & fn & "</text>
               </g>
               </svg>")
               )
@@ -103,16 +103,10 @@ Screens:
                   Image: |-
                     =With(
                         {
-                            cleanName: With(
-                                {c: Substitute(Substitute(Substitute(Substitute(Substitute(
-                                    ThisItem.'Opportunity Name', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")},
-                                If(Len(c) > 64, Left(c, 64) & "..", c)
-                            ),
-                            cleanAcc: With(
-                                {c: Substitute(Substitute(Substitute(Substitute(Substitute(
-                                    ThisItem.'Account Name', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")},
-                                If(Len(c) > 40, Left(c, 40) & "..", c)
-                            ),
+                            cleanName: Substitute(Substitute(Substitute(Substitute(Substitute(
+                                    If(Len(ThisItem.'Opportunity Name') > 64, Left(ThisItem.'Opportunity Name', 64) & "..", ThisItem.'Opportunity Name'), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
+                            cleanAcc: Substitute(Substitute(Substitute(Substitute(Substitute(
+                                    If(Len(ThisItem.'Account Name') > 40, Left(ThisItem.'Account Name', 40) & "..", ThisItem.'Account Name'), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
                             cleanType: Substitute(Substitute(Substitute(Substitute(Substitute(
                                 ThisItem.'Target Opp?', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
                             cleanFcst: Substitute(Substitute(Substitute(Substitute(Substitute(
@@ -344,15 +338,15 @@ Screens:
                   Image: |-
                     =With(
                         {
-                            e1: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Opportunity Owner', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 42, Left(c, 42) & "..", c)),
-                            e2: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Primary Pipeline Owner User', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 42, Left(c, 42) & "..", c)),
-                            e3: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Go To Market Route', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 42, Left(c, 42) & "..", c)),
-                            e4: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Opportunity Sales Stage', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 42, Left(c, 42) & "..", c)),
-                            e5: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.Country, "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 42, Left(c, 42) & "..", c)),
-                            e6: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'SSP Region', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 42, Left(c, 42) & "..", c)),
-                            e7: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Primary Reseller Account', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 42, Left(c, 42) & "..", c)),
-                            e8: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Primary Distributor Account', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 42, Left(c, 42) & "..", c)),
-                            e9: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Created By', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 28, Left(c, 28) & "..", c))
+                            e1: Substitute(Substitute(Substitute(Substitute(Substitute(If(Len(ThisItem.'Opportunity Owner') > 42, Left(ThisItem.'Opportunity Owner', 42) & "..", ThisItem.'Opportunity Owner'), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
+                            e2: Substitute(Substitute(Substitute(Substitute(Substitute(If(Len(ThisItem.'Primary Pipeline Owner User') > 42, Left(ThisItem.'Primary Pipeline Owner User', 42) & "..", ThisItem.'Primary Pipeline Owner User'), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
+                            e3: Substitute(Substitute(Substitute(Substitute(Substitute(If(Len(ThisItem.'Go To Market Route') > 42, Left(ThisItem.'Go To Market Route', 42) & "..", ThisItem.'Go To Market Route'), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
+                            e4: Substitute(Substitute(Substitute(Substitute(Substitute(If(Len(ThisItem.'Opportunity Sales Stage') > 42, Left(ThisItem.'Opportunity Sales Stage', 42) & "..", ThisItem.'Opportunity Sales Stage'), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
+                            e5: Substitute(Substitute(Substitute(Substitute(Substitute(If(Len(ThisItem.Country) > 42, Left(ThisItem.Country, 42) & "..", ThisItem.Country), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
+                            e6: Substitute(Substitute(Substitute(Substitute(Substitute(If(Len(ThisItem.'SSP Region') > 42, Left(ThisItem.'SSP Region', 42) & "..", ThisItem.'SSP Region'), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
+                            e7: Substitute(Substitute(Substitute(Substitute(Substitute(If(Len(ThisItem.'Primary Reseller Account') > 42, Left(ThisItem.'Primary Reseller Account', 42) & "..", ThisItem.'Primary Reseller Account'), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
+                            e8: Substitute(Substitute(Substitute(Substitute(Substitute(If(Len(ThisItem.'Primary Distributor Account') > 42, Left(ThisItem.'Primary Distributor Account', 42) & "..", ThisItem.'Primary Distributor Account'), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
+                            e9: Substitute(Substitute(Substitute(Substitute(Substitute(If(Len(ThisItem.'Created By') > 28, Left(ThisItem.'Created By', 28) & "..", ThisItem.'Created By'), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")
                         },
                         "data:image/svg+xml;utf8," & EncodeUrl("
                     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 490 290'>
@@ -606,11 +600,11 @@ Screens:
                   Image: |-
                     =With(
                         {
-                            d1: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Deal Registration Id', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 40, Left(c, 40) & "..", c)),
-                            d2: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Deal Registration Status', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 40, Left(c, 40) & "..", c)),
-                            d3: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Quote Number', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 40, Left(c, 40) & "..", c)),
-                            d4: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Quote End Date', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 40, Left(c, 40) & "..", c)),
-                            d5: With({c: Substitute(Substitute(Substitute(Substitute(Substitute(ThisItem.'Deal Expiration Date', "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 40, Left(c, 40) & "..", c))
+                            d1: Substitute(Substitute(Substitute(Substitute(Substitute(If(Len(ThisItem.'Deal Registration Id') > 40, Left(ThisItem.'Deal Registration Id', 40) & "..", ThisItem.'Deal Registration Id'), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
+                            d2: Substitute(Substitute(Substitute(Substitute(Substitute(If(Len(ThisItem.'Deal Registration Status') > 40, Left(ThisItem.'Deal Registration Status', 40) & "..", ThisItem.'Deal Registration Status'), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
+                            d3: Substitute(Substitute(Substitute(Substitute(Substitute(If(Len(ThisItem.'Quote Number') > 40, Left(ThisItem.'Quote Number', 40) & "..", ThisItem.'Quote Number'), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
+                            d4: Substitute(Substitute(Substitute(Substitute(Substitute(If(Len(ThisItem.'Quote End Date') > 40, Left(ThisItem.'Quote End Date', 40) & "..", ThisItem.'Quote End Date'), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
+                            d5: Substitute(Substitute(Substitute(Substitute(Substitute(If(Len(ThisItem.'Deal Expiration Date') > 40, Left(ThisItem.'Deal Expiration Date', 40) & "..", ThisItem.'Deal Expiration Date'), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")
                         },
                         "data:image/svg+xml;utf8," & EncodeUrl("
                     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 490 200'>
@@ -698,16 +692,10 @@ Screens:
                                       ThisItem.borderColor = "#62E5F6", "#009a71",
                                       "#0070f8"
                                   ),
-                                  cleanProd: With(
-                                      {c: Substitute(Substitute(Substitute(Substitute(Substitute(
-                                          ThisItem.ProductName, "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")},
-                                      If(Len(c) > 44, Left(c, 44) & "..", c)
-                                  ),
-                                  cleanGBU: With(
-                                      {c: Substitute(Substitute(Substitute(Substitute(Substitute(
-                                          ThisItem.GBU, "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")},
-                                      If(Len(c) > 24, Left(c, 24) & "..", c)
-                                  )
+                                  cleanProd: Substitute(Substitute(Substitute(Substitute(Substitute(
+                                          If(Len(ThisItem.ProductName) > 44, Left(ThisItem.ProductName, 44) & "..", ThisItem.ProductName), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
+                                  cleanGBU: Substitute(Substitute(Substitute(Substitute(Substitute(
+                                          If(Len(ThisItem.GBU) > 24, Left(ThisItem.GBU, 24) & "..", ThisItem.GBU), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")
                               },
                               "data:image/svg+xml;utf8," & EncodeUrl("
                           <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 475 43'>

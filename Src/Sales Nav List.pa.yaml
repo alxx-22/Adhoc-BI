@@ -35,7 +35,7 @@ Screens:
             Image: |-
               =With(
                   {
-                      fn: Substitute(Substitute(Substitute(First(Split(User().FullName, " ")).Value, "&", "&amp;"), "<", "&lt;"), ">", "&gt;"),
+                      fn: With({r: First(Split(User().FullName, " ")).Value}, Substitute(Substitute(Substitute(If(Len(r) > 14, Left(r, 13) & "..", r), "&", "&amp;"), "<", "&lt;"), ">", "&gt;")),
                       ini: Upper(Left(First(Split(User().FullName, " ")).Value, 1) & Left(Last(Split(User().FullName, " ")).Value, 1))
                   },
                   "data:image/svg+xml;utf8," & EncodeUrl("
@@ -53,7 +53,7 @@ Screens:
                 <rect x='948' y='10' width='172' height='32' rx='16' fill='#f2f3f4'/>
                 <circle cx='968' cy='26' r='12' fill='#01a982'/>
                 <text x='968' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' fill='#ffffff' text-anchor='middle'>" & ini & "</text>
-                <text x='988' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='600' fill='#292d3a'>" & If(Len(fn) > 14, Left(fn, 13) & "..", fn) & "</text>
+                <text x='988' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='600' fill='#292d3a'>" & fn & "</text>
               </g>
               </svg>")
               )
@@ -130,27 +130,18 @@ Screens:
                                     cardFill: If(isMine, "#d1ffee", "#ffffff"),
                                     cardStroke: If(isMine, "#01a982", "#d4d8db"),
                                     strokeW: If(isMine, "2", "1"),
-                                    cleanName: With(
-                                        {c: Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(
-                                            ThisItem.'Opportunity Name',
-                                            "&", "&amp;"), "'", " "), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"), "#", ""), "%", "")},
-                                        If(Len(c) > 52, Left(c, 52) & "..", c)
-                                    ),
-                                    cleanAcc: With(
-                                        {c: Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(
-                                            ThisItem.'Account Name',
-                                            "&", "&amp;"), "'", " "), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"), "#", ""), "%", "")},
-                                        If(Len(c) > 56, Left(c, 56) & "..", c)
-                                    ),
+                                    cleanName: Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(
+                                            If(Len(ThisItem.'Opportunity Name') > 52, Left(ThisItem.'Opportunity Name', 52) & "..", ThisItem.'Opportunity Name'),
+                                            "&", "&amp;"), "'", " "), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"), "#", ""), "%", ""),
+                                    cleanAcc: Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(
+                                            If(Len(ThisItem.'Account Name') > 56, Left(ThisItem.'Account Name', 56) & "..", ThisItem.'Account Name'),
+                                            "&", "&amp;"), "'", " "), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"), "#", ""), "%", ""),
                                     cleanType: Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(Substitute(
                                         ThisItem.'Target Opp?',
                                         "&", "&amp;"), "'", " "), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"), "#", ""), "%", ""),
-                                    cleanEditor: With(
-                                        {c: Substitute(Substitute(Substitute(Substitute(Substitute(
-                                            If(!IsBlank(aaRecord), aaRecord.'Modified By'.DisplayName, ""),
-                                            "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")},
-                                        If(Len(c) > 16, Left(c, 16) & "..", c)
-                                    )
+                                    cleanEditor: Substitute(Substitute(Substitute(Substitute(Substitute(
+                                            If(Len(If(!IsBlank(aaRecord), aaRecord.'Modified By'.DisplayName, "")) > 16, Left(If(!IsBlank(aaRecord), aaRecord.'Modified By'.DisplayName, ""), 16) & "..", If(!IsBlank(aaRecord), aaRecord.'Modified By'.DisplayName, "")),
+                                            "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")
                                 },
                                 "data:image/svg+xml;utf8," & EncodeUrl("
                     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 970 76'>

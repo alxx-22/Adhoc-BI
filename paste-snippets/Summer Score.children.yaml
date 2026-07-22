@@ -5,7 +5,7 @@
       Image: |-
         =With(
             {
-                fn: Substitute(Substitute(Substitute(First(Split(User().FullName, " ")).Value, "&", "&amp;"), "<", "&lt;"), ">", "&gt;"),
+                fn: With({r: First(Split(User().FullName, " ")).Value}, Substitute(Substitute(Substitute(If(Len(r) > 14, Left(r, 13) & "..", r), "&", "&amp;"), "<", "&lt;"), ">", "&gt;")),
                 ini: Upper(Left(First(Split(User().FullName, " ")).Value, 1) & Left(Last(Split(User().FullName, " ")).Value, 1))
             },
             "data:image/svg+xml;utf8," & EncodeUrl("
@@ -23,7 +23,7 @@
           <rect x='948' y='10' width='172' height='32' rx='16' fill='#f2f3f4'/>
           <circle cx='968' cy='26' r='12' fill='#01a982'/>
           <text x='968' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' fill='#ffffff' text-anchor='middle'>" & ini & "</text>
-          <text x='988' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='600' fill='#292d3a'>" & If(Len(fn) > 14, Left(fn, 13) & "..", fn) & "</text>
+          <text x='988' y='30' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='12' font-weight='600' fill='#292d3a'>" & fn & "</text>
         </g>
         </svg>")
         )
@@ -305,9 +305,9 @@
             },
             With(
                 {
-                    n1: With({c: Substitute(Substitute(Substitute(Proper(Substitute(First(Split(u1.UniqueUser, "@")).Value, ".", " ")), "&", "&amp;"), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 18, Left(c, 18) & "..", c)),
-                    n2: With({c: Substitute(Substitute(Substitute(Proper(Substitute(First(Split(u2.UniqueUser, "@")).Value, ".", " ")), "&", "&amp;"), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 18, Left(c, 18) & "..", c)),
-                    n3: With({c: Substitute(Substitute(Substitute(Proper(Substitute(First(Split(u3.UniqueUser, "@")).Value, ".", " ")), "&", "&amp;"), "<", "&lt;"), ">", "&gt;")}, If(Len(c) > 18, Left(c, 18) & "..", c)),
+                    n1: Substitute(Substitute(Substitute(If(Len(Proper(Substitute(First(Split(u1.UniqueUser, "@")).Value, ".", " "))) > 18, Left(Proper(Substitute(First(Split(u1.UniqueUser, "@")).Value, ".", " ")), 18) & "..", Proper(Substitute(First(Split(u1.UniqueUser, "@")).Value, ".", " "))), "&", "&amp;"), "<", "&lt;"), ">", "&gt;"),
+                    n2: Substitute(Substitute(Substitute(If(Len(Proper(Substitute(First(Split(u2.UniqueUser, "@")).Value, ".", " "))) > 18, Left(Proper(Substitute(First(Split(u2.UniqueUser, "@")).Value, ".", " ")), 18) & "..", Proper(Substitute(First(Split(u2.UniqueUser, "@")).Value, ".", " "))), "&", "&amp;"), "<", "&lt;"), ">", "&gt;"),
+                    n3: Substitute(Substitute(Substitute(If(Len(Proper(Substitute(First(Split(u3.UniqueUser, "@")).Value, ".", " "))) > 18, Left(Proper(Substitute(First(Split(u3.UniqueUser, "@")).Value, ".", " ")), 18) & "..", Proper(Substitute(First(Split(u3.UniqueUser, "@")).Value, ".", " "))), "&", "&amp;"), "<", "&lt;"), ">", "&gt;"),
                     s1: Text(Round(Value(u1.IBNSPoints) + Value(u1.AttachUpsellPoints) + Value(u1.BacklogPoints) + Value(u1.LeadingEdgeCompletionPoints), 0)),
                     s2: Text(Round(Value(u2.IBNSPoints) + Value(u2.AttachUpsellPoints) + Value(u2.BacklogPoints) + Value(u2.LeadingEdgeCompletionPoints), 0)),
                     s3: Text(Round(Value(u3.IBNSPoints) + Value(u3.AttachUpsellPoints) + Value(u3.BacklogPoints) + Value(u3.LeadingEdgeCompletionPoints), 0)),
@@ -379,14 +379,8 @@
                   {
                       isMe:  ThisItem.UniqueUser = User().Email,
                       rank:  ThisItem.Rank,
-                      nm: With(
-                          {c: Substitute(Substitute(Substitute(Proper(Substitute(First(Split(ThisItem.UniqueUser, "@")).Value, ".", " ")), "&", "&amp;"), "<", "&lt;"), ">", "&gt;")},
-                          If(Len(c) > 22, Left(c, 22) & "..", c)
-                      ),
-                      ctry: With(
-                          {c: Substitute(Substitute(Substitute(Substitute(ThisItem.Country, "&", "&amp;"), "'", " "), "<", "&lt;"), ">", "&gt;")},
-                          If(Len(c) > 14, Left(c, 14) & "..", c)
-                      ),
+                      nm: Substitute(Substitute(Substitute(If(Len(Proper(Substitute(First(Split(ThisItem.UniqueUser, "@")).Value, ".", " "))) > 22, Left(Proper(Substitute(First(Split(ThisItem.UniqueUser, "@")).Value, ".", " ")), 22) & "..", Proper(Substitute(First(Split(ThisItem.UniqueUser, "@")).Value, ".", " "))), "&", "&amp;"), "<", "&lt;"), ">", "&gt;"),
+                      ctry: Substitute(Substitute(Substitute(Substitute(If(Len(ThisItem.Country) > 14, Left(ThisItem.Country, 14) & "..", ThisItem.Country), "&", "&amp;"), "'", " "), "<", "&lt;"), ">", "&gt;"),
                       total: Text(Round(Value(ThisItem.IBNSPoints) + Value(ThisItem.AttachUpsellPoints) + Value(ThisItem.BacklogPoints) + Value(ThisItem.LeadingEdgeCompletionPoints), 0)),
                       ibns:  Text(Round(Value(ThisItem.IBNSPoints), 0)),
                       att:   Text(Round(Value(ThisItem.AttachUpsellPoints), 0)),
