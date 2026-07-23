@@ -239,20 +239,27 @@ Screens:
         );
 
 
-        // ---- Manager coverage & gaps (from 'Manager Detail Pack'; see powerbi/detail-packs.tmdl) ----
+        // ---- Manager coverage & gaps: grouped live from PowerBIIntegration.Data by [Manager entitlement]
+        //      (same principle as colRepCompletion), so a report filter on the manager narrows it. ----
         ClearCollect(
             colMgrDetail,
             ForAll(
-                Filter(Split(First(PowerBIIntegration.Data).'Manager Detail Pack', " || "), Len(Trim(Value)) > 0),
-                {
-                    MgrEmail:    IfError(Index(Split(Value, " // "), 1).Value, ""),
-                    MgrName:     IfError(Index(Split(Value, " // "), 2).Value, ""),
-                    TrackedOS:   IfError(Value(Index(Split(Value, " // "), 3).Value), 0),
-                    UntrackedOS: IfError(Value(Index(Split(Value, " // "), 4).Value), 0),
-                    CC:          IfError(Value(Index(Split(Value, " // "), 5).Value), 0),
-                    LP:          IfError(Value(Index(Split(Value, " // "), 6).Value), 0),
-                    NS:          IfError(Value(Index(Split(Value, " // "), 7).Value), 0)
-                }
+                GroupBy(PowerBIIntegration.Data, 'Manager entitlement', 'MgrRows'),
+                With(
+                    {
+                        trk: Filter(MgrRows, 'HPE Opportunity Id' in colAAOppIds.'Opp ID'),
+                        unt: Filter(MgrRows, !('HPE Opportunity Id' in colAAOppIds.'Opp ID'))
+                    },
+                    {
+                        MgrEmail:    'Manager entitlement',
+                        MgrName:     'Manager entitlement',
+                        TrackedOS:   IfError(Sum(trk, IfError(Value('Services OS'), 0)), 0),
+                        UntrackedOS: IfError(Sum(unt, IfError(Value('Services OS'), 0)), 0),
+                        CC:          CountRows(Filter(unt, 'Target Opp?' = "CC / Day 1 Upsell")),
+                        LP:          CountRows(Filter(unt, 'Target Opp?' = "Low Pen Rate")),
+                        NS:          CountRows(Filter(unt, 'Target Opp?' = "No Services Op"))
+                    }
+                )
             )
         );
         ClearCollect(colMgrDetailR, Filter(colMgrDetail, MgrEmail <> "" && (TrackedOS + UntrackedOS) > 0));

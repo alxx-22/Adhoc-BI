@@ -4,14 +4,15 @@
   Copy the whole file, Ctrl+V on the empty screen canvas.
 - `<Screen>.properties.md` — screen-level formulas; `App.OnStart.fx.txt` for the App object.
 
-IMPORTANT: FLM Page and Exec Page now read two new Power BI fields
-('FP Detail Pack', 'Manager Detail Pack'). Define them as MEASURES (not
-calculated columns — a column can't respond to a report filter) and add them
-to the dataset first (see ../powerbi/detail-packs.tmdl) and refresh, or those
-two screens error.
+NOTE: FLM Page and Exec Page build their "OS Coverage & Gaps" visuals by grouping
+PowerBIIntegration.Data directly in OnVisible (colFPDetail / colMgrDetail), using
+only fields the app's Power Apps visual already exposes ('Feedback Progress',
+'Manager entitlement', 'HPE Opportunity Id', 'Services OS', 'Target Opp?'). No new
+Power BI column or measure is required, and the breakdown responds to a report
+filter on [Entitled Manager Name] (see README Revision 8).
 
-Order: 1) add the PBI measures + refresh, 2) App OnStart, 3) Loading screen (move first),
-4) each screen: delete old controls, set screen properties, paste children.
+Order: 1) App OnStart, 2) Loading screen (move first),
+3) each screen: delete old controls, set screen properties, paste children.
 
 - Loading
 - Homepage

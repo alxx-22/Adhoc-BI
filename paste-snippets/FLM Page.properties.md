@@ -188,19 +188,26 @@ Set(varOSDeltaSum, Sum(Filter(colOSDelta, Delta > 0), Delta));
 Set(varOSDeltaCount, CountRows(Filter(colOSDelta, Delta > 0)))
 
 
-// ---- Rep coverage & gaps (from 'FP Detail Pack'; see powerbi/detail-packs.tmdl) ----
+// ---- Rep coverage & gaps: grouped live from PowerBIIntegration.Data (same principle as the
+//      app's colRepCompletion), so a report filter on [Entitled Manager Name] narrows it. ----
 ClearCollect(
     colFPDetail,
     ForAll(
-        Filter(Split(First(PowerBIIntegration.Data).'FP Detail Pack', " || "), Len(Trim(Value)) > 0),
-        {
-            Rep:         IfError(Index(Split(Value, " // "), 1).Value, ""),
-            TrackedOS:   IfError(Value(Index(Split(Value, " // "), 2).Value), 0),
-            UntrackedOS: IfError(Value(Index(Split(Value, " // "), 3).Value), 0),
-            CC:          IfError(Value(Index(Split(Value, " // "), 4).Value), 0),
-            LP:          IfError(Value(Index(Split(Value, " // "), 5).Value), 0),
-            NS:          IfError(Value(Index(Split(Value, " // "), 6).Value), 0)
-        }
+        GroupBy(PowerBIIntegration.Data, 'Feedback Progress', 'OppRows'),
+        With(
+            {
+                trk: Filter(OppRows, 'HPE Opportunity Id' in colAAOppIds.'Opp ID'),
+                unt: Filter(OppRows, !('HPE Opportunity Id' in colAAOppIds.'Opp ID'))
+            },
+            {
+                Rep:         'Feedback Progress',
+                TrackedOS:   IfError(Sum(trk, IfError(Value('Services OS'), 0)), 0),
+                UntrackedOS: IfError(Sum(unt, IfError(Value('Services OS'), 0)), 0),
+                CC:          CountRows(Filter(unt, 'Target Opp?' = "CC / Day 1 Upsell")),
+                LP:          CountRows(Filter(unt, 'Target Opp?' = "Low Pen Rate")),
+                NS:          CountRows(Filter(unt, 'Target Opp?' = "No Services Op"))
+            }
+        )
     )
 );
 ClearCollect(colFPDetailR, Filter(colFPDetail, Rep <> "" && (TrackedOS + UntrackedOS) > 0));

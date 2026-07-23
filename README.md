@@ -159,31 +159,24 @@ It uses **no new data source**: `OnVisible` aggregates a `colCoverageGBU` collec
 GBU), plus `varCovPct` / `varCovBars`. If those collections are empty the card shows a
 graceful "No GBU coverage data yet" placeholder.
 
-## Revision 6 — Rep & Manager "OS Coverage & Gaps" visuals (needs 2 new PBI columns)
+## Revision 6 — Rep & Manager "OS Coverage & Gaps" visuals
 
-Turned the feedback-progress breakdown DAX into two **coverage/gaps** visuals:
+Turned the feedback-progress breakdown into two **coverage/gaps** visuals:
 
 - **FLM page** — the "Rep Feedback Progress" card became **REP OS COVERAGE & GAPS**: per rep,
   a tracked-vs-untracked OS-value split bar, the untracked $ gap, and the count of *untracked*
   opportunities by target type (CC / Day 1 Upsell · Low Pen Rate · No Services Op).
 - **Exec page** — the "Team Feedback Progress" card became **MANAGER OS COVERAGE**, the same
-  breakdown at the Manager entitlement / manager-name grain.
+  breakdown at the Manager entitlement grain.
 
-**These read two new packed fields you must add to the Power BI model first** — see
-`powerbi/detail-packs.tmdl`. **Define them as MEASURES** (not calculated columns — see Revision 8):
-- `'FP Detail Pack'` (per Feedback Progress rep) → parsed into `colFPDetail` in FLM `OnVisible`.
-- `'Manager Detail Pack'` (per Manager entitlement) → parsed into `colMgrDetail` in Exec `OnVisible`.
-
-They follow your existing pack pattern (`CALCULATE(CONCATENATEX(…), ALL('App Summarised table'))`,
-`" || "` / `" // "` delimiters), so RLS keeps the rep pack scoped to each FLM's team and shows
-every manager to the exec. They honour the query's `FQ IN {"FY2026 Q4","FY2027 Q1"}` filter and
-use the app's own OS value (`[Services OS]`) and tracked rule
-(`[App tracking] = "Y" || [Is Alternate Opp] = "Y"`) so the numbers reconcile with the other
-cards. The .tmdl notes how to switch to the exact Final-Output/OS-line semantics if you prefer.
-
-> **Rollout order matters:** add the two measures and refresh the dataset *before* importing the
-> updated FLM/Exec screens — the app references those fields, so the screens error until they
-> exist in `PowerBIIntegration.Data`.
+**No new Power BI columns or measures are required** (see Revision 8 for the history). Both
+collections are built in `OnVisible` the same way the app's original "feedback progress" visual
+was — by grouping `PowerBIIntegration.Data` directly (`colFPDetail` in FLM, `colMgrDetail` in Exec) —
+using only fields the app's Power Apps visual already exposes (`Feedback Progress`,
+`Manager entitlement`, `HPE Opportunity Id`, `Services OS`, `Target Opp?`). "Tracked" is the app's
+own definition (`'HPE Opportunity Id' in colAAOppIds.'Opp ID'` — the opp has a row in
+`Attach Attack`), identical to the existing `colRepCompletion`, so the numbers reconcile with the
+other cards and the breakdown responds live to a Power BI report filter (see Revision 8).
 
 ## Revision 7 — three post-import bug fixes
 
@@ -220,28 +213,33 @@ The Manager OS Coverage card is fed by the `'Manager Detail Pack'` column (Revis
 parse is now hardened per fix #2 — if that card is still empty, confirm the column exists in the
 dataset (`powerbi/detail-packs.tmdl`) and has been refreshed.
 
-## Revision 8 — FLM/Exec detail packs must be MEASURES (restores dynamic filtering)
+## Revision 8 — coverage visuals derive from PowerBIIntegration.Data (restores dynamic filtering)
 
-The FLM "REP OS COVERAGE & GAPS" breakdown stopped responding to a Power BI **report
-filter on `[Entitled Manager Name]`** — applying that filter no longer narrowed the feedback
-progress to that manager's reps.
+The FLM "REP OS COVERAGE & GAPS" breakdown stopped responding to a Power BI **report filter on
+`[Entitled Manager Name]`** — applying that filter no longer narrowed the feedback progress to that
+manager's reps.
 
-Root cause was in `powerbi/detail-packs.tmdl`: `'FP Detail Pack'` (and `'Manager Detail Pack'`)
-were defined as **calculated columns** wrapped in `ALL('App Summarised table')`. Two problems:
-- a **calculated column** is computed once at data refresh and is *static* at query time, so it
-  can never respond to a report/page filter or slicer; and
-- `ALL('App Summarised table')` strips every filter anyway — including the manager filter and RLS.
+Root cause: Revision 6 fed these visuals from a new pre-aggregated DAX **pack** (a calculated
+column, `'FP Detail Pack'`, wrapped in `ALL('App Summarised table')`). A calculated column is
+computed once at refresh and is static at query time, and `ALL(...)` strips every filter anyway —
+so it could never respond to a report filter.
 
-Fixed by redefining both as **measures** and using `ALLSELECTED('App Summarised table')` instead of
-`ALL(...)`. `ALLSELECTED` removes only the Power Apps visual's own grouping while keeping report/page/
-slicer filters and RLS, so the breakdown is RLS-scoped by default and narrows live when you filter on
-`[Entitled Manager Name]` — the same behaviour as the app's other packs (which are also measures).
+The app already had a working pattern for exactly this — the original "feedback progress" visual
+(`colRepCompletion`) never used a pack; it groups `PowerBIIntegration.Data` **directly** in
+`OnVisible`. Because that data is filtered by the report/page, grouping it live means a report filter
+on `[Entitled Manager Name]` narrows it automatically. Fixed by rebuilding both new collections the
+same way:
 
-**No app change** — the packed-string format is identical, so the FLM/Exec `OnVisible` parses
-(`colFPDetail` / `colMgrDetail`) are untouched. **You only need to update the Power BI model:**
-redefine `FP Detail Pack` and `Manager Detail Pack` as measures (see the updated `.tmdl`), refresh,
-and republish. Keep the pack fields as the only fields in the Power Apps visual (no grouping column),
-so `First(PowerBIIntegration.Data)` returns one row with the complete packed string.
+- `colFPDetail` = `GroupBy(PowerBIIntegration.Data, 'Feedback Progress', 'OppRows')`, then per rep:
+  tracked/untracked OS = `Sum('Services OS')` split on whether the opp is in `Attach Attack`
+  (`'HPE Opportunity Id' in colAAOppIds.'Opp ID'`), and CC/LP/NS = counts of untracked opps by
+  `'Target Opp?'`.
+- `colMgrDetail` = the same, grouped by `'Manager entitlement'` (Exec).
+
+**No Power BI change and no new fields** — it uses only columns the app's visual already exposes
+(`Feedback Progress`, `Manager entitlement`, `HPE Opportunity Id`, `Services OS`, `Target Opp?`), and
+"tracked" is the app's own `Attach Attack` membership, so the numbers reconcile with the other cards.
+The Revision 6 `powerbi/detail-packs.tmdl` is removed — it is no longer needed.
 
 ## What was NOT changed
 
