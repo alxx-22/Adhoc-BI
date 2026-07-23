@@ -159,6 +159,32 @@ It uses **no new data source**: `OnVisible` aggregates a `colCoverageGBU` collec
 GBU), plus `varCovPct` / `varCovBars`. If those collections are empty the card shows a
 graceful "No GBU coverage data yet" placeholder.
 
+## Revision 6 — Rep & Manager "OS Coverage & Gaps" visuals (needs 2 new PBI columns)
+
+Turned the feedback-progress breakdown DAX into two **coverage/gaps** visuals:
+
+- **FLM page** — the "Rep Feedback Progress" card became **REP OS COVERAGE & GAPS**: per rep,
+  a tracked-vs-untracked OS-value split bar, the untracked $ gap, and the count of *untracked*
+  opportunities by target type (CC / Day 1 Upsell · Low Pen Rate · No Services Op).
+- **Exec page** — the "Team Feedback Progress" card became **MANAGER OS COVERAGE**, the same
+  breakdown at the Manager entitlement / manager-name grain.
+
+**These read two new packed columns you must add to the Power BI model first** — see
+`powerbi/detail-packs.tmdl`:
+- `'FP Detail Pack'` (per Feedback Progress rep) → parsed into `colFPDetail` in FLM `OnVisible`.
+- `'Manager Detail Pack'` (per Manager entitlement) → parsed into `colMgrDetail` in Exec `OnVisible`.
+
+They follow your existing pack pattern (`CALCULATE(CONCATENATEX(…), ALL('App Summarised table'))`,
+`" || "` / `" // "` delimiters), so RLS keeps the rep pack scoped to each FLM's team and shows
+every manager to the exec. They honour the query's `FQ IN {"FY2026 Q4","FY2027 Q1"}` filter and
+use the app's own OS value (`[Services OS]`) and tracked rule
+(`[App tracking] = "Y" || [Is Alternate Opp] = "Y"`) so the numbers reconcile with the other
+cards. The .tmdl notes how to switch to the exact Final-Output/OS-line semantics if you prefer.
+
+> **Rollout order matters:** add the two columns and refresh the dataset *before* importing the
+> updated FLM/Exec screens — the app references those columns, so the screens error until they
+> exist in `PowerBIIntegration.Data`.
+
 ## What was NOT changed
 
 - `OnVisible` / `OnHidden` blocks (spliced verbatim, including `timerotoole`/`timerdog`

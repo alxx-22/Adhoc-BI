@@ -1,0 +1,161 @@
+// ============================================================================
+// New calculated columns for 'App Summarised table'
+// ----------------------------------------------------------------------------
+// These translate the "Feedback Progress breakdown" DAX query into two PACKED
+// columns the Power App can read the same way it reads 'Manager Feedback Pack'
+// etc. (First(PowerBIIntegration.Data).'<col>', then Split on " || " / " // ").
+//
+// Grain / consumers:
+//   'FP Detail Pack'      — one record per Feedback Progress (rep)  -> FLM page
+//   'Manager Detail Pack' — one record per Manager entitlement      -> Exec page
+//
+// Each record packs:  Tracked OS $, Untracked OS $, and the count of UNTRACKED
+// opportunities of each target type (CC / Day 1 Upsell, Low Pen Rate,
+// No Services Op) — i.e. "how much is covered, and what still needs action".
+//
+// Notes vs your EVALUATE query:
+//   * Aggregated at the App Summarised (opportunity) grain using [Services OS]
+//     (the app's OS value everywhere) and the app's tracked rule
+//     ([App tracking] = "Y" || [Is Alternate Opp] = "Y") — so the numbers match
+//     the rest of the app's cards. Scoped to FQ IN {"FY2026 Q4","FY2027 Q1"}
+//     exactly as in your query.
+//   * CALCULATE(..., ALL('App Summarised table')) keeps RLS, so 'FP Detail Pack'
+//     auto-scopes to each FLM's team and 'Manager Detail Pack' shows every
+//     manager to the exec — identical behaviour to your existing packs.
+//   * If you need the exact Final-Output / OS-line semantics of the query
+//     instead of the opportunity-grain [Services OS], say so and I'll swap the
+//     aggregation source; the packed string format stays the same.
+//
+// HOW TO ADD: paste each `column` block inside `table 'App Summarised table'`
+// in your TMDL (Tabular Editor or the .tmdl file), refresh, then republish the
+// dataset so PowerBIIntegration.Data exposes the two new columns to the app.
+// ============================================================================
+
+
+// ---- Rep-level (Feedback Progress) — feeds the FLM page --------------------
+column 'FP Detail Pack' =
+        CALCULATE(
+            CONCATENATEX(
+                ADDCOLUMNS(
+                    SUMMARIZE(
+                        FILTER(
+                            ALL('App Summarised table'),
+                            'App Summarised table'[FQ] IN { "FY2026 Q4", "FY2027 Q1" }
+                        ),
+                        'App Summarised table'[Feedback Progress]
+                    ),
+                    "TSum",
+                        CALCULATE(
+                            SUM('App Summarised table'[Services OS]),
+                            'App Summarised table'[FQ] IN { "FY2026 Q4", "FY2027 Q1" },
+                            ( 'App Summarised table'[App tracking] = "Y" || 'App Summarised table'[Is Alternate Opp] = "Y" )
+                        ),
+                    "USum",
+                        CALCULATE(
+                            SUM('App Summarised table'[Services OS]),
+                            'App Summarised table'[FQ] IN { "FY2026 Q4", "FY2027 Q1" },
+                            'App Summarised table'[App tracking] <> "Y",
+                            'App Summarised table'[Is Alternate Opp] <> "Y"
+                        ),
+                    "CC",
+                        CALCULATE(
+                            COUNTROWS('App Summarised table'),
+                            'App Summarised table'[FQ] IN { "FY2026 Q4", "FY2027 Q1" },
+                            'App Summarised table'[App tracking] <> "Y",
+                            'App Summarised table'[Is Alternate Opp] <> "Y",
+                            'App Summarised table'[Target Opp?] = "CC / Day 1 Upsell"
+                        ),
+                    "LP",
+                        CALCULATE(
+                            COUNTROWS('App Summarised table'),
+                            'App Summarised table'[FQ] IN { "FY2026 Q4", "FY2027 Q1" },
+                            'App Summarised table'[App tracking] <> "Y",
+                            'App Summarised table'[Is Alternate Opp] <> "Y",
+                            'App Summarised table'[Target Opp?] = "Low Pen Rate"
+                        ),
+                    "NS",
+                        CALCULATE(
+                            COUNTROWS('App Summarised table'),
+                            'App Summarised table'[FQ] IN { "FY2026 Q4", "FY2027 Q1" },
+                            'App Summarised table'[App tracking] <> "Y",
+                            'App Summarised table'[Is Alternate Opp] <> "Y",
+                            'App Summarised table'[Target Opp?] = "No Services Op"
+                        )
+                ),
+                'App Summarised table'[Feedback Progress]
+                    & " // " & IF([TSum] = BLANK(), 0, [TSum])
+                    & " // " & IF([USum] = BLANK(), 0, [USum])
+                    & " // " & [CC]
+                    & " // " & [LP]
+                    & " // " & [NS],
+                " || "
+            ),
+            ALL('App Summarised table')
+        )
+        lineageTag: a1f4b0c2-1111-4a10-9b20-fp0000000001
+
+
+// ---- Manager-level (Manager entitlement) — feeds the Exec page -------------
+column 'Manager Detail Pack' =
+        CALCULATE(
+            CONCATENATEX(
+                ADDCOLUMNS(
+                    SUMMARIZE(
+                        FILTER(
+                            ALL('App Summarised table'),
+                            'App Summarised table'[FQ] IN { "FY2026 Q4", "FY2027 Q1" }
+                                && 'App Summarised table'[Manager entitlement] <> ""
+                        ),
+                        'App Summarised table'[Manager entitlement],
+                        'App Summarised table'[Entitled Manager Name]
+                    ),
+                    "TSum",
+                        CALCULATE(
+                            SUM('App Summarised table'[Services OS]),
+                            'App Summarised table'[FQ] IN { "FY2026 Q4", "FY2027 Q1" },
+                            ( 'App Summarised table'[App tracking] = "Y" || 'App Summarised table'[Is Alternate Opp] = "Y" )
+                        ),
+                    "USum",
+                        CALCULATE(
+                            SUM('App Summarised table'[Services OS]),
+                            'App Summarised table'[FQ] IN { "FY2026 Q4", "FY2027 Q1" },
+                            'App Summarised table'[App tracking] <> "Y",
+                            'App Summarised table'[Is Alternate Opp] <> "Y"
+                        ),
+                    "CC",
+                        CALCULATE(
+                            COUNTROWS('App Summarised table'),
+                            'App Summarised table'[FQ] IN { "FY2026 Q4", "FY2027 Q1" },
+                            'App Summarised table'[App tracking] <> "Y",
+                            'App Summarised table'[Is Alternate Opp] <> "Y",
+                            'App Summarised table'[Target Opp?] = "CC / Day 1 Upsell"
+                        ),
+                    "LP",
+                        CALCULATE(
+                            COUNTROWS('App Summarised table'),
+                            'App Summarised table'[FQ] IN { "FY2026 Q4", "FY2027 Q1" },
+                            'App Summarised table'[App tracking] <> "Y",
+                            'App Summarised table'[Is Alternate Opp] <> "Y",
+                            'App Summarised table'[Target Opp?] = "Low Pen Rate"
+                        ),
+                    "NS",
+                        CALCULATE(
+                            COUNTROWS('App Summarised table'),
+                            'App Summarised table'[FQ] IN { "FY2026 Q4", "FY2027 Q1" },
+                            'App Summarised table'[App tracking] <> "Y",
+                            'App Summarised table'[Is Alternate Opp] <> "Y",
+                            'App Summarised table'[Target Opp?] = "No Services Op"
+                        )
+                ),
+                'App Summarised table'[Manager entitlement]
+                    & " // " & 'App Summarised table'[Entitled Manager Name]
+                    & " // " & IF([TSum] = BLANK(), 0, [TSum])
+                    & " // " & IF([USum] = BLANK(), 0, [USum])
+                    & " // " & [CC]
+                    & " // " & [LP]
+                    & " // " & [NS],
+                " || "
+            ),
+            ALL('App Summarised table')
+        )
+        lineageTag: b2e5c1d3-2222-4b21-8c31-mgr000000001

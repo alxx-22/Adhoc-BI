@@ -246,4 +246,24 @@ With(
         )
     )
 );
+
+
+// ---- Manager coverage & gaps (from 'Manager Detail Pack'; see powerbi/detail-packs.tmdl) ----
+ClearCollect(
+    colMgrDetail,
+    ForAll(
+        Split(First(PowerBIIntegration.Data).'Manager Detail Pack', " || "),
+        {
+            MgrEmail:    Index(Split(Value, " // "), 1).Value,
+            MgrName:     Index(Split(Value, " // "), 2).Value,
+            TrackedOS:   IfError(Value(Index(Split(Value, " // "), 3).Value), 0),
+            UntrackedOS: IfError(Value(Index(Split(Value, " // "), 4).Value), 0),
+            CC:          IfError(Value(Index(Split(Value, " // "), 5).Value), 0),
+            LP:          IfError(Value(Index(Split(Value, " // "), 6).Value), 0),
+            NS:          IfError(Value(Index(Split(Value, " // "), 7).Value), 0)
+        }
+    )
+);
+ClearCollect(colMgrDetailR, Filter(colMgrDetail, MgrEmail <> "" && (TrackedOS + UntrackedOS) > 0));
+Set(varMgrMax, Max(colMgrDetailR, TrackedOS + UntrackedOS));
 ```

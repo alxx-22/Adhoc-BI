@@ -186,4 +186,23 @@ ClearCollect(
 
 Set(varOSDeltaSum, Sum(Filter(colOSDelta, Delta > 0), Delta));
 Set(varOSDeltaCount, CountRows(Filter(colOSDelta, Delta > 0)))
+
+
+// ---- Rep coverage & gaps (from 'FP Detail Pack'; see powerbi/detail-packs.tmdl) ----
+ClearCollect(
+    colFPDetail,
+    ForAll(
+        Split(First(PowerBIIntegration.Data).'FP Detail Pack', " || "),
+        {
+            Rep:         Index(Split(Value, " // "), 1).Value,
+            TrackedOS:   IfError(Value(Index(Split(Value, " // "), 2).Value), 0),
+            UntrackedOS: IfError(Value(Index(Split(Value, " // "), 3).Value), 0),
+            CC:          IfError(Value(Index(Split(Value, " // "), 4).Value), 0),
+            LP:          IfError(Value(Index(Split(Value, " // "), 5).Value), 0),
+            NS:          IfError(Value(Index(Split(Value, " // "), 6).Value), 0)
+        }
+    )
+);
+ClearCollect(colFPDetailR, Filter(colFPDetail, Rep <> "" && (TrackedOS + UntrackedOS) > 0));
+Set(varFPMax, Max(colFPDetailR, TrackedOS + UntrackedOS));
 ```

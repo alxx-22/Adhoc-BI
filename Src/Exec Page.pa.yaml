@@ -237,6 +237,26 @@ Screens:
                 )
             )
         );
+
+
+        // ---- Manager coverage & gaps (from 'Manager Detail Pack'; see powerbi/detail-packs.tmdl) ----
+        ClearCollect(
+            colMgrDetail,
+            ForAll(
+                Split(First(PowerBIIntegration.Data).'Manager Detail Pack', " || "),
+                {
+                    MgrEmail:    Index(Split(Value, " // "), 1).Value,
+                    MgrName:     Index(Split(Value, " // "), 2).Value,
+                    TrackedOS:   IfError(Value(Index(Split(Value, " // "), 3).Value), 0),
+                    UntrackedOS: IfError(Value(Index(Split(Value, " // "), 4).Value), 0),
+                    CC:          IfError(Value(Index(Split(Value, " // "), 5).Value), 0),
+                    LP:          IfError(Value(Index(Split(Value, " // "), 6).Value), 0),
+                    NS:          IfError(Value(Index(Split(Value, " // "), 7).Value), 0)
+                }
+            )
+        );
+        ClearCollect(colMgrDetailR, Filter(colMgrDetail, MgrEmail <> "" && (TrackedOS + UntrackedOS) > 0));
+        Set(varMgrMax, Max(colMgrDetailR, TrackedOS + UntrackedOS));
     Children:
       - TopRibbon_ep:
           Control: Image@2.2.3
@@ -841,7 +861,11 @@ Screens:
               <g class='fu' style='animation-delay:.25s'>
                 <rect x='0' y='6' width='301' height='226' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
                 <rect x='0' y='2' width='301' height='226' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
-                <text x='16' y='26' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' letter-spacing='1.5' fill='#606a70'>TEAM FEEDBACK PROGRESS</text>
+                <text x='16' y='26' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' letter-spacing='1.5' fill='#606a70'>MANAGER OS COVERAGE</text>
+                <circle cx='178' cy='23' r='3.5' fill='#009a71'/>
+                <text x='186' y='26' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8' font-weight='600' fill='#606a70'>Tracked</text>
+                <circle cx='234' cy='23' r='3.5' fill='#cc54a4'/>
+                <text x='242' y='26' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8' font-weight='600' fill='#606a70'>Untracked</text>
               </g>
               </svg>")
             ImagePosition: =ImagePosition.Fit
@@ -852,44 +876,44 @@ Screens:
           Control: Gallery@2.15.0
           Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
           Properties:
-            Height: =200
-            Items: =SortByColumns(colManagerSummary, "TrackedOpps", SortOrder.Descending)
+            Height: =208
+            Items: =SortByColumns(colMgrDetailR, "UntrackedOS", SortOrder.Descending)
             ShowScrollbar: =false
             TemplatePadding: =0
-            TemplateSize: =49
-            Width: =275
-            X: =355
-            Y: =429
+            TemplateSize: =52
+            Width: =294
+            X: =348
+            Y: =425
           Children:
             - Image29_1:
                 Control: Image@2.2.3
                 Properties:
-                  Height: =46
+                  Height: =48
                   Image: |-
                     =With(
                         {
-                            pct: IfError(Round(ThisItem.TrackedOpps / ThisItem.TotalOpps * 100, 0), 0),
-                            lbl: Substitute(Substitute(Substitute(If(Len(ThisItem.ManagerEmail) > 25, Left(ThisItem.ManagerEmail, 25) & "..", ThisItem.ManagerEmail), "&", "&amp;"), "<", "&lt;"), ">", "&gt;")
+                            nm: Substitute(Substitute(Substitute(If(Len(ThisItem.MgrName) > 26, Left(ThisItem.MgrName, 26) & "..", ThisItem.MgrName), "&", "&amp;"), "<", "&lt;"), ">", "&gt;"),
+                            wt: If(varMgrMax > 0, Round(ThisItem.TrackedOS / varMgrMax * 236, 0), 0),
+                            wu: If(varMgrMax > 0, Round(ThisItem.UntrackedOS / varMgrMax * 236, 0), 0),
+                            uTxt: If(ThisItem.UntrackedOS >= 1000000, "$" & Text(ThisItem.UntrackedOS / 1000000, "[$-en-US]0.0") & "M", If(ThisItem.UntrackedOS >= 1000, "$" & Text(ThisItem.UntrackedOS / 1000, "[$-en-US]0") & "K", "$" & Text(ThisItem.UntrackedOS, "[$-en-US]0")))
                         },
-                        With(
-                            {barColor: If(pct >= 80, "#01a982", If(pct >= 50, "#04909d", "#d25f4b"))},
-                            "data:image/svg+xml;utf8," & EncodeUrl("
+                        "data:image/svg+xml;utf8," & EncodeUrl("
                     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 52'>
                     <desc>k=" & varAnimKey1 & "</desc>
                     <defs><style>" & varSvgCss & "</style></defs>
                     <g class='rw'>
-                      <text x='6' y='18' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#292d3a'>" & lbl & "</text>
-                      <text x='344' y='18' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='700' fill='#006750' text-anchor='end'>" & Text(pct) & "%</text>
-                      <rect x='6' y='26' width='240' height='8' rx='4' fill='#f2f3f4'/>
-                      <rect x='6' y='26' width='" & Text(Round(pct / 100 * 240, 0)) & "' height='8' rx='4' fill='" & barColor & "' class='gx'/>
-                      <text x='256' y='34' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' fill='#606a70'>" & Text(ThisItem.TrackedOpps) & " / " & Text(ThisItem.TotalOpps) & "</text>
+                      <text x='6' y='15' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#292d3a'>" & nm & "</text>
+                      <text x='344' y='15' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9.5' font-weight='700' fill='#cc54a4' text-anchor='end'>" & uTxt & " gap</text>
+                      <rect x='6' y='21' width='236' height='7' rx='3.5' fill='#f2f3f4'/>
+                      <rect x='6' y='21' width='" & Text(wt) & "' height='7' rx='3.5' fill='#009a71' class='gx'/>
+                      <rect x='" & Text(6 + wt) & "' y='21' width='" & Text(wu) & "' height='7' rx='3.5' fill='#cc54a4' class='gx'/>
+                      <text x='6' y='44' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' fill='#606a70'>Untracked opps &#183; CC <tspan font-weight='700' fill='#0070f8'>" & Text(ThisItem.CC) & "</tspan>  Low Pen <tspan font-weight='700' fill='#009a71'>" & Text(ThisItem.LP) & "</tspan>  No Svc <tspan font-weight='700' fill='#04909d'>" & Text(ThisItem.NS) & "</tspan></text>
                     </g>
                     </svg>")
-                        )
                     )
                   ImagePosition: =ImagePosition.Fit
                   OnSelect: =Select(Parent)
-                  Width: =272
+                  Width: =294
                   X: =0
                   Y: =3
       - Image38_5:
