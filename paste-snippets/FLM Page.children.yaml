@@ -392,57 +392,18 @@
             Width: =343
             X: =5
             Y: =0
-- Image34:
-    Control: Image@2.2.3
-    Properties:
-      Height: =220
-      Image: |-
-        =With(
-            {
-                q1: If(varSSPMaxVal >= 1000000, Text(varSSPMaxVal * 0.25 / 1000000, "[$-en-US]0.0") & "M", If(varSSPMaxVal >= 1000, Text(varSSPMaxVal * 0.25 / 1000, "[$-en-US]0") & "K", Text(varSSPMaxVal * 0.25, "[$-en-US]0"))),
-                q2: If(varSSPMaxVal >= 1000000, Text(varSSPMaxVal * 0.5 / 1000000, "[$-en-US]0.0") & "M", If(varSSPMaxVal >= 1000, Text(varSSPMaxVal * 0.5 / 1000, "[$-en-US]0") & "K", Text(varSSPMaxVal * 0.5, "[$-en-US]0"))),
-                q3: If(varSSPMaxVal >= 1000000, Text(varSSPMaxVal * 0.75 / 1000000, "[$-en-US]0.0") & "M", If(varSSPMaxVal >= 1000, Text(varSSPMaxVal * 0.75 / 1000, "[$-en-US]0") & "K", Text(varSSPMaxVal * 0.75, "[$-en-US]0"))),
-                q4: If(varSSPMaxVal >= 1000000, Text(varSSPMaxVal / 1000000, "[$-en-US]0.0") & "M", If(varSSPMaxVal >= 1000, Text(varSSPMaxVal / 1000, "[$-en-US]0") & "K", Text(varSSPMaxVal, "[$-en-US]0")))
-            },
-            "data:image/svg+xml;utf8," & EncodeUrl("
-        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 335 220'>
-        <desc>k=" & varAnimKey1 & "</desc>
-        <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
-        <g class='fu' style='animation-delay:.24s'>
-          <rect x='0' y='6' width='335' height='212' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
-          <rect x='0' y='2' width='335' height='212' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
-          <text x='16' y='24' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' letter-spacing='1.5' fill='#606a70'>SERVICES OS BY SSP REGION</text>
-          <text x='16' y='38' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' fill='#606a70'>Active upsell eligible opps only</text>
-          <line x1='52' y1='195' x2='325' y2='195' stroke='#d4d8db' stroke-width='1'/>
-          <line x1='52' y1='164' x2='325' y2='164' stroke='#d4d8db' stroke-width='1' opacity='.5'/>
-          <line x1='52' y1='133' x2='325' y2='133' stroke='#d4d8db' stroke-width='1' opacity='.5'/>
-          <line x1='52' y1='101' x2='325' y2='101' stroke='#d4d8db' stroke-width='1' opacity='.5'/>
-          <line x1='52' y1='70' x2='325' y2='70' stroke='#d4d8db' stroke-width='1' opacity='.5'/>
-          <text x='46' y='198' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='7.5' fill='#606a70' text-anchor='end'>$0</text>
-          <text x='46' y='167' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='7.5' fill='#606a70' text-anchor='end'>" & q1 & "</text>
-          <text x='46' y='136' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='7.5' fill='#606a70' text-anchor='end'>" & q2 & "</text>
-          <text x='46' y='104' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='7.5' fill='#606a70' text-anchor='end'>" & q3 & "</text>
-          <text x='46' y='73' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='7.5' fill='#606a70' text-anchor='end'>" & q4 & "</text>
-          " & varSSPBars & "
-        </g>
-        </svg>")
-        )
-      ImagePosition: =ImagePosition.Fit
-      Width: =336
-      X: =415
-      Y: =160
 - Image37_1:
     Control: Image@2.2.3
     Properties:
-      Height: =240
+      Height: =468
       Image: |-
         ="data:image/svg+xml;utf8," & EncodeUrl("
-        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 336 240'>
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 336 468'>
         <desc>k=" & varAnimKey1 & "</desc>
         <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
         <g class='fu' style='animation-delay:.3s'>
-          <rect x='0' y='6' width='336' height='232' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
-          <rect x='0' y='2' width='336' height='232' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+          <rect x='0' y='6' width='336' height='460' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+          <rect x='0' y='2' width='336' height='460' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
           <text x='16' y='26' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' letter-spacing='1.5' fill='#606a70'>REP OS COVERAGE &amp; GAPS</text>
           <circle cx='214' cy='23' r='3.5' fill='#009a71'/>
           <text x='222' y='26' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8' font-weight='600' fill='#606a70'>Tracked</text>
@@ -453,19 +414,19 @@
       ImagePosition: =ImagePosition.Fit
       Width: =336
       X: =415
-      Y: =388
+      Y: =160
 - Gallery2:
     Control: Gallery@2.15.0
     Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
     Properties:
-      Height: =200
+      Height: =416
       Items: =SortByColumns(colFPDetailR, "UntrackedOS", SortOrder.Descending)
       ShowScrollbar: =false
       TemplatePadding: =0
       TemplateSize: =52
       Width: =314
       X: =426
-      Y: =424
+      Y: =196
     Children:
       - Image29:
           Control: Image@2.2.3

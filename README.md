@@ -241,6 +241,15 @@ same way:
 "tracked" is the app's own `Attach Attack` membership, so the numbers reconcile with the other cards.
 The Revision 6 `powerbi/detail-packs.tmdl` is removed — it is no longer needed.
 
+## Revision 9 — FLM: drop SSP-region chart, grow the coverage visual
+
+Removed the **SERVICES OS BY SSP REGION** bar chart from the FLM page and extended the
+**REP OS COVERAGE & GAPS** card up into the freed space — the card now spans the full height of
+the middle column (top-aligned with the KPI stack) and its gallery shows up to 8 reps instead of ~4.
+The now-dead SSP build (`colSSPRaw` / `colSSPChart` / `varSSPBars` / `varSSPMaxVal`, which filtered
+`Attach Attack` and did per-row `LookUp`s only to feed that chart) was removed from `OnVisible`, so
+the page is a bit lighter too.
+
 ## What was NOT changed
 
 - `OnVisible` / `OnHidden` blocks (spliced verbatim, including `timerotoole`/`timerdog`

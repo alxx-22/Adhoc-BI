@@ -51,77 +51,6 @@ Screens:
         Set(varSlicerToggle, 0);
         Set(varSlicerOpen, false);Set(varFCSTToggle, 0);
         Set(varFCSTOpen, false);
-        ClearCollect(
-            colSSPRaw,
-            AddColumns(
-                Filter('Attach Attack', 'Upsell Eligible' <> "No"),
-                'SSPRegion', LookUp(PowerBIIntegration.Data, 'HPE Opportunity Id' = 'Opp ID').'SSP Region',
-                'ServicesOSVal', IfError(Value(LookUp(PowerBIIntegration.Data, 'HPE Opportunity Id' = 'Opp ID').'Services OS'), 0)
-            )
-        );
-
-        ClearCollect(
-            colSSPChart,
-            ForAll(
-                GroupBy(
-                    Filter(colSSPRaw, !IsBlank(SSPRegion) && SSPRegion <> ""),
-                    'SSPRegion', 'RegionRows'
-                ),
-                {
-                    Region: SSPRegion,
-                    TotalOS: Sum(RegionRows, ServicesOSVal)
-                }
-            )
-        );
-        With(
-            {
-                maxVal: Max(colSSPChart, TotalOS),
-                barCount: CountRows(colSSPChart),
-                indexed: ForAll(
-                    Sequence(CountRows(colSSPChart)),
-                    With(
-                        {row: Index(colSSPChart, Value)},
-                        {
-                            Region: row.Region,
-                            TotalOS: row.TotalOS,
-                            idx: Value - 1
-                        }
-                    )
-                )
-            },
-            Set(varSSPMaxVal, maxVal);
-            Set(varSSPBarCount, barCount);
-            Set(
-            varSSPBars,
-            Concat(
-                indexed,
-                With(
-                    {
-                        barH: If(maxVal > 0, Round(ThisRecord.TotalOS / maxVal * 125, 0), 0),
-                        xPos: 52 + ThisRecord.idx * Round(273 / barCount, 0) + Round(Round(273 / barCount, 0) * 0.15, 0),
-                        barW: Round(Round(273 / barCount, 0) * 0.5, 0),
-                        yBar: 195 - If(maxVal > 0, Round(ThisRecord.TotalOS / maxVal * 125, 0), 0),
-                        del: Text(0.5 + ThisRecord.idx * 0.1, "[$-en-US]0.00"),
-                        cleanRegion: Substitute(Substitute(Substitute(Substitute(
-                            ThisRecord.Region, "&", "&amp;"), "'", " "), "<", "&lt;"), ">", "&gt;"),
-                        valLabel: If(ThisRecord.TotalOS >= 1000000,
-                            Text(ThisRecord.TotalOS / 1000000, "[$-en-US]0.0") & "M",
-                            If(ThisRecord.TotalOS >= 1000,
-                                Text(ThisRecord.TotalOS / 1000, "[$-en-US]0") & "K",
-                                Text(ThisRecord.TotalOS, "[$-en-US]0")
-                            )
-                        )
-                    },
-                    "<rect x='" & Text(xPos) & "' y='" & Text(yBar) & "' width='" & Text(barW) & "' height='" & Text(barH) & "' rx='3' ry='3' fill='#04909d' opacity='0.9'>" &
-                    "<animate attributeName='height' from='0' to='" & Text(barH) & "' dur='0.6s' begin='" & del & "s' fill='freeze' calcMode='spline' keySplines='0.16 1 0.3 1'/>" &
-                    "<animate attributeName='y' from='195' to='" & Text(yBar) & "' dur='0.6s' begin='" & del & "s' fill='freeze' calcMode='spline' keySplines='0.16 1 0.3 1'/>" &
-                    "</rect>" &
-                    "<text x='" & Text(xPos + Round(barW / 2, 0)) & "' y='" & Text(yBar - 4) & "' font-family='Arial, Helvetica, sans-serif' font-size='8' fill='#006750' font-weight='700' text-anchor='middle'>" & valLabel & "</text>" &
-                    "<text x='" & Text(xPos + Round(barW / 2, 0)) & "' y='210' font-family='Arial, Helvetica, sans-serif' font-size='8' fill='#606a70' text-anchor='middle'>" & If(Len(cleanRegion) > 9, Left(cleanRegion, 9) & "..", cleanRegion) & "</text>"
-                ),
-                ""
-            )
-        ));
         Set(
             varUntrackedOS,
             Sum(
@@ -598,57 +527,18 @@ Screens:
                   Width: =343
                   X: =5
                   Y: =0
-      - Image34:
-          Control: Image@2.2.3
-          Properties:
-            Height: =220
-            Image: |-
-              =With(
-                  {
-                      q1: If(varSSPMaxVal >= 1000000, Text(varSSPMaxVal * 0.25 / 1000000, "[$-en-US]0.0") & "M", If(varSSPMaxVal >= 1000, Text(varSSPMaxVal * 0.25 / 1000, "[$-en-US]0") & "K", Text(varSSPMaxVal * 0.25, "[$-en-US]0"))),
-                      q2: If(varSSPMaxVal >= 1000000, Text(varSSPMaxVal * 0.5 / 1000000, "[$-en-US]0.0") & "M", If(varSSPMaxVal >= 1000, Text(varSSPMaxVal * 0.5 / 1000, "[$-en-US]0") & "K", Text(varSSPMaxVal * 0.5, "[$-en-US]0"))),
-                      q3: If(varSSPMaxVal >= 1000000, Text(varSSPMaxVal * 0.75 / 1000000, "[$-en-US]0.0") & "M", If(varSSPMaxVal >= 1000, Text(varSSPMaxVal * 0.75 / 1000, "[$-en-US]0") & "K", Text(varSSPMaxVal * 0.75, "[$-en-US]0"))),
-                      q4: If(varSSPMaxVal >= 1000000, Text(varSSPMaxVal / 1000000, "[$-en-US]0.0") & "M", If(varSSPMaxVal >= 1000, Text(varSSPMaxVal / 1000, "[$-en-US]0") & "K", Text(varSSPMaxVal, "[$-en-US]0")))
-                  },
-                  "data:image/svg+xml;utf8," & EncodeUrl("
-              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 335 220'>
-              <desc>k=" & varAnimKey1 & "</desc>
-              <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
-              <g class='fu' style='animation-delay:.24s'>
-                <rect x='0' y='6' width='335' height='212' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
-                <rect x='0' y='2' width='335' height='212' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
-                <text x='16' y='24' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' letter-spacing='1.5' fill='#606a70'>SERVICES OS BY SSP REGION</text>
-                <text x='16' y='38' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' fill='#606a70'>Active upsell eligible opps only</text>
-                <line x1='52' y1='195' x2='325' y2='195' stroke='#d4d8db' stroke-width='1'/>
-                <line x1='52' y1='164' x2='325' y2='164' stroke='#d4d8db' stroke-width='1' opacity='.5'/>
-                <line x1='52' y1='133' x2='325' y2='133' stroke='#d4d8db' stroke-width='1' opacity='.5'/>
-                <line x1='52' y1='101' x2='325' y2='101' stroke='#d4d8db' stroke-width='1' opacity='.5'/>
-                <line x1='52' y1='70' x2='325' y2='70' stroke='#d4d8db' stroke-width='1' opacity='.5'/>
-                <text x='46' y='198' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='7.5' fill='#606a70' text-anchor='end'>$0</text>
-                <text x='46' y='167' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='7.5' fill='#606a70' text-anchor='end'>" & q1 & "</text>
-                <text x='46' y='136' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='7.5' fill='#606a70' text-anchor='end'>" & q2 & "</text>
-                <text x='46' y='104' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='7.5' fill='#606a70' text-anchor='end'>" & q3 & "</text>
-                <text x='46' y='73' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='7.5' fill='#606a70' text-anchor='end'>" & q4 & "</text>
-                " & varSSPBars & "
-              </g>
-              </svg>")
-              )
-            ImagePosition: =ImagePosition.Fit
-            Width: =336
-            X: =415
-            Y: =160
       - Image37_1:
           Control: Image@2.2.3
           Properties:
-            Height: =240
+            Height: =468
             Image: |-
               ="data:image/svg+xml;utf8," & EncodeUrl("
-              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 336 240'>
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 336 468'>
               <desc>k=" & varAnimKey1 & "</desc>
               <defs><style>" & varSvgCss & "</style>" & varShadowFilter & "</defs>
               <g class='fu' style='animation-delay:.3s'>
-                <rect x='0' y='6' width='336' height='232' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
-                <rect x='0' y='2' width='336' height='232' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
+                <rect x='0' y='6' width='336' height='460' rx='14' fill='#000000' opacity='0.08' filter='url(#sh)'/>
+                <rect x='0' y='2' width='336' height='460' rx='14' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
                 <text x='16' y='26' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='10' font-weight='700' letter-spacing='1.5' fill='#606a70'>REP OS COVERAGE &amp; GAPS</text>
                 <circle cx='214' cy='23' r='3.5' fill='#009a71'/>
                 <text x='222' y='26' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8' font-weight='600' fill='#606a70'>Tracked</text>
@@ -659,19 +549,19 @@ Screens:
             ImagePosition: =ImagePosition.Fit
             Width: =336
             X: =415
-            Y: =388
+            Y: =160
       - Gallery2:
           Control: Gallery@2.15.0
           Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
           Properties:
-            Height: =200
+            Height: =416
             Items: =SortByColumns(colFPDetailR, "UntrackedOS", SortOrder.Descending)
             ShowScrollbar: =false
             TemplatePadding: =0
             TemplateSize: =52
             Width: =314
             X: =426
-            Y: =424
+            Y: =196
           Children:
             - Image29:
                 Control: Image@2.2.3
