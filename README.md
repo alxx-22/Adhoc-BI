@@ -169,8 +169,8 @@ Turned the feedback-progress breakdown DAX into two **coverage/gaps** visuals:
 - **Exec page** — the "Team Feedback Progress" card became **MANAGER OS COVERAGE**, the same
   breakdown at the Manager entitlement / manager-name grain.
 
-**These read two new packed columns you must add to the Power BI model first** — see
-`powerbi/detail-packs.tmdl`:
+**These read two new packed fields you must add to the Power BI model first** — see
+`powerbi/detail-packs.tmdl`. **Define them as MEASURES** (not calculated columns — see Revision 8):
 - `'FP Detail Pack'` (per Feedback Progress rep) → parsed into `colFPDetail` in FLM `OnVisible`.
 - `'Manager Detail Pack'` (per Manager entitlement) → parsed into `colMgrDetail` in Exec `OnVisible`.
 
@@ -181,8 +181,8 @@ use the app's own OS value (`[Services OS]`) and tracked rule
 (`[App tracking] = "Y" || [Is Alternate Opp] = "Y"`) so the numbers reconcile with the other
 cards. The .tmdl notes how to switch to the exact Final-Output/OS-line semantics if you prefer.
 
-> **Rollout order matters:** add the two columns and refresh the dataset *before* importing the
-> updated FLM/Exec screens — the app references those columns, so the screens error until they
+> **Rollout order matters:** add the two measures and refresh the dataset *before* importing the
+> updated FLM/Exec screens — the app references those fields, so the screens error until they
 > exist in `PowerBIIntegration.Data`.
 
 ## Revision 7 — three post-import bug fixes
@@ -219,6 +219,29 @@ back to its "No GBU coverage data yet" placeholder. Fixed to `GroupBy(colCovRaw,
 The Manager OS Coverage card is fed by the `'Manager Detail Pack'` column (Revision 6) and its
 parse is now hardened per fix #2 — if that card is still empty, confirm the column exists in the
 dataset (`powerbi/detail-packs.tmdl`) and has been refreshed.
+
+## Revision 8 — FLM/Exec detail packs must be MEASURES (restores dynamic filtering)
+
+The FLM "REP OS COVERAGE & GAPS" breakdown stopped responding to a Power BI **report
+filter on `[Entitled Manager Name]`** — applying that filter no longer narrowed the feedback
+progress to that manager's reps.
+
+Root cause was in `powerbi/detail-packs.tmdl`: `'FP Detail Pack'` (and `'Manager Detail Pack'`)
+were defined as **calculated columns** wrapped in `ALL('App Summarised table')`. Two problems:
+- a **calculated column** is computed once at data refresh and is *static* at query time, so it
+  can never respond to a report/page filter or slicer; and
+- `ALL('App Summarised table')` strips every filter anyway — including the manager filter and RLS.
+
+Fixed by redefining both as **measures** and using `ALLSELECTED('App Summarised table')` instead of
+`ALL(...)`. `ALLSELECTED` removes only the Power Apps visual's own grouping while keeping report/page/
+slicer filters and RLS, so the breakdown is RLS-scoped by default and narrows live when you filter on
+`[Entitled Manager Name]` — the same behaviour as the app's other packs (which are also measures).
+
+**No app change** — the packed-string format is identical, so the FLM/Exec `OnVisible` parses
+(`colFPDetail` / `colMgrDetail`) are untouched. **You only need to update the Power BI model:**
+redefine `FP Detail Pack` and `Manager Detail Pack` as measures (see the updated `.tmdl`), refresh,
+and republish. Keep the pack fields as the only fields in the Power Apps visual (no grouping column),
+so `First(PowerBIIntegration.Data)` returns one row with the complete packed string.
 
 ## What was NOT changed
 
