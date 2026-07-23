@@ -14,9 +14,9 @@ Screens:
             ForAll(
                 Split(First(PowerBIIntegration.Data).'Manager Feedback Pack', " || "),
                 {
-                    ManagerEmail: Index(Split(Value, " // "), 1).Value,
-                    TotalOpps:    Value(Index(Split(Value, " // "), 2).Value),
-                    TrackedOpps:  Value(Index(Split(Value, " // "), 3).Value)
+                    ManagerEmail: IfError(Index(Split(Value, " // "), 1).Value, ""),
+                    TotalOpps:    IfError(Value(Index(Split(Value, " // "), 2).Value), 0),
+                    TrackedOpps:  IfError(Value(Index(Split(Value, " // "), 3).Value), 0)
                 }
             )
         );ClearCollect(
@@ -24,10 +24,10 @@ Screens:
             ForAll(
                 Split(First(PowerBIIntegration.Data).'Untracked GBU FLM Summary', " || "),
                 {
-                    Manager:  Index(Split(Value, " // "), 1).Value,
-                    GBU:      Index(Split(Value, " // "), 2).Value,
-                    FQ:       Index(Split(Value, " // "), 3).Value,
-                    Total:    Value(Index(Split(Value, " // "), 4).Value)
+                    Manager:  IfError(Index(Split(Value, " // "), 1).Value, ""),
+                    GBU:      IfError(Index(Split(Value, " // "), 2).Value, ""),
+                    FQ:       IfError(Index(Split(Value, " // "), 3).Value, ""),
+                    Total:    IfError(Value(Index(Split(Value, " // "), 4).Value), 0)
                 }
             )
         );ClearCollect(
@@ -35,10 +35,10 @@ Screens:
             ForAll(
                 Split(First(PowerBIIntegration.Data).'Tracked GBU FLM Summary', " || "),
                 {
-                    Manager: Index(Split(Value, " // "), 1).Value,
-                    GBU:     Index(Split(Value, " // "), 2).Value,
-                    FQ:      Index(Split(Value, " // "), 3).Value,
-                    Total:   Value(Index(Split(Value, " // "), 4).Value)
+                    Manager: IfError(Index(Split(Value, " // "), 1).Value, ""),
+                    GBU:     IfError(Index(Split(Value, " // "), 2).Value, ""),
+                    FQ:      IfError(Index(Split(Value, " // "), 3).Value, ""),
+                    Total:   IfError(Value(Index(Split(Value, " // "), 4).Value), 0)
                 }
             )
         );
@@ -47,9 +47,9 @@ Screens:
             ForAll(
                 Split(First(PowerBIIntegration.Data).'Won Sum by Manager GBU', " || "),
                 {
-                    Manager: Index(Split(Value, " // "), 1).Value,
-                    GBU:     Index(Split(Value, " // "), 2).Value,
-                    Total:   Value(Index(Split(Value, " // "), 3).Value)
+                    Manager: IfError(Index(Split(Value, " // "), 1).Value, ""),
+                    GBU:     IfError(Index(Split(Value, " // "), 2).Value, ""),
+                    Total:   IfError(Value(Index(Split(Value, " // "), 3).Value), 0)
                 }
             )
         );
@@ -201,7 +201,7 @@ Screens:
         ClearCollect(
             colCoverageGBU,
             ForAll(
-                GroupBy(colCovRaw, "GBU", "grp"),
+                GroupBy(colCovRaw, 'GBU', 'grp'),
                 {GBU: GBU, Tracked: Sum(grp, T), Untracked: Sum(grp, U), Tot: Sum(grp, T) + Sum(grp, U)}
             )
         );
@@ -243,10 +243,10 @@ Screens:
         ClearCollect(
             colMgrDetail,
             ForAll(
-                Split(First(PowerBIIntegration.Data).'Manager Detail Pack', " || "),
+                Filter(Split(First(PowerBIIntegration.Data).'Manager Detail Pack', " || "), Len(Trim(Value)) > 0),
                 {
-                    MgrEmail:    Index(Split(Value, " // "), 1).Value,
-                    MgrName:     Index(Split(Value, " // "), 2).Value,
+                    MgrEmail:    IfError(Index(Split(Value, " // "), 1).Value, ""),
+                    MgrName:     IfError(Index(Split(Value, " // "), 2).Value, ""),
                     TrackedOS:   IfError(Value(Index(Split(Value, " // "), 3).Value), 0),
                     UntrackedOS: IfError(Value(Index(Split(Value, " // "), 4).Value), 0),
                     CC:          IfError(Value(Index(Split(Value, " // "), 5).Value), 0),
@@ -320,13 +320,13 @@ Screens:
               =With(
                   {
                       firstName: Substitute(Substitute(Substitute(Substitute(
-                          First(Split(User().FullName, " ")).Value, "&", "&amp;"), "'", " "), "<", "&lt;"), ">", "&gt;")
+                          Upper(First(Split(User().FullName, " ")).Value), "&", "&amp;"), "'", " "), "<", "&lt;"), ">", "&gt;")
                   },
                   "data:image/svg+xml;utf8," & EncodeUrl("
               <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 660 40'>
               <desc>k=" & varAnimKey1 & "</desc>
               <defs><style>" & varSvgCss & "</style></defs>
-              <text x='0' y='16' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='2' fill='#606a70' class='fu'>WELCOME BACK, " & Upper(firstName) & "</text>
+              <text x='0' y='16' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='2' fill='#606a70' class='fu'>WELCOME BACK, " & firstName & "</text>
               <text x='0' y='36' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='17' font-weight='700' fill='#292d3a' class='fu' style='animation-delay:.08s'>Your <tspan fill='#01a982'>Exec Summary</tspan> is ready</text>
               </svg>")
               )

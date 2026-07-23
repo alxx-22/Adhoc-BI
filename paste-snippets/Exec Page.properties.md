@@ -23,9 +23,9 @@ ClearCollect(
     ForAll(
         Split(First(PowerBIIntegration.Data).'Manager Feedback Pack', " || "),
         {
-            ManagerEmail: Index(Split(Value, " // "), 1).Value,
-            TotalOpps:    Value(Index(Split(Value, " // "), 2).Value),
-            TrackedOpps:  Value(Index(Split(Value, " // "), 3).Value)
+            ManagerEmail: IfError(Index(Split(Value, " // "), 1).Value, ""),
+            TotalOpps:    IfError(Value(Index(Split(Value, " // "), 2).Value), 0),
+            TrackedOpps:  IfError(Value(Index(Split(Value, " // "), 3).Value), 0)
         }
     )
 );ClearCollect(
@@ -33,10 +33,10 @@ ClearCollect(
     ForAll(
         Split(First(PowerBIIntegration.Data).'Untracked GBU FLM Summary', " || "),
         {
-            Manager:  Index(Split(Value, " // "), 1).Value,
-            GBU:      Index(Split(Value, " // "), 2).Value,
-            FQ:       Index(Split(Value, " // "), 3).Value,
-            Total:    Value(Index(Split(Value, " // "), 4).Value)
+            Manager:  IfError(Index(Split(Value, " // "), 1).Value, ""),
+            GBU:      IfError(Index(Split(Value, " // "), 2).Value, ""),
+            FQ:       IfError(Index(Split(Value, " // "), 3).Value, ""),
+            Total:    IfError(Value(Index(Split(Value, " // "), 4).Value), 0)
         }
     )
 );ClearCollect(
@@ -44,10 +44,10 @@ ClearCollect(
     ForAll(
         Split(First(PowerBIIntegration.Data).'Tracked GBU FLM Summary', " || "),
         {
-            Manager: Index(Split(Value, " // "), 1).Value,
-            GBU:     Index(Split(Value, " // "), 2).Value,
-            FQ:      Index(Split(Value, " // "), 3).Value,
-            Total:   Value(Index(Split(Value, " // "), 4).Value)
+            Manager: IfError(Index(Split(Value, " // "), 1).Value, ""),
+            GBU:     IfError(Index(Split(Value, " // "), 2).Value, ""),
+            FQ:      IfError(Index(Split(Value, " // "), 3).Value, ""),
+            Total:   IfError(Value(Index(Split(Value, " // "), 4).Value), 0)
         }
     )
 );
@@ -56,9 +56,9 @@ ClearCollect(
     ForAll(
         Split(First(PowerBIIntegration.Data).'Won Sum by Manager GBU', " || "),
         {
-            Manager: Index(Split(Value, " // "), 1).Value,
-            GBU:     Index(Split(Value, " // "), 2).Value,
-            Total:   Value(Index(Split(Value, " // "), 3).Value)
+            Manager: IfError(Index(Split(Value, " // "), 1).Value, ""),
+            GBU:     IfError(Index(Split(Value, " // "), 2).Value, ""),
+            Total:   IfError(Value(Index(Split(Value, " // "), 3).Value), 0)
         }
     )
 );
@@ -210,7 +210,7 @@ Collect(colCovRaw,      ForAll(colUntrackedGBU, {GBU: GBU, T: 0, U: IfError(Tota
 ClearCollect(
     colCoverageGBU,
     ForAll(
-        GroupBy(colCovRaw, "GBU", "grp"),
+        GroupBy(colCovRaw, 'GBU', 'grp'),
         {GBU: GBU, Tracked: Sum(grp, T), Untracked: Sum(grp, U), Tot: Sum(grp, T) + Sum(grp, U)}
     )
 );
@@ -252,10 +252,10 @@ With(
 ClearCollect(
     colMgrDetail,
     ForAll(
-        Split(First(PowerBIIntegration.Data).'Manager Detail Pack', " || "),
+        Filter(Split(First(PowerBIIntegration.Data).'Manager Detail Pack', " || "), Len(Trim(Value)) > 0),
         {
-            MgrEmail:    Index(Split(Value, " // "), 1).Value,
-            MgrName:     Index(Split(Value, " // "), 2).Value,
+            MgrEmail:    IfError(Index(Split(Value, " // "), 1).Value, ""),
+            MgrName:     IfError(Index(Split(Value, " // "), 2).Value, ""),
             TrackedOS:   IfError(Value(Index(Split(Value, " // "), 3).Value), 0),
             UntrackedOS: IfError(Value(Index(Split(Value, " // "), 4).Value), 0),
             CC:          IfError(Value(Index(Split(Value, " // "), 5).Value), 0),

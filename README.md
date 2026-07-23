@@ -185,6 +185,41 @@ cards. The .tmdl notes how to switch to the exact Final-Output/OS-line semantics
 > updated FLM/Exec screens — the app references those columns, so the screens error until they
 > exist in `PowerBIIntegration.Data`.
 
+## Revision 7 — three post-import bug fixes
+
+Fixes for issues found after importing Revision 6.
+
+**1. Line-item gallery rows with `&` in the GBU rendered blank.** The line-item row SVG
+uppercased the GBU with `Upper(cleanGBU)` *after* `cleanGBU` had already been XML-escaped, so
+a GBU like **"HPC & AI"** became `HPC &AMP; AI` — and XML entities are case-sensitive, so
+`&AMP;` is invalid and Power Apps rendered that Image blank. Fixed by uppercasing the **raw**
+GBU before escaping (`Upper(If(Len(ThisItem.GBU) > 24, …))`) and interpolating the already-cased
+`cleanGBU` directly. The same escape-then-`Upper` pattern in the FLM/Exec/Summer "WELCOME BACK,
+`<name>`" headers was fixed the same way (uppercase the raw first name, then escape).
+
+**2. "Index function cannot be called with an empty table" on the dashboard/op-window pages.**
+Every packed column is parsed as `ForAll(Split(pack, " || "), { f: Index(Split(Value, " // "), N).Value … })`.
+When a packed segment is blank or has fewer fields than expected, `Index(Split(…), N)` throws at
+runtime and errors the whole screen. Hardened **every** such parse (the original packs *and* the
+new FP/Manager packs) so a malformed segment degrades to a blank/zero instead of crashing:
+- each inner `Index(Split(Value, …), N)` extraction is wrapped in `IfError` (`0` for numeric
+  `Value(...)` sites, `""` for text sites);
+- the new FP/Manager parses also drop blank segments up front
+  (`Filter(Split(pack, " || "), Len(Trim(Value)) > 0)`);
+- the Summer Score podium's unguarded `Index(colEngagementRanked, N)` (which crashed when the
+  leaderboard had fewer than 3 people) became `Last(FirstN(colEngagementRanked, N))`, which returns
+  a blank row out of range instead of erroring.
+This is a pure robustness change — for well-formed data every `IfError` returns the original value.
+
+**3. The two new Exec Summary visuals weren't loading.** The `colCoverageGBU` aggregation used
+`GroupBy(colCovRaw, "GBU", "grp")` with **string** column-name arguments, but this app's Power Fx
+uses the identifier form (its own working code is `GroupBy(colWonGBU, 'GBU', 'GBURows')`), so the
+formula didn't compile and `OnVisible` left the collection empty — the Coverage-by-GBU card fell
+back to its "No GBU coverage data yet" placeholder. Fixed to `GroupBy(colCovRaw, 'GBU', 'grp')`.
+The Manager OS Coverage card is fed by the `'Manager Detail Pack'` column (Revision 6) and its
+parse is now hardened per fix #2 — if that card is still empty, confirm the column exists in the
+dataset (`powerbi/detail-packs.tmdl`) and has been refreshed.
+
 ## What was NOT changed
 
 - `OnVisible` / `OnHidden` blocks (spliced verbatim, including `timerotoole`/`timerdog`

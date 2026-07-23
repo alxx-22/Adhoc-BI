@@ -166,7 +166,7 @@
                 With(
                     {
                         gbuVal: First(Split(Value, "//")).Value,
-                        prodVal: Index(Split(Value, "//"), 2).Value,
+                        prodVal: IfError(Index(Split(Value, "//"), 2).Value, ""),
                         numVal: IfError(Value(Trim(Last(Split(Value, "//")).Value)), 0)
                     },
                     {
@@ -664,7 +664,7 @@
                             cleanProd: Substitute(Substitute(Substitute(Substitute(Substitute(
                                     If(Len(ThisItem.ProductName) > 44, Left(ThisItem.ProductName, 44) & "..", ThisItem.ProductName), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;"),
                             cleanGBU: Substitute(Substitute(Substitute(Substitute(Substitute(
-                                    If(Len(ThisItem.GBU) > 24, Left(ThisItem.GBU, 24) & "..", ThisItem.GBU), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")
+                                    Upper(If(Len(ThisItem.GBU) > 24, Left(ThisItem.GBU, 24) & "..", ThisItem.GBU)), "&", "&amp;"), "'", " "), """", " "), "<", "&lt;"), ">", "&gt;")
                         },
                         "data:image/svg+xml;utf8," & EncodeUrl("
                     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 475 43'>
@@ -674,7 +674,7 @@
                       <rect x='2' y='2' width='471' height='39' rx='10' fill='#fbfcfc' stroke='#d4d8db' stroke-width='1'/>
                       <rect x='2' y='2' width='5' height='39' rx='2.5' fill='" & catColor & "'/>
                       <circle cx='20' cy='14' r='3.5' fill='" & catColor & "'/>
-                      <text x='30' y='18' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='1' fill='#606a70'>" & Upper(cleanGBU) & "</text>
+                      <text x='30' y='18' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='1' fill='#606a70'>" & cleanGBU & "</text>
                       <text x='20' y='34' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='11' font-weight='600' fill='#292d3a'>" & cleanProd & "</text>
                       <text x='460' y='28' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='13' font-weight='700' fill='#006750' text-anchor='end'>" & Text(ThisItem.ProductValue, "$#,##0") & "</text>
                     </g>

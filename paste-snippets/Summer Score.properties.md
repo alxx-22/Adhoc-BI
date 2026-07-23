@@ -22,16 +22,16 @@ Set(varAnimKey1, If(IsBlank(varAnimKey1), 1, varAnimKey1 + 1));ClearCollect(
     ForAll(
         Split(First(PowerBIIntegration.Data).PackedEngagement, "||"),
         {
-            UniqueUser:                     Index(Split(Value, "//"), 1).Value,
-            WeeklyScore:                    Index(Split(Value, "//"), 2).Value,
-            IBNSPoints:                     Index(Split(Value, "//"), 3).Value,
-            BookingRate:                    Index(Split(Value, "//"), 4).Value,
-            AttachUpsellPoints:             Index(Split(Value, "//"), 5).Value,
-            BacklogPoints:                  Index(Split(Value, "//"), 6).Value,
-            Manager:                        Index(Split(Value, "//"), 7).Value,
-            LeadingEdgeCompletionPoints:    Index(Split(Value, "//"), 8).Value,
-            DisplayName:                    Index(Split(Value, "//"), 9).Value,
-            Country:                        Index(Split(Value, "//"), 10).Value
+            UniqueUser:                     IfError(Index(Split(Value, "//"), 1).Value, ""),
+            WeeklyScore:                    IfError(Index(Split(Value, "//"), 2).Value, ""),
+            IBNSPoints:                     IfError(Index(Split(Value, "//"), 3).Value, ""),
+            BookingRate:                    IfError(Index(Split(Value, "//"), 4).Value, ""),
+            AttachUpsellPoints:             IfError(Index(Split(Value, "//"), 5).Value, ""),
+            BacklogPoints:                  IfError(Index(Split(Value, "//"), 6).Value, ""),
+            Manager:                        IfError(Index(Split(Value, "//"), 7).Value, ""),
+            LeadingEdgeCompletionPoints:    IfError(Index(Split(Value, "//"), 8).Value, ""),
+            DisplayName:                    IfError(Index(Split(Value, "//"), 9).Value, ""),
+            Country:                        IfError(Index(Split(Value, "//"), 10).Value, "")
         }
     )
 );

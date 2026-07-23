@@ -192,9 +192,9 @@ Set(varOSDeltaCount, CountRows(Filter(colOSDelta, Delta > 0)))
 ClearCollect(
     colFPDetail,
     ForAll(
-        Split(First(PowerBIIntegration.Data).'FP Detail Pack', " || "),
+        Filter(Split(First(PowerBIIntegration.Data).'FP Detail Pack', " || "), Len(Trim(Value)) > 0),
         {
-            Rep:         Index(Split(Value, " // "), 1).Value,
+            Rep:         IfError(Index(Split(Value, " // "), 1).Value, ""),
             TrackedOS:   IfError(Value(Index(Split(Value, " // "), 2).Value), 0),
             UntrackedOS: IfError(Value(Index(Split(Value, " // "), 3).Value), 0),
             CC:          IfError(Value(Index(Split(Value, " // "), 4).Value), 0),

@@ -60,7 +60,7 @@
         =With(
             {
                 firstName: Substitute(Substitute(Substitute(Substitute(
-                    First(Split(User().FullName, " ")).Value, "&", "&amp;"), "'", " "), "<", "&lt;"), ">", "&gt;")
+                    Upper(First(Split(User().FullName, " ")).Value), "&", "&amp;"), "'", " "), "<", "&lt;"), ">", "&gt;")
             },
             "data:image/svg+xml;utf8," & EncodeUrl("
         <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 735 92'>
@@ -69,7 +69,7 @@
         <g class='fu'>
           <rect x='0' y='10' width='735' height='80' rx='16' fill='#000000' opacity='0.08' filter='url(#sh)'/>
           <rect x='0' y='6' width='735' height='80' rx='16' fill='#ffffff' stroke='#d4d8db' stroke-width='1'/>
-          <text x='24' y='36' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='2' fill='#606a70'>WELCOME BACK, " & Upper(firstName) & "</text>
+          <text x='24' y='36' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='9' font-weight='700' letter-spacing='2' fill='#606a70'>WELCOME BACK, " & firstName & "</text>
           <text x='24' y='66' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='22' font-weight='700' fill='#292d3a'>Your <tspan fill='#01a982'>FLM Summary</tspan> is ready</text>
           <circle cx='710' cy='24' r='4' fill='#01a982' class='brz'/>
         </g>

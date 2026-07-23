@@ -13,16 +13,16 @@ Screens:
             ForAll(
                 Split(First(PowerBIIntegration.Data).PackedEngagement, "||"),
                 {
-                    UniqueUser:                     Index(Split(Value, "//"), 1).Value,
-                    WeeklyScore:                    Index(Split(Value, "//"), 2).Value,
-                    IBNSPoints:                     Index(Split(Value, "//"), 3).Value,
-                    BookingRate:                    Index(Split(Value, "//"), 4).Value,
-                    AttachUpsellPoints:             Index(Split(Value, "//"), 5).Value,
-                    BacklogPoints:                  Index(Split(Value, "//"), 6).Value,
-                    Manager:                        Index(Split(Value, "//"), 7).Value,
-                    LeadingEdgeCompletionPoints:    Index(Split(Value, "//"), 8).Value,
-                    DisplayName:                    Index(Split(Value, "//"), 9).Value,
-                    Country:                        Index(Split(Value, "//"), 10).Value
+                    UniqueUser:                     IfError(Index(Split(Value, "//"), 1).Value, ""),
+                    WeeklyScore:                    IfError(Index(Split(Value, "//"), 2).Value, ""),
+                    IBNSPoints:                     IfError(Index(Split(Value, "//"), 3).Value, ""),
+                    BookingRate:                    IfError(Index(Split(Value, "//"), 4).Value, ""),
+                    AttachUpsellPoints:             IfError(Index(Split(Value, "//"), 5).Value, ""),
+                    BacklogPoints:                  IfError(Index(Split(Value, "//"), 6).Value, ""),
+                    Manager:                        IfError(Index(Split(Value, "//"), 7).Value, ""),
+                    LeadingEdgeCompletionPoints:    IfError(Index(Split(Value, "//"), 8).Value, ""),
+                    DisplayName:                    IfError(Index(Split(Value, "//"), 9).Value, ""),
+                    Country:                        IfError(Index(Split(Value, "//"), 10).Value, "")
                 }
             )
         );
@@ -121,7 +121,7 @@ Screens:
               =With(
                   {
                       firstName: Substitute(Substitute(Substitute(Substitute(
-                          First(Split(User().FullName, " ")).Value, "&", "&amp;"), "'", " "), "<", "&lt;"), ">", "&gt;")
+                          Upper(First(Split(User().FullName, " ")).Value), "&", "&amp;"), "'", " "), "<", "&lt;"), ">", "&gt;")
                   },
                   "data:image/svg+xml;utf8," & EncodeUrl("
               <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1088 56'>
@@ -136,7 +136,7 @@ Screens:
                   <rect x='32' y='32' width='4' height='3' fill='#E0A300'/>
                   <rect x='29' y='35' width='10' height='2.5' rx='1.25' fill='#E0A300'/>
                 </g>
-                <text x='58' y='22' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' font-weight='700' letter-spacing='2' fill='#606a70'>WELCOME BACK, " & Upper(firstName) & "</text>
+                <text x='58' y='22' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='8.5' font-weight='700' letter-spacing='2' fill='#606a70'>WELCOME BACK, " & firstName & "</text>
                 <text x='58' y='42' font-family='Segoe UI, Arial, Helvetica, sans-serif' font-size='16' font-weight='700' fill='#292d3a'>FY26 H2 <tspan fill='#01a982'>Summer Sales Cup</tspan></text>
                 <g class='pp' style='animation-delay:.4s'>
                   <rect x='1006' y='16' width='64' height='22' rx='11' fill='#FBF1D6'/>
@@ -360,9 +360,9 @@ Screens:
             Image: |-
               =With(
                   {
-                      u1: Index(colEngagementRanked, 1),
-                      u2: Index(colEngagementRanked, 2),
-                      u3: Index(colEngagementRanked, 3)
+                      u1: Last(FirstN(colEngagementRanked, 1)),
+                      u2: Last(FirstN(colEngagementRanked, 2)),
+                      u3: Last(FirstN(colEngagementRanked, 3))
                   },
                   With(
                       {
